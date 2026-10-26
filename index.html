@@ -50,7 +50,7 @@ body.still .cloud,body.still .tw{animation:none}
 .round{width:48px;height:48px;border-radius:24px;border:0;background:var(--glass);color:var(--glassInk);display:flex;align-items:center;justify-content:center;flex:none;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);position:relative}
 .pill{height:48px;border-radius:24px;border:0;background:var(--glass);color:var(--glassInk);display:flex;align-items:center;gap:8px;padding:0 16px 0 12px;font:800 16px var(--font-ui);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .purse{display:flex;align-items:center;gap:6px;height:48px;padding:0 14px 0 8px;border-radius:24px;background:var(--glass);color:var(--glassInk);font:800 18px var(--font-ui);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-.purse .ic{width:30px;height:30px}
+.purse .ic{width:30px;height:30px;display:grid;place-items:center}.purse .ic .spr{width:28px;height:auto}
 .purse .ic canvas{width:30px;height:30px;image-rendering:pixelated;border-radius:4px}
 .purse.bump{animation:bump .45s}
 @keyframes bump{40%{transform:scale(1.18)}}
@@ -87,7 +87,7 @@ h1,h2,h3{margin:0}
 .ftjobs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;min-height:56px;align-items:center}
 .ftjobs .spr{width:34px;height:auto}
 .ftic{height:56px;display:flex;align-items:center}
-.ftic canvas{width:56px;height:56px;image-rendering:pixelated;border-radius:8px}
+.ftic .spr{width:56px;height:auto}.ftic canvas{width:56px;height:56px;image-rendering:pixelated;border-radius:8px}
 .ftarrow{align-self:center;width:40px;color:var(--muted);flex:none}
 @media (max-width:560px){.ftarrow{transform:rotate(90deg)}.ftb{flex-basis:100%}}
 .skills{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;width:100%;max-width:860px}
@@ -105,6 +105,8 @@ h1,h2,h3{margin:0}
 .buildtile b{font:800 20px var(--font-ui);display:block}
 .buildtile span{color:var(--muted);font-weight:600;font-size:15px}
 .buildtile.locked{opacity:.55}
+.bti{display:flex;gap:4px;flex:none}.bti .spr{width:40px;height:auto}
+.newfriend{width:min(150px,40vw);animation:drop .6s cubic-bezier(.3,1.5,.6,1)}.newfriend .spr{width:100%;height:auto}body.still .newfriend{animation:none}
 
 /* setup */
 .setup{width:100%;max-width:620px;display:flex;flex-direction:column;gap:16px}
@@ -243,6 +245,22 @@ body.still .earn canvas{animation:none}
 .tl.on{border-color:var(--hl2);box-shadow:0 0 0 4px var(--hl),0 4px 0 var(--hl2)}
 .bmsg{min-height:24px;font:700 17px var(--font-ui);color:var(--muted);text-align:center;margin:0}
 
+/* play (build time) */
+#play{position:fixed;inset:0;z-index:35;overflow:hidden;touch-action:none}
+#pc{position:absolute;inset:0;display:block;touch-action:none}
+.ptop{position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);left:max(16px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:12px;pointer-events:none}
+.ptop .round{pointer-events:auto}
+.ptop b{font:800 20px var(--font-ui);color:var(--glassInk);background:var(--glass);padding:10px 16px;border-radius:24px;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.ptray{position:absolute;left:0;right:0;bottom:0;display:flex;gap:14px;overflow-x:auto;padding:10px max(12px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 10px) max(12px,env(safe-area-inset-left,0px));background:var(--glass);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);scrollbar-width:none}
+.ptray::-webkit-scrollbar{display:none}
+.pgrp{display:flex;gap:6px;flex:none}
+.ptray .tl{width:56px;height:56px;padding:5px;position:relative;overflow:hidden;color:var(--ink)}
+.ptray .tl canvas{width:38px;height:38px}
+.ptray .tl.fr .spr{width:42px;height:auto}
+.ptray .tl.locked .spr{filter:brightness(0) opacity(.25)}
+.ptray .tl.hold i{position:absolute;left:0;right:0;bottom:0;height:5px;background:var(--accent);transform:scaleX(0);transform-origin:left}
+.ptoast{position:absolute;left:50%;top:calc(env(safe-area-inset-top,0px) + 74px);transform:translateX(-50%);background:rgba(29,39,66,.9);color:#fff;font:800 17px var(--font-ui);padding:10px 18px;border-radius:18px;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.ptoast.on{opacity:1}
 /* break */
 #brk{position:fixed;inset:0;z-index:50;background:linear-gradient(#0f1528,#1d2748);color:#f2f4fb;display:flex;align-items:center;justify-content:center}
 #brkfx{position:absolute;inset:0;width:100%;height:100%}
@@ -327,7 +345,8 @@ body.still .breathe{animation-duration:12s}
 }
 
 .confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:80}
-@media (max-width:560px){.dots i{width:13px;height:13px;border-radius:4px}.dots{gap:4px}.top .dots:not([hidden]) ~ .purse{display:none}.pick{min-width:80px;height:84px;font-size:40px}.arrow{display:none}.btn.big{font-size:24px;padding:10px 32px}.mark span{font-size:19px}.pill span{display:none}.pill{padding:0 12px}}
+@media (max-width:560px),(max-height:740px){.card{padding:14px 12px;gap:12px;border-radius:20px}.prompt p{font-size:21px}.prompt.small p{font-size:19px}.speak{width:46px;height:46px}.speak svg{width:22px;height:22px}.lvl{font-size:11px}.ntile{width:64px}.frame{gap:4px;padding:6px}.yes{font-size:26px}.btn.big{min-height:60px}}
+@media (max-width:560px){.dots i{width:13px;height:13px;border-radius:4px}.dots{gap:4px}.top .dots:not([hidden]) ~ .purse{display:none}.pick{min-width:74px;height:76px;font-size:38px}.arrow{display:none}.btn.big{font-size:24px;padding:10px 32px}.mark span{font-size:19px}.pill span{display:none}.pill{padding:0 12px}}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
 </style>
 </head>
@@ -345,7 +364,7 @@ body.still .breathe{animation-duration:12s}
     <button class="pill" id="breakBtn" data-act="break" hidden aria-label="Take a break">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 9a4 4 0 0 1 0 8z"/></svg><span>Break</span>
     </button>
-    <div class="purse" id="purse" aria-label="Build blocks"><span class="ic" id="purseIc"></span><b id="purseN">0</b></div>
+    <div class="purse" id="purse" aria-label="Friends found"><span class="ic" id="purseIc"></span><b id="purseN">0</b></div>
     <button class="round" id="soundBtn" data-act="sound" aria-label="Sound"></button>
     <button class="round" id="worldBtn" data-act="world" aria-label="Change world">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.5"/></svg>
@@ -374,8 +393,15 @@ body.still .breathe{animation-duration:12s}
   </div>
 </div>
 
+<div id="play" hidden>
+  <canvas id="pc" aria-label="Building world. Tap to drop, drag to throw."></canvas>
+  <div class="ptop"><button class="round" data-act="playhome" aria-label="Home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></button><b id="ptitle"></b></div>
+  <div class="ptoast" id="ptoast"></div>
+  <div class="ptray" id="ptray"></div>
+</div>
 <div id="reportView" hidden></div>
 
+<script src="matter.min.js"></script>
 <script>
 'use strict';
 /* ================= helpers ================= */
@@ -526,7 +552,7 @@ const SK=[
   {id:'bonds',name:'Number bonds',kid:'Make ten',gl:'10',range:['number bonds to 5','number bonds to 10','number bonds to 10 and 20'],cur:'EYFS ELG Number: automatically recall number bonds up to 5 and some to 10. Year 1: represent and use number bonds within 20.'}
 ];
 function sk(id){return DB.skills[id]||(DB.skills[id]={step:0,pts:0,miss:0,done:0,first:0})}
-function unlocked(i){return i===0||sk(SK[i-1].id).step>=3}
+function unlocked(i){return true}
 function focusSkill(){let best=SK[0],bs=99;SK.forEach((k,i)=>{if(!unlocked(i))return;const s=sk(k.id).step;if(s<LADDER.length&&s<bs){bs=s;best=k}});return best}
 function record(k,res){const s=sk(k.id);s.done++;let ch=0;
   if(res.first){s.first++;s.pts++;s.miss=0}else if(res.shown){s.miss++;s.pts=Math.max(0,s.pts-1)}
@@ -555,7 +581,7 @@ function gen(id,b,st){const th=T(),v=pick(th.variants),v2=pick(th.variants.filte
   if(id==='count'){const[lo,hi]=[[2,5],[3,10],[8,20]][b-1],n=band(lo,hi);
     if(st==='C')return{sig:'cC'+n,s:n,mode:'drag',text:`Put the ${M} in the ${B}. Count them as you go.`,
       html:`<div class="board">${zone('tray','tray','',its(n,v))}${ARROW}${zone('box','box',B)}</div>`,
-      tapTo:f=>f==='tray'?'box':'tray',countAloud:'box',auto:()=>cnt('tray')===0,
+      tapTo:f=>f==='tray'?'box':'tray',countAloud:'box',auto:()=>cnt('tray')===0,collapse:['tray'],
       q:{text:`How many ${M} are in the ${B}?`,ans:n,ch:choices(n,0,hi+2)},helpSel:'[data-z=box] .it',sayIt:{show:n,say:word(n)}};
     if(st==='P')return{sig:'cP'+n,s:n,mode:'choose',text:`How many ${M}?`,html:`<div class="board">${frameHTML(n<=5?5:n<=10?10:20,n,{v})}</div>`,q:{ans:n,ch:choices(n,0,hi+2)},helpSel:'.cell.full',sayIt:{show:n,say:word(n)}};
     if(Math.random()<.5){const a=R(Math.max(0,lo-1),hi-3);return{sig:'cAs'+a,mode:'choose',text:'What number comes next?',
@@ -597,7 +623,7 @@ function gen(id,b,st){const th=T(),v=pick(th.variants),v2=pick(th.variants.filte
   if(id==='add'){const t=[5,10,20][b-1],s=R(2,t),a=R(1,s-1),c=s-a;const sy={show:`${a} + ${c} = ${s}`,say:`${word(a)} add ${word(c)} makes ${word(s)}`};
     if(st==='C')return{sig:'aC'+a+c,s:s,mode:'drag',text:`Put them all in the ${th.big}.`,
       html:`<div class="board">${zone('a','box sm','',its(a,v,'','a'))}<div class="op">+</div>${zone('c','box sm','',its(c,v2,'','c'))}</div><div class="board">${zone('big','box',th.big)}</div>`,
-      tapTo:(f,it)=>f==='big'?it.dataset.home:'big',accept:(f,to,it)=>to==='big'||(it&&to===it.dataset.home),countAloud:'big',auto:()=>cnt('a')+cnt('c')===0,
+      tapTo:(f,it)=>f==='big'?it.dataset.home:'big',accept:(f,to,it)=>to==='big'||(it&&to===it.dataset.home),countAloud:'big',auto:()=>cnt('a')+cnt('c')===0,collapse:['a','c'],
       q:{text:`How many ${M} altogether?`,ans:s,ch:choices(s,0,t+2)},helpSel:'[data-z=big] .it',sayIt:sy};
     const picH=`<div class="board">${zone('pa','box sm','',its(a,v,'fixed'))}<div class="op">+</div>${zone('pc','box sm','',its(c,v2,'fixed'))}</div>`;
     if(st==='P')return{sig:'aP'+a+c,s:Math.max(a,c)+2,mode:'choose',text:`How many ${M} altogether?`,html:picH,q:{ans:s,ch:choices(s,0,t+2)},helpSel:'.it',sayIt:sy};
@@ -627,7 +653,7 @@ let S=null,J=null,CUR=null,buildOpen=false;
 function card(html,cls=''){$('#stage').innerHTML=`<section class="card ${cls}" id="card">${html}</section>`;$('#card').scrollTop=0}
 function hdr(o={}){$('#homeBtn').hidden=!o.home;$('#mark').hidden=!!o.dots;$('#dots').hidden=!o.dots;$('#breakBtn').hidden=!o.brk;$('#worldBtn').hidden=!!o.dots||!!o.noWorld;if(o.dots)drawDots()}
 function drawDots(){if(!S)return;let s='';for(let i=0;i<S.n;i++)s+=`<i class="${i<S.i||(i===S.i&&J&&J.phase==='end')?'on':''}${i===S.i?' now':''}"></i>`;$('#dots').innerHTML=s}
-function updPurse(bump){$('#purseN').textContent=DB.blocks;$('#purseIc').innerHTML='';$('#purseIc').appendChild(tileImg(0));if(bump){const p=$('#purse');p.classList.remove('bump');void p.offsetWidth;p.classList.add('bump')}}
+function updPurse(bump){$('#purseN').textContent=`${haveN()}/${friendsOf().length}`;$('#purseIc').innerHTML=friendSvg(friendsOf()[Math.max(0,haveN()-1)]);if(bump){const p=$('#purse');p.classList.remove('bump');void p.offsetWidth;p.classList.add('bump')}}
 function soundIcon(){$('#soundBtn').innerHTML=DB.sound?'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>':'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>';$('#soundBtn').setAttribute('aria-label',DB.sound?'Sound on':'Sound off')}
 function applyTheme(){document.body.dataset.theme=DB.theme;document.body.classList.toggle('still',still());$('#skyL').innerHTML=sceneSky(DB.theme);$('#groundL').innerHTML=sceneGround(DB.theme);
   const m=document.querySelector('meta[name=theme-color]');if(m)m.content=getComputedStyle(document.body).getPropertyValue('--sky1').trim();
@@ -665,14 +691,14 @@ function skillTile(k,i){const s=sk(k.id),lock=!unlocked(i);let p='';for(let j=0;
   return`<button class="sk${lock?' locked':''}" data-act="${lock?'lockedsk':'pickskill'}" data-k="${k.id}"><div class="gl">${lock?'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>':k.gl}</div><b>${k.kid}</b><div class="pips">${p}</div></button>`}
 function firstThen(k,n){const th=T();return`<div class="ft"><div class="ftb"><small>First</small><div class="ftjobs">${Array.from({length:n},(_,i)=>thing(th.variants[i%th.variants.length])).join('')}</div><b>${n} ${k.name.toLowerCase()} jobs</b></div>
   <svg class="ftarrow" viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h38M32 3l10 9-10 9"/></svg>
-  <div class="ftb"><small>Then</small><div class="ftic" data-tilecanvas="2"></div><b>${th.build}</b></div></div>`}
+  <div class="ftb"><small>Then</small><div class="ftic">${friendSvg(friendsOf()[haveN()-1])}</div><b>${th.build}</b></div></div>`}
 function fillTileCanvases(){$$('[data-tilecanvas]').forEach(el=>{el.innerHTML='';el.appendChild(tileImg(+el.dataset.tilecanvas||0))})}
 function showHome(){S=null;J=null;CUR=showHome;hdr({});const k=focusSkill(),n=DB.jobs,th=T(),bl=canBuild();
   card(`<div class="hello"><h1>${DB.child?`Hi ${esc(DB.child)}!`:'Hello!'}</h1><p>Ready for some maths?</p></div>
     <div class="today">${firstThen(k,n)}<button class="btn big" data-act="start" data-k="${k.id}">Start</button></div>
     <h3 class="sub">Or pick your jobs</h3>
     <div class="skills">${SK.map(skillTile).join('')}</div>
-    <button class="buildtile${bl?'':' locked'}" data-act="build"><span data-tilecanvas="2"></span><div><b>${th.build}</b><span>${bl?`You have ${DB.blocks} ${DB.blocks===1?'block':'blocks'} to build with`:'Opens after your jobs'}</span></div></button>`);
+    <button class="buildtile${bl?'':' locked'}" data-act="build"><span class="bti">${friendsOf().slice(0,haveN()).slice(-3).map(f=>friendSvg(f)).join('')}</span><div><b>${th.build}</b><span>${bl?`Build anything and play with your ${haveN()===1?'friend':haveN()+' friends'}`:'Opens after your jobs'}</span></div></button>`);
   fillTileCanvases()}
 function showFirstThen(id){const k=SK.find(x=>x.id===id),n=DB.jobs,th=T();CUR=()=>showFirstThen(id);hdr({home:1,noWorld:1});
   card(`<div class="hello"><h1>${k.kid}</h1></div><div class="today">${firstThen(k,n)}<button class="btn big" data-act="start" data-k="${id}">Let's go</button></div>`);
@@ -697,7 +723,8 @@ function choicesHTML(q){if(q.opts)return q.opts+(q.extra?`<div class="row">${q.e
   return`<div class="choices">${q.ch.map(n=>`<button class="pick" data-pick="${n}" aria-label="${n}">${n}</button>`).join('')}</div>`}
 function showQ(first){const q=J.r.q;J.phase='q';$('#board').classList.add('locked');$('#tools').innerHTML='';
   $('#q').innerHTML=(q.text?promptHTML(q.text,q.say,'qtext','small'):'')+choicesHTML(q);
-  if(q.text&&!first)setTimeout(()=>autoRead('qtext'),350)}
+  if(q.text&&!first)setTimeout(()=>autoRead('qtext'),350);
+  if(!first)setTimeout(()=>{const el=$('#q');if(el)el.scrollIntoView({block:'end',behavior:still()?'auto':'smooth'})},80)}
 
 /* gentle mistakes: first miss shows help, second shows the answer — never red, never a buzzer */
 /* counting help: miss 1 starts the count (1… 2…) and hands it back; miss 2 hops through every one and the right button glows. The answer is never said for them. */
@@ -725,11 +752,11 @@ async function doneTap(){if(!J||J.locked||J.busy)return;const res=J.r.check();
   J.miss++;J.helped=true;sfx.soft();J.busy=true;$('#board').classList.add('locked');clearNums();
   const els=$$(J.r.helpSel||'#board .it');if(els.length){await countAlong(els,{last:true});await sleep(300)}
   note(res);say(res);await sleep(400);J.busy=false;$('#board').classList.remove('locked');if(J.miss>=2)J.shown=true}
-function phaseDone(){if(J.phase!=='do')return;J.phase='q';setTimeout(()=>{if(J&&J.r.q)showQ();else success()},450)}
+function phaseDone(){if(J.phase!=='do')return;J.phase='q';(J.r.collapse||[]).forEach(z=>{const w=zByName(z)&&zByName(z).closest('.zw');if(!w)return;const row=w.parentElement;w.hidden=true;$$(':scope > .arrow, :scope > .op',row).forEach(x=>x.style.display='none');if(![...row.children].some(c=>!c.hidden&&c.style.display!=='none'))row.style.display='none'});setTimeout(()=>{if(J&&J.r.q)showQ();else success()},450)}
 const PRAISE_FIRST=['Brilliant!','You did it!','Yes!','Super!','Spot on!','Great work!'],PRAISE_HELP=['You got it!','Well done for keeping going!','Yes, that\'s it!'];
 function success(){if(J.locked)return;J.locked=true;J.phase='end';$('#board').classList.add('locked');
   const first=J.miss===0,ch=record(S.k,{first,shown:J.shown});if(ch>0&&!S.ups.includes(S.k.id))S.ups.push(S.k.id);
-  S.done++;if(first)S.first++;DB.blocks++;DB.earned++;save();updPurse(true);drawDots();
+  S.done++;if(first)S.first++;save();drawDots();
   const pr=pick(first?PRAISE_FIRST:PRAISE_HELP);$('#tools').innerHTML='';
   sfx.yes();if(DB.party==='big'&&!still())confetti(26);
   const sy=J.r.sayIt,doSay=sy&&(DB.sayit==='all'||(DB.sayit==='some'&&Math.random()<.5)),last=S.i>=S.n-1;
@@ -747,17 +774,16 @@ async function recordEcho(btn){const box=btn.closest('.sayit');try{const st=awai
     mr.start();setTimeout(()=>{try{mr.stop()}catch(e){}},2600)}
   catch(e){box.querySelector('p').textContent='Say it out loud!';box.querySelector('.row').innerHTML='<button class="btn" data-act="said">I said it</button>'}}
 function nextTap(){if(!S)return;hush();S.i++;nextJob()}
-function finish(early){const th=T(),bonus=early||S.done===0?0:3,got=S.done+bonus;DB.blocks+=bonus;DB.earned+=bonus;
+function finish(early){const th=T(),nf=S.done>0?unlockFriend():null;
   DB.sessions.unshift({d:Date.now(),k:S.k.id,n:S.n,done:S.done,first:S.first,breaks:S.breaks,breakMs:S.breakMs,ms:Date.now()-S.t0,early:!!early});DB.sessions=DB.sessions.slice(0,400);
   if(S.done>0){buildOpen=true;DB.buildUntil=Date.now()+45*60e3}save();updPurse(true);const ups=S.ups.map(id=>{const k=SK.find(x=>x.id===id),st=LADDER[Math.min(sk(id).step,LADDER.length-1)];return`<div class="lvup">New level: ${k.kid} · ${STAGE[st[1]]}</div>`}).join('');
   const done=S.done;S=null;J=null;CUR=null;hdr({});
-  card(`<div class="done"><h1>${early?'Good stopping':'All done'}${DB.child?', '+esc(DB.child):''}!</h1><div class="earn" id="earn"></div>
-    <p class="muted" style="font-size:20px">${got?`You earned ${got} build ${got===1?'block':'blocks'}.`:'See you next time.'}</p>${ups}
+  const allF=haveN()>=friendsOf().length;
+  card(`<div class="done"><h1>${early?'Good stopping':'All done'}${DB.child?', '+esc(DB.child):''}!</h1>${nf?`<div class="newfriend">${friendSvg(nf)}</div><p class="muted" style="font-size:20px">You found a new friend: <b style="color:var(--ink)">${esc(nf.n)}</b>!</p>`:done?`<div class="newfriend">${friendSvg(friendsOf()[haveN()-1])}</div><p class="muted" style="font-size:20px">${allF?`You've found every friend in ${th.name}! Try another world to find more.`:'Brilliant work!'}</p>`:'<p class="muted" style="font-size:20px">See you next time.</p>'}${ups}
     <div class="row">${done?`<button class="btn big" data-act="build">${th.build}</button>`:''}<button class="btn soft" data-act="home">Home</button></div>
     ${DB.helper&&done?`<p class="muted">Show ${esc(DB.helper)} what you build!</p>`:''}</div>`);
-  const e=$('#earn');for(let i=0;i<Math.min(got,30);i++){const c=tileImg(i%tiles().length);c.style.animationDelay=(i*.06)+'s';e.appendChild(c)}
-  if(got){sfx.win();if(DB.party==='big'&&!still())confetti(90);say(early?`Good stopping. You earned ${got} build blocks.`:`All done${DB.child?', '+DB.child:''}! You earned ${got} build blocks.`)}}
-function askStop(){const m=document.createElement('div');m.className='modal';m.innerHTML=`<section class="card"><h2>Stop the jobs?</h2><p class="muted">You keep the blocks you've earned.</p><div class="row"><button class="btn" data-act="keep">Keep going</button><button class="btn soft" data-act="stopjobs">Stop</button></div></section>`;document.body.appendChild(m)}
+  updPurse(!!nf);if(done){sfx.win();if(DB.party==='big'&&!still())confetti(90);say(`${early?'Good stopping':'All done'}${DB.child?', '+DB.child:''}! ${nf?`You found a new friend, ${nf.n}!`:''}`)}}
+function askStop(){const m=document.createElement('div');m.className='modal';m.innerHTML=`<section class="card"><h2>Stop the jobs?</h2><p class="muted">You'll still find a friend for the jobs you've done.</p><div class="row"><button class="btn" data-act="keep">Keep going</button><button class="btn soft" data-act="stopjobs">Stop</button></div></section>`;document.body.appendChild(m)}
 
 /* ---------- drag-or-tap engine ---------- */
 let DRG=null;
@@ -801,33 +827,116 @@ function openBreak(){if(BRK)return;hush();const ms=(DB.breakMin||2)*60e3;BRK={t0
     BRK.raf=requestAnimationFrame(loop)};loop()}
 function closeBreak(){if(!BRK)return;cancelAnimationFrame(BRK.raf);if(S){S.breaks++;S.breakMs+=Date.now()-BRK.t0}BRK=null;$('#brk').hidden=true;hush();if(J&&J.phase!=='end'){const id=J.phase==='q'&&$('#qtext')?'qtext':'ptext';setTimeout(()=>readOut(id),300)}}
 
-/* ---------- build time (v1: stack with gravity; full physics comes next) ---------- */
-const BW=20,BH=12;let BS={sel:0,dig:false,anims:[],raf:0,cell:24,ox:0,oy:0};
-function world(){const w=DB.worlds[DB.theme];if(w&&w.c&&w.c.length===BW*BH)return w;return DB.worlds[DB.theme]={c:Array(BW*BH).fill(0)}}
-function showBuild(){if(!canBuild()){showHome();say('Build time opens after your jobs.');return}S=null;J=null;CUR=showBuild;hdr({home:1});const th=T(),ts=tiles();
-  card(`<div class="buildtop"><b>${th.build}</b><span class="have" id="have"></span></div>
-    <div class="bwrap" id="bwrap"><canvas id="bc" aria-label="Building area. Tap to drop a block."></canvas></div>
-    <div class="btray">${ts.map((t,i)=>`<button class="tl${!BS.dig&&BS.sel===i?' on':''}" data-act="tile" data-i="${i}" aria-label="${esc(t.n)}" data-tilecanvas="${i}"></button>`).join('')}
-      <button class="tl${BS.dig?' on':''}" data-act="dig" aria-label="Dig a block out"><svg viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4c3 0 6 2 7 5-2-1-4-1.5-6-1M14 4c0 3-2 6-5 7 1-2 1.5-4 1-6"/><path d="M12.5 7.5 3 17l2 2 9.5-9.5"/></svg></button></div>
-    <p class="bmsg" id="bmsg">Tap the sky to drop a block.</p>`,'fill');
-  fillTileCanvases();bHave();sizeBuild();const cv=$('#bc');cv.addEventListener('pointerdown',bTap);drawBuild()}
-function bHave(){const h=$('#have');if(!h)return;h.innerHTML='';h.appendChild(tileImg(BS.sel));h.insertAdjacentHTML('beforeend',`<span>${DB.blocks} left</span>`)}
-function sizeBuild(){const wrap=$('#bwrap'),cv=$('#bc');if(!wrap||!cv)return;const w=wrap.clientWidth,h=Math.max(200,wrap.clientHeight);const cell=Math.max(10,Math.floor(Math.min(w/BW,h/(BH+1))));BS.cell=cell;const dpr=Math.min(2,devicePixelRatio||1);
-  cv.style.width=cell*BW+'px';cv.style.height=cell*(BH+1)+'px';cv.width=cell*BW*dpr;cv.height=cell*(BH+1)*dpr;cv.getContext('2d').setTransform(dpr,0,0,dpr,0,0)}
-function colHeight(c,x){let h=0;for(let y=BH-1;y>=0;y--){if(c[y*BW+x])h++;else break}return h}
-function bTap(e){const cv=$('#bc'),r=cv.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/BS.cell),y=Math.floor((e.clientY-r.top)/BS.cell);if(x<0||x>=BW)return;const w=world(),c=w.c;
-  if(BS.dig){if(y>=BH)return;let yy=y;if(!c[yy*BW+x]){return}const k=c[yy*BW+x];c[yy*BW+x]=0;DB.blocks++;
-    for(let j=yy;j>0;j--){c[j*BW+x]=c[(j-1)*BW+x];if(c[j*BW+x])BS.anims.push({x,y0:j-1,y1:j,k:c[j*BW+x],t0:performance.now()})}c[x]=0;tone(300,.12,0,.05,'triangle');save();updPurse(true);bHave();drawBuild();return}
-  if(DB.blocks<=0){$('#bmsg').textContent='No blocks left. Do some maths jobs to earn more!';say('No blocks left. Do some maths jobs to earn more.');return}
-  const h=colHeight(c,x);if(h>=BH){$('#bmsg').textContent='That tower reaches the sky!';return}const land=BH-1-h;c[land*BW+x]=BS.sel+1;DB.blocks--;save();updPurse();bHave();
-  BS.anims.push({x,y0:-1,y1:land,k:BS.sel+1,t0:performance.now(),land:true});$('#bmsg').textContent='';drawBuild()}
-function drawBuild(){cancelAnimationFrame(BS.raf);const cv=$('#bc');if(!cv)return;const ctx=cv.getContext('2d'),s=BS.cell,ts=tiles(),c=world().c,now=performance.now(),cs=getComputedStyle(document.body);
-  const g=ctx.createLinearGradient(0,0,0,s*BH);g.addColorStop(0,cs.getPropertyValue('--sky1').trim()||'#7cc8f2');g.addColorStop(1,cs.getPropertyValue('--sky2').trim()||'#d9f1ff');ctx.fillStyle=g;ctx.fillRect(0,0,s*BW,s*(BH+1));
-  ctx.fillStyle='rgba(255,255,255,.08)';for(let x=1;x<BW;x++)ctx.fillRect(x*s,0,1,s*BH);
-  const ground=ts[DB.theme==='trains'?0:DB.theme==='space'?0:DB.theme==='dinos'?0:0];for(let x=0;x<BW;x++)drawTile(ctx,ground,x*s,BH*s,s);ctx.fillStyle='rgba(0,0,0,.18)';ctx.fillRect(0,BH*s,s*BW,2);
-  const moving=new Set();BS.anims=BS.anims.filter(a=>{const k=Math.min(1,(now-a.t0)/(still()?1:Math.max(160,(a.y1-a.y0)*45)));if(k>=1){if(a.land)tone(260+Math.random()*80,.1,0,.05,'triangle');return false}moving.add(a.y1*BW+a.x);const e=k*k;drawTile(ctx,ts[a.k-1],a.x*s,(a.y0+(a.y1-a.y0)*e)*s,s);return true});
-  for(let i=0;i<c.length;i++)if(c[i]&&!moving.has(i))drawTile(ctx,ts[c[i]-1],(i%BW)*s,Math.floor(i/BW)*s,s);
-  if(BS.anims.length)BS.raf=requestAnimationFrame(drawBuild)}
+/* ---------- friends: earned by doing jobs, one per finished session ---------- */
+const K='#2a2a22';
+const FRIENDS={
+  blocks:[
+    {n:'Pig',rows:[".pp....pp.",".pPPPPPPp.","PPPPPPPPPP","PPwkPPwkPP","PPPPPPPPPP","PPPssssPPP","PPPsnnsPPP","PPPssssPPP",".PPPPPPPP.",".dd....dd."],pal:{P:'#f4a6b8',p:'#e07c96',s:'#ffc6d2',n:'#b8506a',k:K,w:'#fff',d:'#c96a84'}},
+    {n:'Sheep',rows:["WWW.WW.WWW","WWWWWWWWWW","WWffffffWW","WWwkffwkWW","WWffffffWW","WWfffpffWW",".WWffffWW.","WWWWWWWWWW",".WWWWWWWW.",".kk....kk."],pal:{W:'#f4f1ea',f:'#e8d2b8',k:K,w:'#fff',p:'#e0a0a0'}},
+    {n:'Cow',rows:["h........h","hWWWWWWWWh","WbbWWWWbbW","WwkWWWWwkW","WWWWbbWWWW","WWmmmmmmWW","WWmnmmnmWW","WWmmmmmmWW",".WWWWWWWW.",".kk....kk."],pal:{h:'#d9c79c',W:'#fafafa',b:K,k:K,w:'#fff',m:'#f2b3bf',n:'#a85a6a'}},
+    {n:'Chicken',rows:["....rr....","...rrr....","..WWWWWW..",".WwkWWwkW.",".WWWyyWWW.",".WWWyyWWW.",".WWWrWWWW.","WWWWWWWWWW",".WWWWWWWW.","..yy..yy.."],pal:{r:'#e0453a',W:'#ffffff',k:K,w:'#fff',y:'#f2b82b'}},
+    {n:'Frog',rows:[".GG....GG.","GwkG..GwkG","GGGGGGGGGG","GGGGGGGGGG","GGkGGGGkGG","GGGGGGGGGG","GrrrrrrrrG","GGGGGGGGGG",".LLLLLLLL.","LL......LL"],pal:{G:'#6fbf4a',w:'#fff',k:K,r:'#3a7019',L:'#4e9128'}},
+    {n:'Fox',rows:["O........O","OO......OO","OOOOOOOOOO","OOwkOOwkOO","OOOOOOOOOO","WWOOOOOOWW","WWWWkkWWWW",".WWWWWWWW.",".OOOOOOOO.",".kk....kk."],pal:{O:'#e8893a',W:'#fff',k:K,w:'#fff'}}],
+  space:[
+    {n:'Zib',rows:ALIEN,pal:{a:'#6fdc5a',k:'#1b1b2f',w:'#fff'}},
+    {n:'Robot',rows:["....r.....","....g.....",".GGGGGGGG.",".GwwGGwwG.",".GwkGGwkG.",".GGGGGGGG.",".GyyyyyyG.",".GGGGGGGG.","..GG..GG..","..DD..DD.."],pal:{r:'#ff5a4a',g:'#9aa0a6',G:'#b8c0cc',w:'#fff',k:K,y:'#7fd0ff',D:'#7f8898'}},
+    {n:'Astronaut',rows:["..WWWWWW..",".WWWWWWWW.",".WvvvvvvW.",".WvVvvvvW.",".WvvvvvvW.","..WWWWWW..",".WWWrrWWW.","WWWWWWWWWW",".WWW..WWW.",".GG....GG."],pal:{W:'#f2f4f8',v:'#3a3f8f',V:'#9fb4ff',r:'#e05a5a',G:'#9aa0b0'}},
+    {n:'Twinkle',rows:["....yy....","...yyyy...","yyyyyyyyyy",".yykyykyy.","..yyyyyy..","..yyppyy..",".yyy..yyy.","yyy....yyy"],pal:{y:'#ffd84f',k:K,p:'#f08aa0'}},
+    {n:'Moonie',rows:["..mmmmmm..",".mmmMmmmm.","mmMmmmmmmm","mmwkmmwkmm","mmmmmmmmMm","mmmmssmmmm",".mmmmmmmm.","..mmmmmm.."],pal:{m:'#c9cdd8',M:'#9ea2b6',w:'#fff',k:K,s:'#8f93a8'}},
+    {n:'Blip',rows:ALIEN,pal:{a:'#b48cff',k:'#1b1b2f',w:'#fff'}}],
+  trains:[
+    {n:'Red engine',rows:["..kk............","..kk.....RRRRR..",".rrrrrrr.RwwwR..",".rrrrrrr.RwwwR..","rrrrrrrrrRRRRRR.","rrrrrrrrrRRRRRRb","rrrrrrrrrRRRRRRb","dddddddddddddddd",".kkk..kkk...kkk.",".kgk..kgk...kgk.",".kkk..kkk...kkk."],pal:{r:'#d9564a',R:'#a3392f',w:'#cfeaff',k:'#202224',g:'#9aa0a6',d:'#3a3d40',b:'#c0c4c8'}},
+    {n:'Blue carriage',rows:CARR,pal:{R:'#3f86c8',r:'#2a5f93',w:'#cfeaff',d:'#3a3d40',k:'#202224',g:'#9aa0a6'}},
+    {n:'Green engine',rows:["..kk............","..kk.....RRRRR..",".rrrrrrr.RwwwR..",".rrrrrrr.RwwwR..","rrrrrrrrrRRRRRR.","rrrrrrrrrRRRRRRb","rrrrrrrrrRRRRRRb","dddddddddddddddd",".kkk..kkk...kkk.",".kgk..kgk...kgk.",".kkk..kkk...kkk."],pal:{r:'#3f9a52',R:'#2a6a38',w:'#cfeaff',k:'#202224',g:'#9aa0a6',d:'#3a3d40',b:'#c0c4c8'}},
+    {n:'Yellow carriage',rows:CARR,pal:{R:'#f2b82b',r:'#b5860f',w:'#cfeaff',d:'#3a3d40',k:'#202224',g:'#9aa0a6'}},
+    {n:'Red carriage',rows:CARR,pal:{R:'#d9564a',r:'#a3392f',w:'#cfeaff',d:'#3a3d40',k:'#202224',g:'#9aa0a6'}},
+    {n:'Green carriage',rows:CARR,pal:{R:'#3f9a52',r:'#2a6a38',w:'#cfeaff',d:'#3a3d40',k:'#202224',g:'#9aa0a6'}}],
+  dinos:[
+    {n:'Egg',rows:EGG,pal:{e:'#f6ecd0',E:'#d9c79c',s:'#b8a273'}},
+    {n:'Rex',rows:["..GGGGGG..",".GGGGGGGG.","GGwkGGwkGG","GGGGGGGGGG","GGGGGGGGGG","GwGwGwGwGG","GGGGGGGGGG",".GGGGGGGG.","..GG..GG..","..DD..DD.."],pal:{G:'#6fbf4a',w:'#fff',k:K,D:'#3f8f2e'}},
+    {n:'Steggy',rows:["o..o..o..o","oooooooooo","BBBBBBBBBB","BBwkBBwkBB","BBBBBBBBBB","BBBBppBBBB",".BBBBBBBB.","..BB..BB..","..DD..DD.."],pal:{o:'#e8893a',B:'#5aa8d8',w:'#fff',k:K,p:'#f08aa0',D:'#3a78a8'}},
+    {n:'Trike',rows:["FFFFFFFFFF","FhOOOOOOhF","FOwkOOwkOF",".OOOOOOOO.",".OOOhhOOO.",".OOOOOOOO.","..OOOOOO..","..OO..OO..","..DD..DD.."],pal:{F:'#b0601f',h:'#f6ecd0',O:'#f4a35a',w:'#fff',k:K,D:'#b0601f'}},
+    {n:'Ptera',rows:["...PPPP...","..PPPPPPP.","..PwkPwkP.","..PPPyyyyy","WWPPPPPPWW","WWWPPPPWWW","W.WPPPPW.W","....yy...."],pal:{W:'#8a6ab8',P:'#b48cff',w:'#fff',k:K,y:'#f2b82b'}},
+    {n:'Blue egg',rows:EGG,pal:{e:'#bfe0f2',E:'#8fbcd9',s:'#4f86b0'}}]
+};
+const friendsOf=(th=DB.theme)=>FRIENDS[th]||FRIENDS.blocks;
+function haveN(th=DB.theme){DB.friends=DB.friends||{};return Math.max(1,Math.min(friendsOf(th).length,DB.friends[th]||1))}
+function friendSvg(f,cls='spr'){return pxsvg(f.rows,f.pal,cls)}
+const FC={};function friendCanvas(f){const k=f.n+DB.theme;if(FC[k])return FC[k];const w=Math.max(...f.rows.map(r=>r.length)),h=f.rows.length,c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
+  f.rows.forEach((r,y)=>[...r].forEach((ch,i)=>{if(f.pal[ch]){x.fillStyle=f.pal[ch];x.fillRect(i,y,1,1)}}));return FC[k]=c}
+function unlockFriend(){DB.friends=DB.friends||{};const th=DB.theme,n=haveN(th),all=friendsOf(th);if(n>=all.length)return null;DB.friends[th]=n+1;save();return all[n]}
+
+/* ---------- build time: full-screen physics playground, unlimited blocks ---------- */
+let PL=null;
+const SHAPES=['sq','plank','ball'];
+function showBuild(){if(!canBuild()){showHome();say('Build time opens after your jobs.');return}hush();S=null;J=null;CUR=null;
+  if(typeof Matter==='undefined'){card('<p class="muted">Build time needs one more file. Please reload the page.</p>');return}
+  $('#play').hidden=false;$('#ptitle').textContent=T().build;buildTray();startPlay();
+  if(!DB.playTip){DB.playTip=1;save();toast('Tap to drop a block. Drag to throw!')}}
+function buildTray(){const ts=tiles(),fr=friendsOf(),n=haveN(),sel=PL?PL.tool:null;
+  const shapeIc={sq:'<svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2" fill="currentColor"/></svg>',plank:'<svg viewBox="0 0 24 24"><rect x="2" y="9" width="20" height="6" rx="2" fill="currentColor"/></svg>',ball:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg>'};
+  let h=`<div class="pgrp">${ts.map((t,i)=>`<button class="tl" data-act="ptile" data-i="${i}" aria-label="${esc(t.n)}" data-tilecanvas="${i}"></button>`).join('')}</div>
+    <div class="pgrp"><button class="tl shape" data-act="pshape" aria-label="Change shape">${shapeIc[(PL&&PL.shape)||'sq']}</button></div>
+    <div class="pgrp">${fr.map((f,i)=>i<n?`<button class="tl fr" data-act="pfriend" data-i="${i}" aria-label="${esc(f.n)}">${friendSvg(f)}</button>`:'').join('')}${n<fr.length?`<button class="tl fr locked" data-act="plocked" aria-label="A friend to find">${friendSvg(fr[n])}</button>`:''}</div>
+    <div class="pgrp"><button class="tl" data-act="pwhoosh" aria-label="Whoosh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 8h11a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h8"/></svg></button>
+    <button class="tl" data-act="pdig" aria-label="Take a block away"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4c3 0 6 2 7 5-2-1-4-1.5-6-1M14 4c0 3-2 6-5 7 1-2 1.5-4 1-6"/><path d="M12.5 7.5 3 17l2 2 9.5-9.5"/></svg></button>
+    <button class="tl hold" id="pclear" aria-label="Clear all blocks. Press and hold."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg><i></i></button></div>`;
+  $('#ptray').innerHTML=h;fillTileCanvases();markTool();
+  const cl=$('#pclear');let t0=0,raf=0;const fill=cl.querySelector('i');
+  const stop=()=>{t0=0;cancelAnimationFrame(raf);fill.style.transform='scaleX(0)'};
+  cl.onpointerdown=e=>{e.preventDefault();t0=performance.now();const f=()=>{if(!t0)return;const k=Math.min(1,(performance.now()-t0)/1200);fill.style.transform=`scaleX(${k})`;if(k>=1){stop();clearPlay();return}raf=requestAnimationFrame(f)};raf=requestAnimationFrame(f);toast('Keep holding to clear')};
+  cl.onpointerup=cl.onpointerleave=cl.onpointercancel=stop}
+function markTool(){if(!PL)return;const t=PL.tool;$$('#ptray .tl').forEach(b=>{const a=b.dataset.act;b.classList.toggle('on',(a==='ptile'&&t.k==='tile'&&+b.dataset.i===t.i)||(a==='pfriend'&&t.k==='friend'&&+b.dataset.i===t.i)||(a==='pwhoosh'&&t.k==='whoosh')||(a==='pdig'&&t.k==='dig'))})}
+function toast(t){const el=$('#ptoast');el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('on'),2200)}
+function startPlay(){const{Engine,Bodies,Composite,Events}=Matter;const cv=$('#pc'),dpr=Math.min(2,devicePixelRatio||1),W=innerWidth,H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';
+  const ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.imageSmoothingEnabled=false;
+  const trayH=$('#ptray').offsetHeight||90,cell=Math.round(Math.max(30,Math.min(58,Math.min(W,H)/11))),groundTop=H-trayH-Math.round(cell*.6);
+  const eng=Engine.create({enableSleeping:true});eng.gravity.y=1.1;const world=eng.world;
+  Composite.add(world,[Bodies.rectangle(W/2,groundTop+600,W*4,1200,{isStatic:true,friction:1,label:'ground'}),Bodies.rectangle(-60,0,120,H*6,{isStatic:true}),Bodies.rectangle(W+60,0,120,H*6,{isStatic:true})]);
+  const old=PL;PL={eng,world,ctx,W,H,cell,groundTop,tool:old?old.tool:{k:'tile',i:0},shape:old?old.shape:'sq',raf:0,last:0,drag:null,rings:[],snd:0,saveT:0,tex:tiles().map(t=>tileCanvas(t,8))};
+  Events.on(eng,'collisionStart',ev=>{const now=performance.now();if(now-PL.snd<70)return;for(const p of ev.pairs){const a=p.bodyA,b=p.bodyB,v=Math.hypot(a.velocity.x-b.velocity.x,a.velocity.y-b.velocity.y);if(v>2.5){PL.snd=now;const fr=(a.le&&a.le.t==='friend')||(b.le&&b.le.t==='friend');tone(fr?420+Math.random()*120:150+Math.random()*90,.09,0,Math.min(.05,v*.006),'triangle');break}}});
+  Events.on(eng,'beforeUpdate',()=>{const now=performance.now();for(const b of Composite.allBodies(world)){if(!b.le||b.le.t!=='friend'||b===(PL.drag&&PL.drag.b))continue;
+    if(now>b.le.next){b.le.next=now+2600+Math.random()*4200;if(b.speed<.4&&b.position.y>PL.groundTop-PL.cell*8){const dir=Math.random()<.5?-1:1;b.le.face=dir;Matter.Sleeping.set(b,false);Matter.Body.setVelocity(b,{x:dir*(1.5+Math.random()*2.5),y:-(5+Math.random()*4)})}}}});
+  restorePlay();bindPlay(cv);PL.last=performance.now();PL.raf=requestAnimationFrame(playFrame)}
+function mkBody(t,k,shape,x,y,a=0){const{Bodies,Body,Composite}=Matter,c=PL.cell;let b;
+  if(t==='friend'){const f=friendsOf()[k],w=Math.max(...f.rows.map(r=>r.length)),h=f.rows.length,s=c*1.35/Math.max(w,h);b=Bodies.rectangle(x,y,w*s,h*s,{chamfer:{radius:3},restitution:.25,friction:.5,density:.0016});b.le={t,k,w:w*s,h:h*s,face:1,next:performance.now()+1500+Math.random()*3000}}
+  else if(shape==='ball'){b=Bodies.circle(x,y,c*.5,{restitution:.35,friction:.15,density:.002});b.le={t,k,shape}}
+  else if(shape==='plank'){b=Bodies.rectangle(x,y,c*3,c*.5,{friction:.8,restitution:.05,density:.002});b.le={t,k,shape}}
+  else{b=Bodies.rectangle(x,y,c,c,{friction:.8,frictionStatic:1,restitution:.04,density:.002});b.le={t,k,shape:'sq'}}
+  if(a)Body.setAngle(b,a);b.le.born=performance.now();Composite.add(PL.world,b);
+  const dyn=Matter.Composite.allBodies(PL.world).filter(q=>q.le&&q.le.t==='tile');if(dyn.length>170){const o=dyn.sort((p,q)=>p.le.born-q.le.born)[0];Composite.remove(PL.world,o)}
+  return b}
+function bodiesDyn(){return Matter.Composite.allBodies(PL.world).filter(b=>b.le)}
+function spawnAt(p){if(p.y>PL.groundTop-4)p.y=PL.groundTop-PL.cell;const t=PL.tool;if(t.k==='friend'){mkBody('friend',t.i,null,p.x,p.y);tone(620,.1,0,.04,'triangle')}else mkBody('tile',t.i,PL.shape,p.x,p.y)}
+function bindPlay(cv){const{Query,Constraint,Composite,Vector,Sleeping,Body}=Matter;
+  cv.onpointerdown=e=>{if(!PL)return;e.preventDefault();cv.setPointerCapture(e.pointerId);const p={x:e.clientX,y:e.clientY},hit=Query.point(bodiesDyn(),p)[0],t=PL.tool;
+    if(t.k==='dig'){if(hit){Composite.remove(PL.world,hit);tone(300,.12,0,.05,'triangle');PL.rings.push({x:p.x,y:p.y,t0:performance.now(),r:PL.cell})}return}
+    if(t.k==='whoosh'){whoosh(p);return}
+    if(hit){Sleeping.set(hit,false);const c=Constraint.create({pointA:p,bodyB:hit,pointB:Vector.rotate(Vector.sub(p,hit.position),-hit.angle),stiffness:.2,damping:.12,length:0});Composite.add(PL.world,c);PL.drag={c,b:hit,id:e.pointerId,x:p.x,y:p.y,t:performance.now(),moved:false};return}
+    spawnAt(p);PL.paint={id:e.pointerId,x:p.x,y:p.y}};
+  cv.onpointermove=e=>{if(!PL)return;const p={x:e.clientX,y:e.clientY};
+    if(PL.drag&&PL.drag.id===e.pointerId){PL.drag.c.pointA=p;if(Math.hypot(p.x-PL.drag.x,p.y-PL.drag.y)>8)PL.drag.moved=true;return}
+    if(PL.paint&&PL.paint.id===e.pointerId&&PL.tool.k==='tile'&&Math.hypot(p.x-PL.paint.x,p.y-PL.paint.y)>PL.cell*1.05&&p.y<PL.groundTop){spawnAt(p);PL.paint.x=p.x;PL.paint.y=p.y}};
+  cv.onpointerup=cv.onpointercancel=e=>{if(!PL)return;if(PL.drag&&PL.drag.id===e.pointerId){const d=PL.drag;Composite.remove(PL.world,d.c);
+      if(!d.moved&&d.b.le.t==='friend'){Body.setVelocity(d.b,{x:(Math.random()-.5)*3,y:-8});tone(520,.08,0,.04,'triangle');tone(780,.12,.08,.035,'triangle')}PL.drag=null}PL.paint=null}}
+function whoosh(p){const{Body,Sleeping}=Matter,R=PL.cell*4.5;for(const b of bodiesDyn()){const dx=b.position.x-p.x,dy=b.position.y-p.y,d=Math.hypot(dx,dy);if(d<R&&d>0.1){const k=(1-d/R)*14;Sleeping.set(b,false);Body.setVelocity(b,{x:b.velocity.x+dx/d*k,y:b.velocity.y+dy/d*k-3})}}
+  PL.rings.push({x:p.x,y:p.y,t0:performance.now(),r:R});if(DB.sound){[520,390,260].forEach((f,i)=>tone(f,.18,i*.05,.03,'sine'))}}
+function clearPlay(){if(!PL)return;for(const b of bodiesDyn())if(b.le.t==='tile')Matter.Composite.remove(PL.world,b);tone(440,.2,0,.03);tone(330,.25,.1,.03);toast('All clear!');savePlay()}
+function playFrame(t){if(!PL)return;const{Engine,Composite}=Matter;Engine.update(PL.eng,Math.min(33,t-PL.last||16.7));PL.last=t;drawPlay(t);if(t-PL.saveT>5000){PL.saveT=t;savePlay()}PL.raf=requestAnimationFrame(playFrame)}
+function drawPlay(t){const{ctx,W,H,cell,groundTop}=PL,cs=getComputedStyle(document.body);const g=ctx.createLinearGradient(0,0,0,groundTop);g.addColorStop(0,cs.getPropertyValue('--sky1').trim());g.addColorStop(1,cs.getPropertyValue('--sky2').trim());ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  const gt=PL.tex[0];for(let y=groundTop;y<H;y+=cell)for(let x=0;x<W;x+=cell)ctx.drawImage(gt,x,y,cell,cell);ctx.fillStyle='rgba(0,0,0,.12)';ctx.fillRect(0,groundTop,W,3);
+  for(const b of Composite_all()){const L=b.le;ctx.save();ctx.translate(b.position.x,b.position.y);ctx.rotate(b.angle);
+    if(L.t==='friend'){const fc=friendCanvas(friendsOf()[L.k]);if(L.face<0)ctx.scale(-1,1);ctx.drawImage(fc,-L.w/2,-L.h/2,L.w,L.h)}
+    else{const tx=PL.tex[L.k];if(L.shape==='ball'){ctx.beginPath();ctx.arc(0,0,cell*.5,0,Math.PI*2);ctx.clip();ctx.drawImage(tx,-cell/2,-cell/2,cell,cell);ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=2;ctx.stroke()}
+      else if(L.shape==='plank'){for(let i=0;i<3;i++)ctx.drawImage(tx,0,0,8,4,-cell*1.5+i*cell,-cell/4,cell,cell/2);ctx.strokeStyle='rgba(0,0,0,.15)';ctx.lineWidth=1;ctx.strokeRect(-cell*1.5,-cell/4,cell*3,cell/2)}
+      else{ctx.drawImage(tx,-cell/2,-cell/2,cell,cell);ctx.strokeStyle='rgba(0,0,0,.12)';ctx.lineWidth=1;ctx.strokeRect(-cell/2+.5,-cell/2+.5,cell-1,cell-1)}}
+    ctx.restore()}
+  PL.rings=PL.rings.filter(r=>{const k=(t-r.t0)/450;if(k>=1)return false;ctx.strokeStyle=`rgba(255,255,255,${.7*(1-k)})`;ctx.lineWidth=4;ctx.beginPath();ctx.arc(r.x,r.y,r.r*(.3+.7*k),0,Math.PI*2);ctx.stroke();return true})}
+function Composite_all(){return bodiesDyn()}
+function savePlay(){if(!PL)return;DB.play=DB.play||{};DB.play[DB.theme]=bodiesDyn().slice(-170).map(b=>({t:b.le.t,k:b.le.k,s:b.le.shape,x:+(b.position.x/PL.W).toFixed(4),y:+((PL.groundTop-b.position.y)/PL.cell).toFixed(3),a:+b.angle.toFixed(3)}));save()}
+function restorePlay(){const list=(DB.play&&DB.play[DB.theme])||[];list.sort((a,b)=>a.y-b.y).forEach(o=>{if(o.t==='friend'&&o.k>=haveN())return;mkBody(o.t,o.k,o.s,o.x*PL.W,PL.groundTop-o.y*PL.cell,o.a)});
+  if(!list.length){mkBody('friend',0,null,PL.W*.5,PL.groundTop-PL.cell*3)}}
+function closePlay(){if(!PL)return;savePlay();cancelAnimationFrame(PL.raf);Matter.Engine.clear(PL.eng);PL=null;$('#play').hidden=true;showHome()}
 
 /* ---------- confetti ---------- */
 function confetti(n){const c=document.createElement('canvas');c.className='confetti';document.body.appendChild(c);const dpr=Math.min(2,devicePixelRatio||1);c.width=innerWidth*dpr;c.height=innerHeight*dpr;const ctx=c.getContext('2d'),cs=getComputedStyle(document.body);
@@ -864,7 +973,7 @@ function settingsHTML(){return`
   <h3>Jobs, breaks and building</h3>
   <div class="set"><b>Jobs each time</b>${segHTML('jobs',[[3,'3'],[5,'5'],[8,'8']])}</div>
   <div class="set"><b>Break length</b>${segHTML('breakMin',[[1,'1 min'],[2,'2 min'],[3,'3 min'],[5,'5 min']])}<span>Breaks are always allowed. They're a quiet rest, not a game, and each one shows in the report.</span></div>
-  <div class="set"><b>Build time</b>${segHTML('buildWhen',[['after','After jobs'],['any','Any time']])}<span>Build blocks are only earned by doing maths, so building always follows learning.</span></div>
+  <div class="set"><b>Build time</b>${segHTML('buildWhen',[['after','After jobs'],['any','Any time']])}<span>Building is unlimited. New friends to play with are found by finishing maths jobs.</span></div>
   <div class="privacy">Our promise: no ads, no accounts, no WiFi needed. Everything stays private on this device. Nothing is ever sent anywhere.</div>
   <button class="btn soft danger" data-act="reset" style="min-height:48px;font-size:16px">Start again from scratch</button>`}
 function fillVoices(){const sel=$('#voicePick');if(!sel)return;loadVoices();const cur=pickVoice();sel.innerHTML=VOICES.length?VOICES.map(v=>`<option value="${esc(v.name)}"${cur&&v.name===cur.name?' selected':''}>${esc(v.name)} (${esc(v.lang)})</option>`).join(''):'<option>Default voice</option>';sel.onchange=()=>{DB.voiceName=sel.value;save();say('Hello! Shall we do some maths?',{tap:true})}}
@@ -930,11 +1039,16 @@ document.addEventListener('click',e=>{const p=e.target.closest('[data-pick]');if
     case'closereport':$('#reportView').hidden=true;openPanel();break;
     case'print':window.print();break;
     case'reset':if(b.dataset.sure){localStorage.removeItem(KEY);location.reload()}else{b.dataset.sure='1';b.textContent='Tap again to delete everything on this device'}break;
-    case'tile':BS.sel=+b.dataset.i;BS.dig=false;$$('.btray .tl').forEach(x=>x.classList.toggle('on',x===b));bHave();sfx.tap();break;
-    case'dig':BS.dig=true;$$('.btray .tl').forEach(x=>x.classList.toggle('on',x===b));$('#bmsg').textContent='Tap a block to dig it out. You get it back.';sfx.tap();break;
+    case'ptile':PL.tool={k:'tile',i:+b.dataset.i};markTool();sfx.tap();break;
+    case'pfriend':PL.tool={k:'friend',i:+b.dataset.i};markTool();sfx.tap();toast(`Tap to drop ${friendsOf()[+b.dataset.i].n}`);break;
+    case'plocked':toast('Finish some jobs to find this friend!');say('Finish some jobs to find this friend!');break;
+    case'pshape':PL.shape=SHAPES[(SHAPES.indexOf(PL.shape)+1)%SHAPES.length];if(PL.tool.k!=='tile')PL.tool={k:'tile',i:0};buildTray();sfx.tap();toast(PL.shape==='sq'?'Blocks':PL.shape==='plank'?'Planks':'Balls');break;
+    case'pwhoosh':PL.tool={k:'whoosh'};markTool();sfx.tap();toast('Tap to whoosh things away!');break;
+    case'pdig':PL.tool={k:'dig'};markTool();sfx.tap();toast('Tap something to take it away');break;
+    case'playhome':closePlay();break;
   }});
 $('#panel').addEventListener('click',e=>{if(e.target.id==='panel')closePanel()});
-addEventListener('resize',()=>{if(CUR===showBuild){sizeBuild();drawBuild()}});
+addEventListener('resize',()=>{if(PL){clearTimeout(PL.rz);PL.rz=setTimeout(()=>{if(!PL)return;savePlay();cancelAnimationFrame(PL.raf);Matter.Engine.clear(PL.eng);startPlay()},250)}});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)hush()});
 addEventListener('beforeprint',()=>{if($('#reportView').hidden)showReport()});
 
