@@ -261,6 +261,22 @@ body.still .earn canvas{animation:none}
 .ptray .tl.hold i{position:absolute;left:0;right:0;bottom:0;height:5px;background:var(--accent);transform:scaleX(0);transform-origin:left}
 .ptoast{position:absolute;left:50%;top:calc(env(safe-area-inset-top,0px) + 74px);transform:translateX(-50%);background:rgba(29,39,66,.9);color:#fff;font:800 17px var(--font-ui);padding:10px 18px;border-radius:18px;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
 .ptoast.on{opacity:1}
+/* build extras */
+.ptime{width:44px;height:44px;border-radius:22px;background:var(--glass);color:var(--glassInk);display:grid;place-items:center;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.ptime svg{width:30px;height:30px}
+.pchal{position:absolute;left:50%;top:calc(env(safe-area-inset-top,0px) + 70px);transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:var(--glass);color:var(--glassInk);padding:8px 16px 8px 10px;border-radius:22px;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);white-space:nowrap;pointer-events:none}
+.pchal b{min-width:42px;height:42px;border-radius:12px;background:var(--accent);color:#fff;display:grid;place-items:center;font:800 24px var(--font-ui);box-shadow:inset 0 -4px 0 var(--accent2)}
+.pchal span{font:800 17px var(--font-ui)}.pchal small{display:block;font:700 12px var(--font-ui);opacity:.7;letter-spacing:.5px;text-transform:uppercase}
+.pchal.win b{background:var(--hl);color:#2a2a22;box-shadow:inset 0 -4px 0 var(--hl2)}
+.pideas{position:absolute;right:max(16px,env(safe-area-inset-right,0px));top:calc(env(safe-area-inset-top,0px) + 70px);width:min(340px,calc(100vw - 32px));max-height:calc(100% - 200px);overflow-y:auto;background:var(--panel);border:3px solid var(--edge);border-radius:20px;padding:12px;box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;z-index:3;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.pideas button{border:3px solid var(--edge);background:var(--soft);border-radius:14px;padding:8px 4px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;font:800 13px var(--font-ui);color:var(--ink)}
+.pideas canvas{width:72px;height:56px;image-rendering:pixelated}
+.ptimeup{position:absolute;inset:0;z-index:5;background:rgba(8,11,22,.45);display:flex;align-items:center;justify-content:center;padding:20px}
+.ptimeup .card{max-width:420px;align-self:center;text-align:center}.ptimeup h2{font:800 28px var(--font-ui)}
+body.playing .grown{z-index:36;bottom:calc(env(safe-area-inset-bottom,0px) + 92px)}
+body.playing .tip{z-index:36;bottom:calc(env(safe-area-inset-bottom,0px) + 148px)}
+@media (max-width:560px){.ptop b{display:none}.pchal{top:calc(env(safe-area-inset-top,0px) + 70px)}}
+.ptoast{top:calc(env(safe-area-inset-top,0px) + 132px)!important}
 /* friend meter */
 .fmeter{display:flex;align-items:center;gap:14px;background:var(--panel);border:3px solid var(--edge);border-radius:18px;padding:10px 16px;max-width:520px;width:100%;box-sizing:border-box}
 .fmeter span{font:700 16px var(--font-ui);color:var(--muted)}
@@ -404,8 +420,11 @@ body.still .breathe{animation-duration:12s}
 
 <div id="play" hidden>
   <canvas id="pc" aria-label="Building world. Tap to drop, drag to throw."></canvas>
-  <div class="pright"><button class="round" data-act="pscene" id="psceneBtn" aria-label="Change the weather"></button><button class="round" data-act="pamb" id="pambBtn" aria-label="Background sound"></button></div>
-  <div class="ptop"><button class="round" data-act="playhome" aria-label="Home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></button><b id="ptitle"></b></div>
+  <div class="pright"><button class="round" data-act="pideas" id="pideasBtn" aria-label="Build ideas"></button><button class="round" data-act="pclear" id="pclearBtn" aria-label="Clear the island"></button><button class="round" data-act="pscene" id="psceneBtn" aria-label="Change the weather"></button><button class="round" data-act="pamb" id="pambBtn" aria-label="Background sound"></button></div>
+  <div class="ptop"><button class="round" data-act="playhome" aria-label="Home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></button><b id="ptitle"></b><span class="ptime" id="ptime" hidden><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="14" fill="none" stroke="currentColor" stroke-opacity=".2" stroke-width="5"/><circle id="ptArc" cx="18" cy="18" r="14" fill="none" stroke="currentColor" stroke-width="5" stroke-dasharray="88" stroke-dashoffset="0" transform="rotate(-90 18 18)"/></svg></span></div>
+  <div class="pchal" id="pchal" hidden></div>
+  <div class="pideas" id="pideas" hidden></div>
+  <div class="ptimeup" id="ptimeup" hidden><section class="card"><h2>Build time is finished!</h2><p class="muted">Your world is saved for next time.</p><button class="btn big" data-act="playhome">OK</button></section></div>
   <div class="ptoast" id="ptoast"></div>
   <div class="ptray" id="ptray"></div>
 </div>
@@ -428,7 +447,7 @@ function hash(s){let h=2166136261;for(const c of s)h=Math.imul(h^c.charCodeAt(0)
 
 /* ================= storage (stays on this device) ================= */
 const KEY='le-maths-v1';
-const DEF={setup:false,child:'',helper:'',theme:'blocks',sound:true,voice:true,voiceName:'',rate:'normal',reading:'all',sayit:'some',record:false,party:'big',motion:'full',jobs:5,breakMin:2,buildWhen:'after',buildUntil:0,skills:{},blocks:0,earned:0,worlds:{},log:[],sessions:[],tipSeen:false};
+const DEF={setup:false,child:'',helper:'',theme:'blocks',sound:true,voice:true,voiceName:'',rate:'normal',reading:'all',sayit:'some',record:false,party:'big',motion:'full',jobs:5,breakMin:2,buildWhen:'after',buildUntil:0,buildMin:0,chalOn:true,tnt:true,every:3,skills:{},blocks:0,earned:0,worlds:{},log:[],sessions:[],tipSeen:false};
 let DB;try{DB=Object.assign({},DEF,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){DB=Object.assign({},DEF)}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}}
 const still=()=>DB.motion==='gentle'||matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -898,7 +917,7 @@ const SCENES=[['day','Daytime'],['sunset','Sunset'],['night','Night'],['rain','R
 const TNT=(()=>{const rows=["...k....","rrrrrrrr","rRrRrRrR","wwwwwwww","wkwkkwkw","wwwwwwww","rRrRrRrR","rrrrrrrr"],pal={r:'#e0453a',R:'#b5302a',w:'#f6f1e1',k:'#2a2a22'};const c=document.createElement('canvas');c.width=8;c.height=8;const x=c.getContext('2d');rows.forEach((r,y)=>[...r].forEach((ch,i)=>{if(pal[ch]){x.fillStyle=pal[ch];x.fillRect(i,y,1,1)}}));return c})();
 function showBuild(){if(!canBuild()){showHome();say('Build time opens after you find a friend.');return}hush();S=null;J=null;CUR=null;
   if(typeof Matter==='undefined'){card('<p class="muted">Build time needs one more file. Please reload the page.</p>');return}
-  $('#play').hidden=false;$('#ptitle').textContent=T().build;buildTray();startPlay();
+  $('#play').hidden=false;document.body.classList.add('playing');$('#ptimeup').hidden=true;$('#ptitle').textContent=T().build;buildTray();startPlay();
   if(!DB.playTip){DB.playTip=1;save();toast('Tap to drop a block. Drag to throw!')}}
 const IC={
   sq:'<svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2" fill="currentColor"/></svg>',plank:'<svg viewBox="0 0 24 24"><rect x="2" y="9" width="20" height="6" rx="2" fill="currentColor"/></svg>',ball:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="currentColor"/></svg>',
@@ -906,15 +925,17 @@ const IC={
   push:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M5 19l2-2"/></svg>',
   dig:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4c3 0 6 2 7 5-2-1-4-1.5-6-1M14 4c0 3-2 6-5 7 1-2 1.5-4 1-6"/><path d="M12.5 7.5 3 17l2 2 9.5-9.5"/></svg>',
   bin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>',
+  ideas:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>',
   scene:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.5"/></svg>',
   ambOn:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14a4 4 0 0 1-.6-7.96A6 6 0 0 1 18 7a4 4 0 0 1 0 8"/><path d="M8 18l-1 2M12 18l-1 2M16 18l-1 2"/></svg>',
   ambOff:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14a4 4 0 0 1-.6-7.96A6 6 0 0 1 18 7a4 4 0 0 1 0 8"/><path d="M4 4l16 16"/></svg>'};
 function buildTray(){const ts=tiles(),fr=friendsOf(),n=haveN();
-  $('#ptray').innerHTML=`<div class="pgrp">${ts.map((t,i)=>`<button class="tl" data-act="ptile" data-i="${i}" aria-label="${esc(t.n)}" data-tilecanvas="${i}"></button>`).join('')}<button class="tl" data-act="ptnt" aria-label="TNT" id="tntBtn"></button></div>
+  $('#ptray').innerHTML=`<div class="pgrp">${ts.map((t,i)=>`<button class="tl" data-act="ptile" data-i="${i}" aria-label="${esc(t.n)}" data-tilecanvas="${i}"></button>`).join('')}${DB.tnt===false?'':'<button class="tl" data-act="ptnt" aria-label="TNT" id="tntBtn"></button>'}</div>
     <div class="pgrp"><button class="tl shape" data-act="pshape" aria-label="Change shape">${IC[(PL&&PL.shape)||'sq']}</button></div>
     <div class="pgrp">${fr.slice(0,n).map((f,i)=>`<button class="tl fr" data-act="pfriend" data-i="${i}" aria-label="${esc(f.n)}">${friendSvg(f)}</button>`).reverse().join('')}${n<fr.length?`<button class="tl fr locked" data-act="plocked" aria-label="A friend to find">${friendSvg(fr[n])}</button>`:''}</div>
-    <div class="pgrp"><button class="tl" data-act="pwind" aria-label="Wind">${IC.wind}</button><button class="tl" data-act="ppush" aria-label="Whoosh">${IC.push}</button><button class="tl" data-act="pdig" aria-label="Take one away">${IC.dig}</button><button class="tl" data-act="pclear" aria-label="Clear the island">${IC.bin}</button></div>`;
-  fillTileCanvases();const tb=$('#tntBtn'),c=document.createElement('canvas');c.width=c.height=32;const x=c.getContext('2d');x.imageSmoothingEnabled=false;x.drawImage(TNT,0,0,32,32);tb.appendChild(c);
+    <div class="pgrp"><button class="tl" data-act="pwind" aria-label="Wind">${IC.wind}</button><button class="tl" data-act="ppush" aria-label="Whoosh">${IC.push}</button><button class="tl" data-act="pdig" aria-label="Take one away">${IC.dig}</button></div>`;
+  fillTileCanvases();const tb=$('#tntBtn');if(tb){const c=document.createElement('canvas');c.width=c.height=32;const x=c.getContext('2d');x.imageSmoothingEnabled=false;x.drawImage(TNT,0,0,32,32);tb.appendChild(c)}
+  $('#pideasBtn').innerHTML=IC.ideas;$('#pclearBtn').innerHTML=IC.bin.replace('viewBox','width="22" height="22" viewBox');
   $('#psceneBtn').innerHTML=IC.scene;$('#pambBtn').innerHTML=DB.pamb===false?IC.ambOff:IC.ambOn;markTool()}
 function markTool(){if(!PL)return;const t=PL.tool;$$('#ptray .tl').forEach(b=>{const a=b.dataset.act;b.classList.toggle('on',(a==='ptile'&&t.k==='tile'&&+b.dataset.i===t.i)||(a==='pfriend'&&t.k==='friend'&&+b.dataset.i===t.i)||(a==='ptnt'&&t.k==='tnt')||(a==='ppush'&&t.k==='push')||(a==='pdig'&&t.k==='dig'))})}
 function toast(t){const el=$('#ptoast');el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('on'),2200)}
@@ -924,14 +945,14 @@ function startPlay(){const{Engine,Bodies,Composite,Events,Body,Sleeping}=Matter;
   const cols=Math.max(6,Math.floor(Math.min(W-cell*2,Math.max(W*.8,300))/cell)),iw=cols*cell,ix=Math.round((W-iw)/2);
   const eng=Engine.create({enableSleeping:true});eng.gravity.y=1.1;const world=eng.world;
   Composite.add(world,Bodies.rectangle(W/2,groundTop+cell*1.5,iw,cell*3,{isStatic:true,friction:1,label:'ground'}));
-  const old=PL;PL={eng,world,ctx,W,H,cell,groundTop,ix,iw,cols,tool:old?old.tool:{k:'tile',i:0},shape:old?old.shape:'sq',raf:0,last:0,drag:null,rings:[],parts:[],snd:0,saveT:0,wind:null,clearArm:0,wx:[],tex:tiles().map(t=>tileCanvas(t,8))};
+  const old=PL;PL={eng,world,ctx,W,H,cell,groundTop,ix,iw,cols,theme:DB.theme,z:old&&old.theme===DB.theme?old.z:1,h:0,holdT:0,place:null,warned:old?old.warned:0,buildMin:DB.buildMin||0,tEnd:old&&old.tEnd&&old.buildMin===(DB.buildMin||0)?old.tEnd:(DB.buildMin?Date.now()+DB.buildMin*60e3:0),tool:old&&old.theme===DB.theme&&(old.tool.k!=='tnt'||DB.tnt!==false)?old.tool:{k:'tile',i:0},shape:old?old.shape:'sq',raf:0,last:0,drag:null,rings:[],parts:[],snd:0,saveT:0,wind:null,clearArm:0,wx:[],tex:tiles().map(t=>tileCanvas(t,8))};
   initWeather();
   Events.on(eng,'collisionStart',ev=>{const now=performance.now();for(const p of ev.pairs){const a=p.bodyA,b=p.bodyB;
       for(const q of[a,b])if(q.le&&q.le.t==='tnt'&&!q.le.fuse)q.le.fuse=now+2200;
       if(now-PL.snd<70)continue;const v=Math.hypot(a.velocity.x-b.velocity.x,a.velocity.y-b.velocity.y);if(v>2.5){PL.snd=now;const fr=(a.le&&a.le.t==='friend')||(b.le&&b.le.t==='friend');tone(fr?420+Math.random()*120:150+Math.random()*90,.09,0,Math.min(.05,v*.006),'triangle')}}});
   Events.on(eng,'beforeUpdate',()=>{const now=performance.now();
     for(const b of Composite.allBodies(world)){if(!b.le)continue;
-      if(b.position.y>PL.H+200||b.position.x<-400||b.position.x>PL.W+400){Composite.remove(world,b);continue}
+      if(b.position.y>PL.H*4||b.position.x<-PL.W*2||b.position.x>PL.W*3){Composite.remove(world,b);continue}
       if(PL.wind&&now<PL.wind.until){Sleeping.set(b,false);Body.applyForce(b,b.position,{x:PL.wind.dir*b.mass*.0011,y:-b.mass*.0002})}
       if(b.le.t==='tnt'&&b.le.fuse&&now>b.le.fuse){boom(b);continue}
       if(b.le.t!=='friend'||b===(PL.drag&&PL.drag.b))continue;
@@ -950,13 +971,14 @@ function mkBody(t,k,shape,x,y,a=0){const{Bodies,Body,Composite}=Matter,c=PL.cell
 function bodiesDyn(){return Matter.Composite.allBodies(PL.world).filter(b=>b.le)}
 function spawnAt(p){if(p.y>PL.groundTop-4)p.y=PL.groundTop-PL.cell;const t=PL.tool;
   if(t.k==='friend'){mkBody('friend',t.i,null,p.x,p.y);tone(620,.1,0,.04,'triangle')}else if(t.k==='tnt'){mkBody('tnt',0,null,p.x,p.y);tone(200,.1,0,.03,'square')}else mkBody('tile',t.i,PL.shape,p.x,p.y)}
+const toW=e=>{const z=PL.z;return{x:(e.clientX-PL.W/2)/z+PL.W/2,y:(e.clientY-PL.groundTop)/z+PL.groundTop}};
 function bindPlay(cv){const{Query,Constraint,Composite,Vector,Sleeping,Body}=Matter;
-  cv.onpointerdown=e=>{if(!PL)return;e.preventDefault();try{cv.setPointerCapture(e.pointerId)}catch(_){}const p={x:e.clientX,y:e.clientY},hit=Query.point(bodiesDyn(),p)[0],t=PL.tool;
+  cv.onpointerdown=e=>{if(!PL)return;e.preventDefault();try{cv.setPointerCapture(e.pointerId)}catch(_){}const p=toW(e);$('#pideas').hidden=true;if(PL.place!=null){placeIdea(PL.place,p);PL.place=null;return}const hit=Query.point(bodiesDyn(),p)[0],t=PL.tool;
     if(t.k==='dig'){if(hit){Composite.remove(PL.world,hit);tone(300,.12,0,.05,'triangle');PL.rings.push({x:p.x,y:p.y,t0:performance.now(),r:PL.cell})}return}
     if(t.k==='push'){whoosh(p);return}
     if(hit){Sleeping.set(hit,false);const c=Constraint.create({pointA:p,bodyB:hit,pointB:Vector.rotate(Vector.sub(p,hit.position),-hit.angle),stiffness:.2,damping:.12,length:0});Composite.add(PL.world,c);PL.drag={c,b:hit,id:e.pointerId,x:p.x,y:p.y,moved:false};return}
     spawnAt(p);PL.paint={id:e.pointerId,x:p.x,y:p.y}};
-  cv.onpointermove=e=>{if(!PL)return;const p={x:e.clientX,y:e.clientY};
+  cv.onpointermove=e=>{if(!PL)return;const p=toW(e);
     if(PL.drag&&PL.drag.id===e.pointerId){PL.drag.c.pointA=p;if(Math.hypot(p.x-PL.drag.x,p.y-PL.drag.y)>8)PL.drag.moved=true;return}
     if(PL.paint&&PL.paint.id===e.pointerId&&PL.tool.k==='tile'&&Math.hypot(p.x-PL.paint.x,p.y-PL.paint.y)>PL.cell*1.05&&p.y<PL.groundTop){spawnAt(p);PL.paint.x=p.x;PL.paint.y=p.y}};
   cv.onpointerup=cv.onpointercancel=e=>{if(!PL)return;if(PL.drag&&PL.drag.id===e.pointerId){const d=PL.drag;Composite.remove(PL.world,d.c);
@@ -987,33 +1009,58 @@ function ambStart(){ambStop();if(!PL||DB.pamb===false||!DB.sound)return;try{AC=A
   g.gain.linearRampToValueAtTime(sc==='rain'?.06:sc==='snow'?.05:1,AC.currentTime+1.5);
   const iv=setInterval(()=>{if(!AMB)return;if(sc==='night'){if(Math.random()<.6)for(let i=0;i<3;i++)tone(4300+Math.random()*200,.04,i*.07,.006,'sine')}else if(sc==='day'||sc==='sunset'){if(Math.random()<.3){const b=1800+Math.random()*900;tone(b,.12,0,.01,'sine');tone(b*1.3,.1,.14,.01,'sine')}}},1100);
   AMB={g,src,iv}}catch(e){}}
-function playFrame(t){if(!PL)return;Matter.Engine.update(PL.eng,Math.min(33,t-PL.last||16.7));PL.last=t;drawPlay(t);if(t-PL.saveT>5000){PL.saveT=t;savePlay()}PL.raf=requestAnimationFrame(playFrame)}
-function drawPlay(t){const{ctx,W,H,cell,groundTop,ix,iw,cols}=PL,sc=DB.pscene||'day',sk=skyCols(),calm=still();ctx.save();
+function playFrame(t){if(!PL)return;Matter.Engine.update(PL.eng,Math.min(33,t-PL.last||16.7));PL.last=t;
+  if(!PL.ct||t-PL.ct>250){PL.ct=t;playTick(t)}const zT=Math.max(.3,Math.min(1,(PL.groundTop-120)/((PL.h+4)*PL.cell)));PL.z+=(zT-PL.z)*(still()?1:.06);drawPlay(t);if(t-PL.saveT>5000){PL.saveT=t;savePlay()}PL.raf=requestAnimationFrame(playFrame)}
+function drawPlay(t){const{ctx,W,H,cell,groundTop,ix,iw,cols}=PL,sc=DB.pscene||'day',sk=skyCols(),calm=still(),z=PL.z;ctx.save();
   if(PL.shake&&t-PL.shake<300&&!calm){const k=(1-(t-PL.shake)/300)*6;ctx.translate((Math.random()-.5)*k,(Math.random()-.5)*k)}
   const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,sk[0]);g.addColorStop(1,sk[1]);ctx.fillStyle=g;ctx.fillRect(-10,-10,W+20,H+20);
   if(sc==='night'){PL.wx.forEach(s=>{ctx.globalAlpha=.5+.5*Math.sin(t/700+s.ph);ctx.fillStyle='#fff';ctx.fillRect(s.x|0,s.y|0,s.s,s.s)});ctx.globalAlpha=1;const mx=W*.8,my=groundTop*.2,r=cell*.9;ctx.fillStyle='rgba(244,241,216,.12)';ctx.beginPath();ctx.arc(mx,my,r*1.7,0,Math.PI*2);ctx.fill();ctx.fillStyle='#f4f1d8';ctx.beginPath();ctx.arc(mx,my,r,0,Math.PI*2);ctx.fill();ctx.fillStyle='#d9d5b8';[[-.35,-.2,.18],[.25,.3,.14],[.1,-.45,.1]].forEach(([x,y,q])=>{ctx.beginPath();ctx.arc(mx+x*r,my+y*r,q*r,0,Math.PI*2);ctx.fill()})}
   if(sc==='sunset'){ctx.fillStyle='#ffe08a';const r=cell*1.3;ctx.fillRect(W*.18-r,groundTop*.55-r,r*2,r*2)}
-  // island
+  ctx.save();ctx.translate(W/2,groundTop);ctx.scale(z,z);ctx.translate(-W/2,-groundTop);
   const base=tiles()[0];for(let i=0;i<cols;i++)ctx.drawImage(PL.tex[0],ix+i*cell,groundTop,cell,cell);
-  for(let r=1;r<=3;r++){const inset=r*cell*.9;ctx.fillStyle=r===1?base.c:base.d;ctx.fillRect(Math.round(ix+inset),groundTop+r*cell,Math.round(iw-inset*2),cell);}
+  for(let r=1;r<=3;r++){const inset=r*cell*.9;ctx.fillStyle=r===1?base.c:base.d;ctx.fillRect(Math.round(ix+inset),groundTop+r*cell,Math.round(iw-inset*2),cell)}
   ctx.fillStyle='rgba(0,0,0,.12)';ctx.fillRect(ix,groundTop,iw,3);
+  if(DB.chalOn!==false){const tg=chalTarget(),y=groundTop-tg*cell;ctx.save();ctx.setLineDash([cell*.4,cell*.3]);ctx.strokeStyle=PL.h>=tg?'#ffd84f':'rgba(255,255,255,.85)';ctx.lineWidth=4/z;ctx.beginPath();ctx.moveTo(ix-cell,y);ctx.lineTo(ix+iw+cell,y);ctx.stroke();ctx.restore();
+    ctx.fillStyle='rgba(0,0,0,.35)';const fs=Math.round(cell*.6/Math.max(z,.5));ctx.font=`800 ${fs}px ui-rounded,system-ui,sans-serif`;ctx.fillText(String(tg),ix-cell*.9,y-cell*.2)}
   for(const b of bodiesDyn()){const L=b.le;ctx.save();ctx.translate(b.position.x,b.position.y);ctx.rotate(b.angle);
     if(L.t==='friend'){const f=friendsOf()[L.k];if(f){const fc=friendCanvas(f);if(L.face<0)ctx.scale(-1,1);ctx.drawImage(fc,-L.w/2,-L.h/2,L.w,L.h)}}
     else if(L.t==='tnt'){ctx.drawImage(TNT,-cell/2,-cell/2,cell,cell);if(L.fuse&&Math.floor((L.fuse-t)/140)%2===0){ctx.fillStyle='rgba(255,255,255,.55)';ctx.fillRect(-cell/2,-cell/2,cell,cell)}}
-    else{const tx=PL.tex[L.k];if(L.shape==='ball'){ctx.beginPath();ctx.arc(0,0,cell*.5,0,Math.PI*2);ctx.clip();ctx.drawImage(tx,-cell/2,-cell/2,cell,cell);ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=2;ctx.stroke()}
+    else{const tx=PL.tex[L.k]||PL.tex[0];if(L.shape==='ball'){ctx.beginPath();ctx.arc(0,0,cell*.5,0,Math.PI*2);ctx.clip();ctx.drawImage(tx,-cell/2,-cell/2,cell,cell);ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=2;ctx.stroke()}
       else if(L.shape==='plank'){for(let i=0;i<3;i++)ctx.drawImage(tx,0,0,8,4,-cell*1.5+i*cell,-cell/4,cell,cell/2);ctx.strokeStyle='rgba(0,0,0,.15)';ctx.lineWidth=1;ctx.strokeRect(-cell*1.5,-cell/4,cell*3,cell/2)}
       else{ctx.drawImage(tx,-cell/2,-cell/2,cell,cell);ctx.strokeStyle='rgba(0,0,0,.12)';ctx.lineWidth=1;ctx.strokeRect(-cell/2+.5,-cell/2+.5,cell-1,cell-1)}}
     ctx.restore()}
+  PL.parts=PL.parts.filter(p=>{const k=(t-p.t0)/900;if(k>=1)return false;p.vy+=.45;p.x+=p.vx;p.y+=p.vy;ctx.globalAlpha=1-k;ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s);ctx.globalAlpha=1;return true});
+  PL.rings=PL.rings.filter(r=>{const k=(t-r.t0)/450;if(k>=1)return false;ctx.strokeStyle=`rgba(255,255,255,${.7*(1-k)})`;ctx.lineWidth=4;ctx.beginPath();ctx.arc(r.x,r.y,r.r*(.3+.7*k),0,Math.PI*2);ctx.stroke();return true});
+  ctx.restore();
   if(sc==='rain'){ctx.strokeStyle='rgba(230,240,255,.55)';ctx.lineWidth=1.5;ctx.beginPath();PL.wx.forEach(d=>{if(!calm){d.y+=d.v;d.x+=PL.wind?PL.wind.dir*3:-.8;if(d.y>H){d.y=-10;d.x=Math.random()*W}}ctx.moveTo(d.x,d.y);ctx.lineTo(d.x-2,d.y+10)});ctx.stroke()}
   if(sc==='snow'){ctx.fillStyle='#fff';PL.wx.forEach(f=>{if(!calm){f.y+=f.v;f.x+=Math.sin(t/900+f.ph)*.4+(PL.wind?PL.wind.dir*2:0);if(f.y>H){f.y=-5;f.x=Math.random()*W}}ctx.fillRect(f.x|0,f.y|0,f.s,f.s)})}
   if(PL.wind){ctx.strokeStyle='rgba(255,255,255,.5)';ctx.lineWidth=2;for(let i=0;i<14;i++){const y=(i*67+t*.05)%groundTop,x=((t*.8*PL.wind.dir+i*211)%(W+200)+W+200)%(W+200)-100;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+60*PL.wind.dir,y);ctx.stroke()}}
-  PL.parts=PL.parts.filter(p=>{const k=(t-p.t0)/900;if(k>=1)return false;p.vy+=.45;p.x+=p.vx;p.y+=p.vy;ctx.globalAlpha=1-k;ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s);ctx.globalAlpha=1;return true});
-  PL.rings=PL.rings.filter(r=>{const k=(t-r.t0)/450;if(k>=1)return false;ctx.strokeStyle=`rgba(255,255,255,${.7*(1-k)})`;ctx.lineWidth=4;ctx.beginPath();ctx.arc(r.x,r.y,r.r*(.3+.7*k),0,Math.PI*2);ctx.stroke();return true});
   ctx.restore()}
-function savePlay(){if(!PL)return;DB.play=DB.play||{};DB.play[DB.theme]=bodiesDyn().filter(b=>b.position.y<PL.groundTop+PL.cell).slice(-180).map(b=>({v:2,t:b.le.t,k:b.le.k,s:b.le.shape,x:+((b.position.x-PL.W/2)/PL.cell).toFixed(3),y:+((PL.groundTop-b.position.y)/PL.cell).toFixed(3),a:+b.angle.toFixed(3)}));save()}
+function savePlay(){if(!PL)return;DB.play=DB.play||{};DB.play[PL.theme]=bodiesDyn().filter(b=>b.position.y<PL.groundTop+PL.cell).slice(-180).map(b=>({v:2,t:b.le.t,k:b.le.k,s:b.le.shape,x:+((b.position.x-PL.W/2)/PL.cell).toFixed(3),y:+((PL.groundTop-b.position.y)/PL.cell).toFixed(3),a:+b.angle.toFixed(3)}));save()}
 function restorePlay(){const list=(DB.play&&DB.play[DB.theme])||[];list.sort((a,b)=>a.y-b.y).forEach(o=>{if(o.t==='friend'&&o.k>=haveN())return;if(o.t==='tnt')return;const x=o.v===2?PL.W/2+o.x*PL.cell:o.x*PL.W;mkBody(o.t,o.k,o.s,x,PL.groundTop-o.y*PL.cell,o.a)});
   if(!list.length){mkBody('friend',haveN()-1,null,PL.W*.5,PL.groundTop-PL.cell*3)}}
-function closePlay(){if(!PL)return;savePlay();ambStop();cancelAnimationFrame(PL.raf);Matter.Engine.clear(PL.eng);PL=null;$('#play').hidden=true;showHome()}
+function closePlay(){if(!PL)return;savePlay();ambStop();cancelAnimationFrame(PL.raf);Matter.Engine.clear(PL.eng);PL=null;$('#play').hidden=true;$('#ptimeup').hidden=true;$('#pideas').hidden=true;document.body.classList.remove('playing');showHome()}
+function restartPlay(){if(!PL)return;savePlay();ambStop();cancelAnimationFrame(PL.raf);Matter.Engine.clear(PL.eng);$('#ptitle').textContent=T().build;buildTray();startPlay()}
+/* tower challenges */
+const CHAL=[5,10,15,20,25,30,40,50];
+function chalTarget(){DB.chal=DB.chal||{};const i=DB.chal[DB.theme]||0;return i<CHAL.length?CHAL[i]:50+(i-CHAL.length+1)*10}
+function towerH(){let top=Infinity;const d=PL.drag&&PL.drag.b;for(const b of bodiesDyn()){if(b.le.t==='friend'||b===d||b.speed>.3)continue;if(b.position.x<PL.ix-PL.cell||b.position.x>PL.ix+PL.iw+PL.cell||b.position.y>PL.groundTop)continue;if(b.bounds.min.y<top)top=b.bounds.min.y}return top===Infinity?0:Math.max(0,Math.round((PL.groundTop-top)/PL.cell))}
+function playTick(t){PL.h=towerH();const ch=$('#pchal');
+  if(DB.chalOn!==false){const tg=chalTarget();ch.hidden=false;ch.classList.toggle('win',PL.h>=tg);ch.innerHTML=`<b>${PL.h}</b><div><small>Tower challenge</small><span>Build a tower of ${tg}</span></div>`;
+    if(PL.h>=tg){if(!PL.holdT)PL.holdT=t;else if(t-PL.holdT>1500){PL.holdT=0;DB.chal[DB.theme]=(DB.chal[DB.theme]||0)+1;save();sfx.win();const y=PL.groundTop-tg*PL.cell,now=performance.now();for(let i=0;i<40;i++)PL.parts.push({x:PL.W/2+(Math.random()-.5)*PL.iw*.6,y,vx:(Math.random()-.5)*10,vy:-Math.random()*10,c:pick(['#ffd84f','#ffffff','#7cc444','#ff8fc8']),t0:now,s:5+Math.random()*6});toast(`A tower of ${tg}! Brilliant!`);say(`A tower of ${word(tg)||tg}! Brilliant!`)}}else PL.holdT=0}else ch.hidden=true;
+  if(PL.tEnd){const left=PL.tEnd-Date.now(),tot=PL.buildMin*60e3;$('#ptime').hidden=false;$('#ptArc').style.strokeDashoffset=String(88*(1-Math.max(0,left)/tot));
+    if(left<=60e3&&!PL.warned){PL.warned=1;toast('One minute left of build time');say('One minute left.')}
+    if(left<=0&&$('#ptimeup').hidden){PL.tEnd=0;savePlay();buildOpen=false;DB.buildUntil=0;save();$('#ptimeup').hidden=false;sfx.chime();say('Build time is finished. Your world is saved.')}}else $('#ptime').hidden=true}
+/* build ideas */
+const IDEAS=[{n:'Pyramid',g:["...1...","..111..",".11111.","1111111"]},{n:'House',g:["..5..",".555.","55555","24.42","24.42"]},{n:'Tower',g:["1","1","1","1","1","1","1","1"]},{n:'Stairs',g:["...2","..22",".222","2222"]},
+  {n:'Castle',g:["1.1...1.1","111...111","111...111","111111111","111111111"]},{n:'Bridge',g:["=..=..=..","11.....11","11.....11","11.....11"]},{n:'Dominoes',g:["|.|.|.|.|.|.|"]},{n:'Boom tower',g:["7","6","1","1","1","T"]}];
+function ideaCanvas(g){const C=Math.max(...g.map(r=>r.length)),Rr=g[0]==='|.|.|.|.|.|.|'?3:g.length,s=8,c=document.createElement('canvas');c.width=C*s;c.height=Rr*s;const x=c.getContext('2d');x.imageSmoothingEnabled=false;const tx=tiles().map(t=>tileCanvas(t,8));
+  g.forEach((row,r)=>[...row].forEach((ch,i)=>{const y=(Rr-g.length+r)*s;if(/\d/.test(ch))x.drawImage(tx[+ch%tx.length],i*s,y,s,s);else if(ch==='T')x.drawImage(TNT,i*s,y,s,s);else if(ch==='=')x.drawImage(tx[2],0,0,8,4,i*s,y+s/2,s*3,s/2);else if(ch==='|')x.drawImage(tx[2],0,0,4,8,i*s+s/4,0,s/2,s*3)}));return c}
+function showIdeas(){const el=$('#pideas');if(!el.hidden){el.hidden=true;return}el.innerHTML='';IDEAS.forEach((d,i)=>{if(DB.tnt===false&&d.g.join('').includes('T'))return;const b=document.createElement('button');b.dataset.act='pidea';b.dataset.i=i;b.appendChild(ideaCanvas(d.g));b.insertAdjacentHTML('beforeend',`<span>${d.n}</span>`);el.appendChild(b)});el.hidden=false}
+function placeIdea(i,p){const g=IDEAS[i].g,c=PL.cell,Rr=g.length,C=Math.max(...g.map(r=>r.length)),base=Math.min(p.y+c*Rr/2,PL.groundTop),left=p.x-C*c/2;
+  g.forEach((row,r)=>[...row].forEach((ch,k)=>{const x=left+k*c+c/2,y=base-(Rr-1-r)*c-c/2;
+    if(/\d/.test(ch))mkBody('tile',+ch%tiles().length,'sq',x,y);else if(ch==='T')mkBody(DB.tnt===false?'tile':'tnt',0,'sq',x,y);else if(ch==='=')mkBody('tile',2,'plank',x+c,y+c/4);else if(ch==='|')mkBody('tile',2,'plank',x,base-c*1.5,Math.PI/2)}));
+  tone(523,.12,0,.04,'triangle');tone(784,.16,.1,.04,'triangle');toast(IDEAS[i].n+'!')}
 
 /* ---------- confetti ---------- */
 function confetti(n){const c=document.createElement('canvas');c.className='confetti';document.body.appendChild(c);const dpr=Math.min(2,devicePixelRatio||1);c.width=innerWidth*dpr;c.height=innerHeight*dpr;const ctx=c.getContext('2d'),cs=getComputedStyle(document.body);
@@ -1030,7 +1077,7 @@ const grown=$('#grown'),ringArc=$('#ringArc'),tipLow=$('#tipLow');
 let TAB='settings';
 function segHTML(key,opts){return`<div class="seg" data-key="${key}">${opts.map(([v,l])=>`<button data-act="seg" data-v="${v}" class="${String(DB[key])===String(v)?'on':''}">${l}</button>`).join('')}</div>`}
 function openPanel(){hush();$('#panel').hidden=false;renderPanel()}
-function closePanel(){saveSheetNames();$('#panel').hidden=true;if(CUR)CUR();else if(J)drawDots()}
+function closePanel(){saveSheetNames();$('#panel').hidden=true;if(PL){applyTheme();restartPlay();return}if(CUR)CUR();else if(J)drawDots()}
 function renderPanel(){const sh=$('#sheet');sh.innerHTML=`<header><h2>Grown-ups</h2><button class="done-btn" data-act="closepanel">Done</button></header>
   <div class="tabs">${[['settings','Settings'],['progress','Progress'],['report','Report']].map(([k,l])=>`<button data-act="tab" data-k="${k}" class="${TAB===k?'on':''}">${l}</button>`).join('')}</div>
   ${TAB==='settings'?settingsHTML():TAB==='progress'?progressHTML():reportTabHTML()}`;if(TAB==='settings')fillVoices()}
@@ -1051,6 +1098,9 @@ function settingsHTML(){return`
   <div class="set"><b>Jobs each time</b>${segHTML('jobs',[[3,'3'],[5,'5'],[8,'8']])}</div>
   <div class="set"><b>A new friend every</b>${segHTML('every',[[1,'job'],[3,'3 jobs'],[5,'5 jobs']])}<span>Friends are the reward for doing maths. There are 48 to find in each world.</span></div>
   <div class="set"><b>Break length</b>${segHTML('breakMin',[[1,'1 min'],[2,'2 min'],[3,'3 min'],[5,'5 min']])}<span>Breaks are always allowed. They're a quiet rest, not a game, and each one shows in the report.</span></div>
+  <div class="set"><b>Build time limit</b>${segHTML('buildMin',[[0,'Off'],[5,'5 min'],[10,'10 min'],[15,'15 min'],[20,'20 min']])}<span>A small timer shows while they build, with a warning at one minute and a calm finish screen.</span></div>
+  <div class="set"><b>Tower challenges</b>${segHTML('chalOn',[[true,'On'],[false,'Off']])}</div>
+  <div class="set"><b>TNT</b>${segHTML('tnt',[[true,'On'],[false,'Off']])}<span>Turn off if booms and shaking are too much.</span></div>
   <div class="set"><b>Build time</b>${segHTML('buildWhen',[['after','After jobs'],['any','Any time']])}<span>Building is unlimited. Build time opens once they've found a friend.</span></div>
   <div class="privacy">Our promise: no ads, no accounts, no WiFi needed. Everything stays private on this device. Nothing is ever sent anywhere.</div>
   <button class="btn soft danger" data-act="reset" style="min-height:48px;font-size:16px">Start again from scratch</button>`}
@@ -1126,6 +1176,8 @@ document.addEventListener('click',e=>{const p=e.target.closest('[data-pick]');if
     case'ppush':PL.tool={k:'push'};markTool();sfx.tap();toast('Tap to whoosh things away!');break;
     case'pdig':PL.tool={k:'dig'};markTool();sfx.tap();toast('Tap something to take it away');break;
     case'pclear':clearPlay();break;
+    case'pideas':showIdeas();sfx.tap();break;
+    case'pidea':PL.place=+b.dataset.i;$('#pideas').hidden=true;sfx.tap();toast('Tap where it goes');break;
     case'pscene':{const ks=SCENES.map(x=>x[0]),cur=ks.indexOf(DB.pscene||'day');DB.pscene=ks[(cur+1)%ks.length];save();initWeather();ambStart();toast(SCENES.find(x=>x[0]===DB.pscene)[1]);break}
     case'pamb':DB.pamb=DB.pamb===false;save();$('#pambBtn').innerHTML=DB.pamb===false?IC.ambOff:IC.ambOn;if(DB.pamb===false){ambStop();toast('Background sound off')}else{ambStart();toast('Background sound on')}break;
     case'playhome':closePlay();break;
