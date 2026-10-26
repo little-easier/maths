@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Maths Voice Maker</title>
+<style>
+/* Layout: one working column. Settings card, then a sticky progress bar, then every line with its status. For the maker only, not linked from the app. */
+:root{
+  --bg:#f1f5ec;--surface:#fff;--ink:#1f2a1c;--muted:#5b6955;--line:#dbe4d2;--soft:#e6efdc;
+  --accent:#4e9128;--accent2:#3a7019;--gold:#f2b82b;--bad:#b5402f;--badsoft:#f8e3df;
+  --font:ui-rounded,'SF Pro Rounded','Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#11170f;--surface:#1a2217;--ink:#e7eee1;--muted:#9fb096;--line:#2c3828;--soft:#222d1d;--accent:#7cc444;--accent2:#5fa832;--gold:#f2c14b;--bad:#f08a7e;--badsoft:#3a1f1b;color-scheme:dark}}
+html,body{background:var(--bg);color:var(--ink)}
+body{margin:0;font:500 16px/1.5 var(--font);padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) max(16px,env(safe-area-inset-left,0px))}
+.wrap{max-width:780px;margin:0 auto;padding-block:26px 80px;display:flex;flex-direction:column;gap:18px}
+.eyebrow{font:800 12px var(--font);letter-spacing:1.6px;text-transform:uppercase;color:var(--accent)}
+h1{font:900 clamp(28px,6vw,40px)/1.1 var(--font);margin:4px 0 6px}
+.lede{margin:0;color:var(--muted);max-width:62ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.card h2{margin:0;font:900 19px var(--font)}
+label{font-weight:800;font-size:15px}
+.field{display:flex;flex-direction:column;gap:6px}
+.help{font-size:14px;color:var(--muted);margin:0}
+input[type=text],input[type=password],select{font:600 16px var(--font);padding:11px 12px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);width:100%;box-sizing:border-box}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{border:0;border-radius:14px;padding:11px 18px;font:800 16px var(--font);background:var(--accent);color:#fff;cursor:pointer;box-shadow:0 3px 0 var(--accent2)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.soft{background:var(--soft);color:var(--ink);box-shadow:none}
+.btn.big{font-size:19px;padding:14px 28px}
+.check{display:flex;gap:8px;align-items:center;font-weight:700;font-size:15px}
+.check input{width:20px;height:20px;accent-color:var(--accent)}
+.sliders{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.sl{display:flex;flex-direction:column;gap:4px}
+.sl span{font-size:14px;font-weight:800;display:flex;justify-content:space-between}
+.sl output{font-family:var(--mono);color:var(--muted)}
+.sl input{width:100%;accent-color:var(--accent)}
+.groups{display:flex;flex-wrap:wrap;gap:8px}
+.groups label{font-weight:700;font-size:14px;background:var(--soft);padding:6px 12px;border-radius:999px;display:flex;gap:6px;align-items:center}
+.msg{border-radius:14px;padding:12px 14px;font-weight:700;margin:0}
+.msg.bad{background:var(--badsoft);color:var(--bad)}
+.msg.ok{background:var(--soft);color:var(--ink)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:3;background:var(--bg);padding:10px 0;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.prog{flex:1 1 200px;min-width:0}
+.prog b{font-variant-numeric:tabular-nums}
+.track{height:10px;border-radius:5px;background:var(--line);overflow:hidden;margin-top:5px}
+.track i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+.list{display:flex;flex-direction:column;gap:6px}
+.list h3{margin:12px 0 2px;font:900 16px var(--font)}
+.li{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 10px}
+.li .st{width:14px;height:14px;border-radius:7px;background:var(--line);justify-self:center}
+.li.busy .st{background:var(--gold)}.li.done .st{background:var(--accent)}.li.fail .st{background:var(--bad)}
+.li .t{min-width:0;overflow-wrap:anywhere}
+.li .t code{display:block;font:600 12px var(--mono);color:var(--muted)}
+.li.fail .t em{display:block;font-style:normal;color:var(--bad);font-size:13px;font-weight:700}
+.mini{border:0;background:var(--soft);color:var(--ink);border-radius:10px;padding:7px 10px;font:800 13px var(--font);cursor:pointer}
+.mini:disabled{opacity:.4}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Little Easier – Maths</div>
+    <h1>Voice maker</h1>
+    <p class="lede">Makes every line the Maths app says in one ElevenLabs voice, then gives you a single zip to send over. Your key stays in this browser and is only ever sent to ElevenLabs.</p>
+  </header>
+
+  <section class="card" aria-labelledby="h1k">
+    <h2 id="h1k">1. Your ElevenLabs key</h2>
+    <div class="field"><label for="key">API key</label><input type="password" id="key" autocomplete="off" spellcheck="false" placeholder="sk_…"><p class="help">In ElevenLabs: your profile › API keys › Create. It needs Text to Speech and Voices (read) turned on.</p></div>
+    <label class="check"><input type="checkbox" id="remember"> Remember the key on this device</label>
+    <div class="row"><button class="btn soft" id="loadVoices" type="button">Load my voices</button></div>
+    <p class="msg" id="keyMsg" hidden></p>
+  </section>
+
+  <section class="card" aria-labelledby="h2v">
+    <h2 id="h2v">2. Pick the voice</h2>
+    <div class="field"><label for="voice">Voice</label><select id="voice"><option value="">Load your voices first, or paste an ID below</option></select></div>
+    <div class="field"><label for="voiceId">Voice ID</label><input type="text" id="voiceId" autocomplete="off" spellcheck="false" placeholder="Filled in when you pick a voice"></div>
+    <div class="field"><label for="folder">Name for this voice</label><input type="text" id="folder" autocomplete="off" placeholder="e.g. amelia"><p class="help">Becomes the folder name, e.g. voice-amelia.zip. Letters and numbers only.</p></div>
+    <div class="field"><label for="model">Model</label><select id="model"><option value="eleven_multilingual_v2">Eleven Multilingual v2 (most natural, recommended)</option><option value="eleven_turbo_v2_5">Eleven Turbo v2.5 (cheaper, slightly flatter)</option><option value="eleven_flash_v2_5">Eleven Flash v2.5 (cheapest)</option></select></div>
+    <div class="sliders">
+      <div class="sl"><span>Stability <output id="o-stability">0.60</output></span><input type="range" id="stability" min="0" max="1" step="0.05" value="0.6"></div>
+      <div class="sl"><span>Similarity <output id="o-similarity">0.75</output></span><input type="range" id="similarity" min="0" max="1" step="0.05" value="0.75"></div>
+      <div class="sl"><span>Style <output id="o-style">0.00</output></span><input type="range" id="style" min="0" max="1" step="0.05" value="0"></div>
+      <div class="sl"><span>Speed <output id="o-speed">0.90</output></span><input type="range" id="speed" min="0.7" max="1.2" step="0.05" value="0.9"></div>
+    </div>
+    <label class="check"><input type="checkbox" id="boost" checked> Speaker boost</label>
+    <div class="row"><button class="btn soft" id="test" type="button">Hear a test line</button></div>
+    <p class="msg" id="voiceMsg" hidden></p>
+  </section>
+
+  <section class="card" aria-labelledby="h3m">
+    <h2 id="h3m">3. Make the clips</h2>
+    <div class="field"><label>Which lines</label><div class="groups" id="groups"></div><p class="help" id="chars"></p></div>
+    <div class="row"><button class="btn big" id="go" type="button">Make the clips</button><button class="btn soft" id="stop" type="button" hidden>Pause</button><button class="btn soft" id="retry" type="button" hidden>Try the failed ones again</button></div>
+    <p class="msg" id="goMsg" hidden></p>
+  </section>
+
+  <div class="bar" id="bar" hidden>
+    <div class="prog"><b id="progT">0 of 0</b><div class="track"><i id="progBar"></i></div></div>
+    <button class="btn" id="zip" type="button" disabled>Download the zip</button>
+  </div>
+  <div class="list" id="list"></div>
+</div>
+
+<script src="jszip.min.js"></script>
+<script>
+'use strict';
+const API='https://api.elevenlabs.io/v1';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const KEYSTORE='le-voice-maker';
+let LINES=[],GROUPS=[],CLIPS=new Map(),STATE=new Map(),running=false,stopFlag=false,voices=[];
+function store(){try{return JSON.parse(localStorage.getItem(KEYSTORE)||'{}')}catch(e){return{}}}
+function putStore(o){try{localStorage.setItem(KEYSTORE,JSON.stringify(Object.assign(store(),o)))}catch(e){}}
+function msg(id,text,kind='bad'){const el=$(id);if(!text){el.hidden=true;return}el.hidden=false;el.className='msg '+kind;el.textContent=text}
+const key=()=>$('#key').value.trim();
+const slug=s=>s.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,30);
+
+/* restore */
+(()=>{const s=store();if(s.key){$('#key').value=s.key;$('#remember').checked=true}if(s.voiceId)$('#voiceId').value=s.voiceId;if(s.folder)$('#folder').value=s.folder;
+  ['stability','similarity','style','speed'].forEach(k=>{if(s[k]!=null)$('#'+k).value=s[k];$('#o-'+k).textContent=(+$('#'+k).value).toFixed(2)});if(s.model)$('#model').value=s.model;if(s.boost===false)$('#boost').checked=false})();
+['stability','similarity','style','speed'].forEach(k=>$('#'+k).addEventListener('input',()=>{$('#o-'+k).textContent=(+$('#'+k).value).toFixed(2);saveSettings()}));
+['model','boost','folder','voiceId'].forEach(k=>$('#'+k).addEventListener('change',saveSettings));
+$('#remember').addEventListener('change',()=>{putStore({key:$('#remember').checked?key():''})});
+$('#key').addEventListener('change',()=>{if($('#remember').checked)putStore({key:key()})});
+function saveSettings(){putStore({voiceId:$('#voiceId').value.trim(),folder:slug($('#folder').value),model:$('#model').value,boost:$('#boost').checked,stability:+$('#stability').value,similarity:+$('#similarity').value,style:+$('#style').value,speed:+$('#speed').value})}
+
+/* lines */
+fetch('voice-lines.json',{cache:'no-store'}).then(r=>r.json()).then(d=>{GROUPS=d.groups;LINES=GROUPS.flatMap(g=>g.lines.map(l=>Object.assign({group:g.group},l)));
+  $('#groups').innerHTML=GROUPS.map((g,i)=>`<label><input type="checkbox" data-g="${i}" checked> ${esc(g.group)} <span style="opacity:.6">(${g.lines.length})</span></label>`).join('');
+  $('#groups').addEventListener('change',countChars);countChars();renderList()}).catch(()=>msg('#goMsg','Could not load the list of lines. Check your connection and reload the page.'));
+function chosen(){const on=new Set([...document.querySelectorAll('#groups input:checked')].map(i=>GROUPS[+i.dataset.g].group));return LINES.filter(l=>on.has(l.group))}
+function countChars(){const c=chosen();$('#chars').textContent=`${c.length} clips, about ${c.reduce((a,l)=>a+l.text.length,0).toLocaleString('en-GB')} characters of credit.`}
+
+/* API */
+function friendlyError(e,status,body){
+  if(e&&e.name==='TypeError')return'ElevenLabs didn\'t let this page connect. If this keeps happening, tell Claude: we\'ll use the "long recordings" plan instead.';
+  if(status===401)return'ElevenLabs didn\'t accept that key. Check it was copied fully and has Text to Speech turned on.';
+  if(status===402||/quota|credits/i.test(body||''))return'Your ElevenLabs credits have run out for this month.';
+  if(status===422)return'ElevenLabs didn\'t like one of the settings. Try the Multilingual v2 model with the default sliders.';
+  if(status===404)return'That voice ID wasn\'t found. Pick the voice again from the list.';
+  return`ElevenLabs said no (error ${status||'?'}). ${String(body||'').slice(0,160)}`}
+$('#loadVoices').addEventListener('click',async()=>{if(!key())return msg('#keyMsg','Paste your API key first.');msg('#keyMsg','Loading your voices…','ok');
+  try{const r=await fetch(API+'/voices',{headers:{'xi-api-key':key()}});const t=await r.text();if(!r.ok)return msg('#keyMsg',friendlyError(null,r.status,t));
+    voices=(JSON.parse(t).voices||[]).sort((a,b)=>a.name.localeCompare(b.name));
+    $('#voice').innerHTML='<option value="">Choose a voice…</option>'+voices.map(v=>{const l=v.labels||{};const tags=[l.accent,l.gender,l.age,l.description||l.descriptive].filter(Boolean).join(', ');return`<option value="${esc(v.voice_id)}">${esc(v.name)}${tags?' · '+esc(tags):''}</option>`}).join('');
+    const cur=$('#voiceId').value.trim();if(cur)$('#voice').value=cur;
+    msg('#keyMsg',`Found ${voices.length} voices. To use one from the Voice Library, add it to "My Voices" in ElevenLabs first, then load again.`,'ok')}
+  catch(e){msg('#keyMsg',friendlyError(e))}});
+$('#voice').addEventListener('change',()=>{const v=voices.find(x=>x.voice_id===$('#voice').value);if(!v)return;$('#voiceId').value=v.voice_id;if(!$('#folder').value.trim())$('#folder').value=slug(v.name.split(/[\s-]/)[0]);saveSettings()});
+async function tts(text){const id=$('#voiceId').value.trim();if(!id)throw{msg:'Pick a voice first.'};
+  const body={text,model_id:$('#model').value,voice_settings:{stability:+$('#stability').value,similarity_boost:+$('#similarity').value,style:+$('#style').value,use_speaker_boost:$('#boost').checked,speed:+$('#speed').value}};
+  for(let attempt=0;attempt<6;attempt++){let r;
+    try{r=await fetch(`${API}/text-to-speech/${encodeURIComponent(id)}?output_format=mp3_44100_128`,{method:'POST',headers:{'xi-api-key':key(),'Content-Type':'application/json',Accept:'audio/mpeg'},body:JSON.stringify(body)})}
+    catch(e){throw{msg:friendlyError(e),fatal:true}}
+    if(r.ok)return await r.blob();
+    const t=await r.text().catch(()=>'');
+    if(r.status===429||r.status>=500){await new Promise(z=>setTimeout(z,1500*(attempt+1)));continue}
+    throw{msg:friendlyError(null,r.status,t),fatal:r.status===401||r.status===402||r.status===404}}
+  throw{msg:'ElevenLabs is busy. Try again in a minute.'}}
+let testAudio=null;
+$('#test').addEventListener('click',async()=>{if(!key())return msg('#voiceMsg','Paste your API key first.');msg('#voiceMsg','Making a test line…','ok');
+  try{const b=await tts('Put the blocks in the chest. Count them as you go. One, two, three. Brilliant!');if(testAudio)URL.revokeObjectURL(testAudio.src);testAudio=new Audio(URL.createObjectURL(b));await testAudio.play().catch(()=>{});msg('#voiceMsg','Playing. Happy with it? Move on to step 3.','ok')}
+  catch(e){msg('#voiceMsg',e.msg||String(e))}});
+
+/* run */
+function renderList(){let html='';let g='';LINES.forEach(l=>{if(l.group!==g){g=l.group;html+=`<h3>${esc(g)}</h3>`}
+  html+=`<div class="li" id="li-${l.id}"><span class="st" aria-hidden="true"></span><div class="t">${esc(l.text)}<code>${l.id}.mp3</code><em hidden></em></div><div class="row" style="gap:6px"><button class="mini" data-play="${l.id}" disabled>Play</button><button class="mini" data-redo="${l.id}">Redo</button></div></div>`});
+  $('#list').innerHTML=html}
+function setState(id,st,err){STATE.set(id,st);const el=$('#li-'+id);if(!el)return;el.className='li '+st;const em=el.querySelector('em');em.hidden=st!=='fail';em.textContent=err||'';el.querySelector('[data-play]').disabled=!CLIPS.has(id);progress()}
+function progress(){const ids=chosen().map(l=>l.id),n=ids.filter(i=>CLIPS.has(i)).length,f=ids.filter(i=>STATE.get(i)==='fail').length;$('#bar').hidden=false;
+  $('#progT').textContent=`${n} of ${ids.length} made${f?` · ${f} failed`:''}`;$('#progBar').style.width=(ids.length?100*n/ids.length:0)+'%';$('#zip').disabled=CLIPS.size===0||running;$('#retry').hidden=running||!f}
+async function run(list){if(running)return;if(!key())return msg('#goMsg','Paste your API key in step 1.');if(!$('#voiceId').value.trim())return msg('#goMsg','Pick a voice in step 2.');if(!slug($('#folder').value))return msg('#goMsg','Give this voice a name in step 2.');
+  running=true;stopFlag=false;$('#go').disabled=true;$('#stop').hidden=false;msg('#goMsg','Making clips. Keep this page open. It takes a minute or two.','ok');let fatal=null;
+  const queue=list.filter(l=>!CLIPS.has(l.id)||STATE.get(l.id)==='redo');
+  async function worker(){while(queue.length&&!stopFlag&&!fatal){const l=queue.shift();setState(l.id,'busy');try{const b=await tts(l.text);CLIPS.set(l.id,b);setState(l.id,'done')}catch(e){setState(l.id,'fail',e.msg);if(e.fatal)fatal=e.msg}}}
+  await Promise.all([worker(),worker()]);running=false;$('#go').disabled=false;$('#stop').hidden=true;progress();
+  const ids=chosen().map(l=>l.id),left=ids.filter(i=>!CLIPS.has(i)).length;
+  if(fatal)msg('#goMsg',fatal);else if(stopFlag)msg('#goMsg','Paused. Press "Make the clips" to carry on where you left off.','ok');
+  else if(left)msg('#goMsg',`${left} clips didn't work. Press "Try the failed ones again".`);else msg('#goMsg','All done! Download the zip and send it to Claude.','ok')}
+$('#go').addEventListener('click',()=>{saveSettings();run(chosen())});
+$('#stop').addEventListener('click',()=>{stopFlag=true});
+$('#retry').addEventListener('click',()=>run(chosen().filter(l=>STATE.get(l.id)==='fail')));
+let player=null;
+$('#list').addEventListener('click',async e=>{const p=e.target.closest('[data-play]'),r=e.target.closest('[data-redo]');
+  if(p){const b=CLIPS.get(p.dataset.play);if(!b)return;if(player){player.pause();URL.revokeObjectURL(player.src)}player=new Audio(URL.createObjectURL(b));player.play().catch(()=>{})}
+  if(r&&!running){const id=r.dataset.redo,l=LINES.find(x=>x.id===id);setState(id,'busy');try{CLIPS.set(id,await tts(l.text));setState(id,'done');const a=new Audio(URL.createObjectURL(CLIPS.get(id)));a.play().catch(()=>{})}catch(err){setState(id,'fail',err.msg)}}});
+$('#zip').addEventListener('click',async()=>{const name=slug($('#folder').value)||'voice';const z=new JSZip(),f=z.folder('voice-'+name);
+  for(const [id,b] of CLIPS)f.file(id+'.mp3',b);
+  f.file('voice.json',JSON.stringify({name,voiceId:$('#voiceId').value.trim(),voiceName:(voices.find(v=>v.voice_id===$('#voiceId').value.trim())||{}).name||'',model:$('#model').value,settings:{stability:+$('#stability').value,similarity:+$('#similarity').value,style:+$('#style').value,speed:+$('#speed').value,boost:$('#boost').checked},made:new Date().toISOString(),clips:CLIPS.size},null,1));
+  const blob=await z.generateAsync({type:'blob'}),file=`voice-${name}.zip`;
+  try{const fl=new File([blob],file,{type:'application/zip'});if(navigator.canShare&&navigator.canShare({files:[fl]})){await navigator.share({files:[fl],title:file});return}}catch(e){if(e&&e.name==='AbortError')return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=file;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000)});
+</script>
+</body>
+</html>

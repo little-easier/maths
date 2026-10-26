@@ -1,0 +1,1100 @@
+{
+ "version": 1,
+ "groups": [
+  {
+   "group": "Counting numbers",
+   "lines": [
+    {
+     "id": "num-0",
+     "text": "zero",
+     "note": "No punctuation on purpose"
+    },
+    {
+     "id": "num-1",
+     "text": "one",
+     "note": ""
+    },
+    {
+     "id": "num-2",
+     "text": "two",
+     "note": ""
+    },
+    {
+     "id": "num-3",
+     "text": "three",
+     "note": ""
+    },
+    {
+     "id": "num-4",
+     "text": "four",
+     "note": ""
+    },
+    {
+     "id": "num-5",
+     "text": "five",
+     "note": ""
+    },
+    {
+     "id": "num-6",
+     "text": "six",
+     "note": ""
+    },
+    {
+     "id": "num-7",
+     "text": "seven",
+     "note": ""
+    },
+    {
+     "id": "num-8",
+     "text": "eight",
+     "note": ""
+    },
+    {
+     "id": "num-9",
+     "text": "nine",
+     "note": ""
+    },
+    {
+     "id": "num-10",
+     "text": "ten",
+     "note": ""
+    },
+    {
+     "id": "num-11",
+     "text": "eleven",
+     "note": ""
+    },
+    {
+     "id": "num-12",
+     "text": "twelve",
+     "note": ""
+    },
+    {
+     "id": "num-13",
+     "text": "thirteen",
+     "note": ""
+    },
+    {
+     "id": "num-14",
+     "text": "fourteen",
+     "note": ""
+    },
+    {
+     "id": "num-15",
+     "text": "fifteen",
+     "note": ""
+    },
+    {
+     "id": "num-16",
+     "text": "sixteen",
+     "note": ""
+    },
+    {
+     "id": "num-17",
+     "text": "seventeen",
+     "note": ""
+    },
+    {
+     "id": "num-18",
+     "text": "eighteen",
+     "note": ""
+    },
+    {
+     "id": "num-19",
+     "text": "nineteen",
+     "note": ""
+    },
+    {
+     "id": "num-20",
+     "text": "twenty",
+     "note": ""
+    }
+   ]
+  },
+  {
+   "group": "Answer numbers",
+   "lines": [
+    {
+     "id": "ans-0",
+     "text": "Zero!",
+     "note": ""
+    },
+    {
+     "id": "ans-1",
+     "text": "One!",
+     "note": ""
+    },
+    {
+     "id": "ans-2",
+     "text": "Two!",
+     "note": ""
+    },
+    {
+     "id": "ans-3",
+     "text": "Three!",
+     "note": ""
+    },
+    {
+     "id": "ans-4",
+     "text": "Four!",
+     "note": ""
+    },
+    {
+     "id": "ans-5",
+     "text": "Five!",
+     "note": ""
+    },
+    {
+     "id": "ans-6",
+     "text": "Six!",
+     "note": ""
+    },
+    {
+     "id": "ans-7",
+     "text": "Seven!",
+     "note": ""
+    },
+    {
+     "id": "ans-8",
+     "text": "Eight!",
+     "note": ""
+    },
+    {
+     "id": "ans-9",
+     "text": "Nine!",
+     "note": ""
+    },
+    {
+     "id": "ans-10",
+     "text": "Ten!",
+     "note": ""
+    },
+    {
+     "id": "ans-11",
+     "text": "Eleven!",
+     "note": ""
+    },
+    {
+     "id": "ans-12",
+     "text": "Twelve!",
+     "note": ""
+    },
+    {
+     "id": "ans-13",
+     "text": "Thirteen!",
+     "note": ""
+    },
+    {
+     "id": "ans-14",
+     "text": "Fourteen!",
+     "note": ""
+    },
+    {
+     "id": "ans-15",
+     "text": "Fifteen!",
+     "note": ""
+    },
+    {
+     "id": "ans-16",
+     "text": "Sixteen!",
+     "note": ""
+    },
+    {
+     "id": "ans-17",
+     "text": "Seventeen!",
+     "note": ""
+    },
+    {
+     "id": "ans-18",
+     "text": "Eighteen!",
+     "note": ""
+    },
+    {
+     "id": "ans-19",
+     "text": "Nineteen!",
+     "note": ""
+    },
+    {
+     "id": "ans-20",
+     "text": "Twenty!",
+     "note": ""
+    },
+    {
+     "id": "ans-25",
+     "text": "Twenty-five!",
+     "note": "For tower challenges"
+    },
+    {
+     "id": "ans-30",
+     "text": "Thirty!",
+     "note": "For tower challenges"
+    },
+    {
+     "id": "ans-40",
+     "text": "Forty!",
+     "note": "For tower challenges"
+    },
+    {
+     "id": "ans-50",
+     "text": "Fifty!",
+     "note": "For tower challenges"
+    },
+    {
+     "id": "ans-60",
+     "text": "Sixty!",
+     "note": "For tower challenges"
+    },
+    {
+     "id": "ans-70",
+     "text": "Seventy!",
+     "note": "For tower challenges"
+    },
+    {
+     "id": "ans-80",
+     "text": "Eighty!",
+     "note": "For tower challenges"
+    },
+    {
+     "id": "ans-90",
+     "text": "Ninety!",
+     "note": "For tower challenges"
+    },
+    {
+     "id": "ans-100",
+     "text": "One hundred!",
+     "note": "For tower challenges"
+    }
+   ]
+  },
+  {
+   "group": "World: Blocks",
+   "lines": [
+    {
+     "id": "blocks-name",
+     "text": "Blocks.",
+     "note": "Said when the world is switched"
+    },
+    {
+     "id": "blocks-count",
+     "text": "Put the blocks in the chest. Count them as you go.",
+     "note": ""
+    },
+    {
+     "id": "blocks-count-q",
+     "text": "How many blocks are in the chest?",
+     "note": ""
+    },
+    {
+     "id": "blocks-how-many",
+     "text": "How many blocks?",
+     "note": ""
+    },
+    {
+     "id": "blocks-make-many",
+     "text": "blocks in the chest.",
+     "note": "Follows \"Put\" and a number, e.g. \"Put six…\""
+    },
+    {
+     "id": "blocks-make-one",
+     "text": "block in the chest.",
+     "note": "Follows \"Put one…\""
+    },
+    {
+     "id": "blocks-more",
+     "text": "Which chest has more?",
+     "note": ""
+    },
+    {
+     "id": "blocks-fewer",
+     "text": "Which chest has fewer?",
+     "note": ""
+    },
+    {
+     "id": "blocks-add",
+     "text": "Put them all in the big chest.",
+     "note": ""
+    },
+    {
+     "id": "blocks-add-q",
+     "text": "How many blocks altogether?",
+     "note": ""
+    },
+    {
+     "id": "blocks-take",
+     "text": "out of the chest.",
+     "note": "Follows \"Take\" and a number, e.g. \"Take three…\""
+    },
+    {
+     "id": "blocks-take-q",
+     "text": "How many blocks are left in the chest?",
+     "note": ""
+    },
+    {
+     "id": "blocks-go-away",
+     "text": "blocks go away.",
+     "note": "Follows a number, e.g. \"Three…\""
+    },
+    {
+     "id": "blocks-goes-away",
+     "text": "block goes away.",
+     "note": "Follows \"One…\""
+    }
+   ]
+  },
+  {
+   "group": "World: Space",
+   "lines": [
+    {
+     "id": "space-name",
+     "text": "Space.",
+     "note": "Said when the world is switched"
+    },
+    {
+     "id": "space-count",
+     "text": "Put the aliens in the spaceship. Count them as you go.",
+     "note": ""
+    },
+    {
+     "id": "space-count-q",
+     "text": "How many aliens are in the spaceship?",
+     "note": ""
+    },
+    {
+     "id": "space-how-many",
+     "text": "How many aliens?",
+     "note": ""
+    },
+    {
+     "id": "space-make-many",
+     "text": "aliens in the spaceship.",
+     "note": "Follows \"Put\" and a number, e.g. \"Put six…\""
+    },
+    {
+     "id": "space-make-one",
+     "text": "alien in the spaceship.",
+     "note": "Follows \"Put one…\""
+    },
+    {
+     "id": "space-more",
+     "text": "Which spaceship has more?",
+     "note": ""
+    },
+    {
+     "id": "space-fewer",
+     "text": "Which spaceship has fewer?",
+     "note": ""
+    },
+    {
+     "id": "space-add",
+     "text": "Put them all in the big spaceship.",
+     "note": ""
+    },
+    {
+     "id": "space-add-q",
+     "text": "How many aliens altogether?",
+     "note": ""
+    },
+    {
+     "id": "space-take",
+     "text": "out of the spaceship.",
+     "note": "Follows \"Take\" and a number, e.g. \"Take three…\""
+    },
+    {
+     "id": "space-take-q",
+     "text": "How many aliens are left in the spaceship?",
+     "note": ""
+    },
+    {
+     "id": "space-go-away",
+     "text": "aliens go away.",
+     "note": "Follows a number, e.g. \"Three…\""
+    },
+    {
+     "id": "space-goes-away",
+     "text": "alien goes away.",
+     "note": "Follows \"One…\""
+    }
+   ]
+  },
+  {
+   "group": "World: Trains",
+   "lines": [
+    {
+     "id": "trains-name",
+     "text": "Trains.",
+     "note": "Said when the world is switched"
+    },
+    {
+     "id": "trains-count",
+     "text": "Put the carriages in the shed. Count them as you go.",
+     "note": ""
+    },
+    {
+     "id": "trains-count-q",
+     "text": "How many carriages are in the shed?",
+     "note": ""
+    },
+    {
+     "id": "trains-how-many",
+     "text": "How many carriages?",
+     "note": ""
+    },
+    {
+     "id": "trains-make-many",
+     "text": "carriages in the shed.",
+     "note": "Follows \"Put\" and a number, e.g. \"Put six…\""
+    },
+    {
+     "id": "trains-make-one",
+     "text": "carriage in the shed.",
+     "note": "Follows \"Put one…\""
+    },
+    {
+     "id": "trains-more",
+     "text": "Which shed has more?",
+     "note": ""
+    },
+    {
+     "id": "trains-fewer",
+     "text": "Which shed has fewer?",
+     "note": ""
+    },
+    {
+     "id": "trains-add",
+     "text": "Put them all in the big shed.",
+     "note": ""
+    },
+    {
+     "id": "trains-add-q",
+     "text": "How many carriages altogether?",
+     "note": ""
+    },
+    {
+     "id": "trains-take",
+     "text": "out of the shed.",
+     "note": "Follows \"Take\" and a number, e.g. \"Take three…\""
+    },
+    {
+     "id": "trains-take-q",
+     "text": "How many carriages are left in the shed?",
+     "note": ""
+    },
+    {
+     "id": "trains-go-away",
+     "text": "carriages go away.",
+     "note": "Follows a number, e.g. \"Three…\""
+    },
+    {
+     "id": "trains-goes-away",
+     "text": "carriage goes away.",
+     "note": "Follows \"One…\""
+    }
+   ]
+  },
+  {
+   "group": "World: Dinosaurs",
+   "lines": [
+    {
+     "id": "dinos-name",
+     "text": "Dinosaurs.",
+     "note": "Said when the world is switched"
+    },
+    {
+     "id": "dinos-count",
+     "text": "Put the eggs in the nest. Count them as you go.",
+     "note": ""
+    },
+    {
+     "id": "dinos-count-q",
+     "text": "How many eggs are in the nest?",
+     "note": ""
+    },
+    {
+     "id": "dinos-how-many",
+     "text": "How many eggs?",
+     "note": ""
+    },
+    {
+     "id": "dinos-make-many",
+     "text": "eggs in the nest.",
+     "note": "Follows \"Put\" and a number, e.g. \"Put six…\""
+    },
+    {
+     "id": "dinos-make-one",
+     "text": "egg in the nest.",
+     "note": "Follows \"Put one…\""
+    },
+    {
+     "id": "dinos-more",
+     "text": "Which nest has more?",
+     "note": ""
+    },
+    {
+     "id": "dinos-fewer",
+     "text": "Which nest has fewer?",
+     "note": ""
+    },
+    {
+     "id": "dinos-add",
+     "text": "Put them all in the big nest.",
+     "note": ""
+    },
+    {
+     "id": "dinos-add-q",
+     "text": "How many eggs altogether?",
+     "note": ""
+    },
+    {
+     "id": "dinos-take",
+     "text": "out of the nest.",
+     "note": "Follows \"Take\" and a number, e.g. \"Take three…\""
+    },
+    {
+     "id": "dinos-take-q",
+     "text": "How many eggs are left in the nest?",
+     "note": ""
+    },
+    {
+     "id": "dinos-go-away",
+     "text": "eggs go away.",
+     "note": "Follows a number, e.g. \"Three…\""
+    },
+    {
+     "id": "dinos-goes-away",
+     "text": "egg goes away.",
+     "note": "Follows \"One…\""
+    }
+   ]
+  },
+  {
+   "group": "Sentence pieces",
+   "lines": [
+    {
+     "id": "p-put",
+     "text": "Put",
+     "note": ""
+    },
+    {
+     "id": "p-fill",
+     "text": "Fill",
+     "note": ""
+    },
+    {
+     "id": "p-squares",
+     "text": "squares.",
+     "note": ""
+    },
+    {
+     "id": "p-square",
+     "text": "square.",
+     "note": ""
+    },
+    {
+     "id": "p-find",
+     "text": "Find the number",
+     "note": ""
+    },
+    {
+     "id": "p-next",
+     "text": "What number comes next?",
+     "note": ""
+    },
+    {
+     "id": "p-there-are",
+     "text": "There are",
+     "note": ""
+    },
+    {
+     "id": "p-there-is",
+     "text": "There is",
+     "note": ""
+    },
+    {
+     "id": "p-we-need",
+     "text": "We need",
+     "note": ""
+    },
+    {
+     "id": "p-add",
+     "text": "Add",
+     "note": "As an instruction: \"Add two more.\""
+    },
+    {
+     "id": "p-more",
+     "text": "more.",
+     "note": ""
+    },
+    {
+     "id": "p-take",
+     "text": "Take",
+     "note": ""
+    },
+    {
+     "id": "p-out",
+     "text": "out.",
+     "note": ""
+    },
+    {
+     "id": "p-make-more",
+     "text": "Make it one more.",
+     "note": ""
+    },
+    {
+     "id": "p-make-less",
+     "text": "Make it one less.",
+     "note": ""
+    },
+    {
+     "id": "p-one-more-than",
+     "text": "One more than",
+     "note": ""
+    },
+    {
+     "id": "p-one-less-than",
+     "text": "One less than",
+     "note": ""
+    },
+    {
+     "id": "p-is",
+     "text": "is",
+     "note": ""
+    },
+    {
+     "id": "p-is-what",
+     "text": "is what?",
+     "note": ""
+    },
+    {
+     "id": "p-how-many-now",
+     "text": "How many now?",
+     "note": ""
+    },
+    {
+     "id": "p-more-this",
+     "text": "What is one more than this?",
+     "note": ""
+    },
+    {
+     "id": "p-less-this",
+     "text": "What is one less than this?",
+     "note": ""
+    },
+    {
+     "id": "p-more-that",
+     "text": "One more than that is…",
+     "note": ""
+    },
+    {
+     "id": "p-less-that",
+     "text": "One less than that is…",
+     "note": ""
+    },
+    {
+     "id": "p-which-more",
+     "text": "Which has more?",
+     "note": ""
+    },
+    {
+     "id": "p-which-fewer",
+     "text": "Which has fewer?",
+     "note": ""
+    },
+    {
+     "id": "p-bigger",
+     "text": "Which number is bigger?",
+     "note": ""
+    },
+    {
+     "id": "p-smaller",
+     "text": "Which number is smaller?",
+     "note": ""
+    },
+    {
+     "id": "p-what-is",
+     "text": "What is",
+     "note": ""
+    },
+    {
+     "id": "p-plus",
+     "text": "add",
+     "note": "In the middle of a sum: \"three add four\""
+    },
+    {
+     "id": "p-take-away",
+     "text": "take away",
+     "note": ""
+    },
+    {
+     "id": "p-makes",
+     "text": "makes",
+     "note": ""
+    },
+    {
+     "id": "p-leaves",
+     "text": "leaves",
+     "note": ""
+    },
+    {
+     "id": "p-and",
+     "text": "and",
+     "note": ""
+    },
+    {
+     "id": "p-make",
+     "text": "make",
+     "note": ""
+    },
+    {
+     "id": "p-left",
+     "text": "How many are left?",
+     "note": ""
+    },
+    {
+     "id": "p-fill-frame",
+     "text": "Fill up the frame to make",
+     "note": ""
+    },
+    {
+     "id": "p-how-many-added",
+     "text": "How many did you add?",
+     "note": ""
+    },
+    {
+     "id": "p-more-to-make",
+     "text": "How many more to make",
+     "note": ""
+    },
+    {
+     "id": "p-what-and",
+     "text": "What and",
+     "note": ""
+    },
+    {
+     "id": "p-and-what-make",
+     "text": "and what make",
+     "note": ""
+    }
+   ]
+  },
+  {
+   "group": "Praise and help",
+   "lines": [
+    {
+     "id": "praise-1",
+     "text": "Brilliant!",
+     "note": ""
+    },
+    {
+     "id": "praise-2",
+     "text": "You did it!",
+     "note": ""
+    },
+    {
+     "id": "praise-3",
+     "text": "Yes!",
+     "note": ""
+    },
+    {
+     "id": "praise-4",
+     "text": "Super!",
+     "note": ""
+    },
+    {
+     "id": "praise-5",
+     "text": "Spot on!",
+     "note": ""
+    },
+    {
+     "id": "praise-6",
+     "text": "Great work!",
+     "note": ""
+    },
+    {
+     "id": "praise-7",
+     "text": "You got it!",
+     "note": "After a little help"
+    },
+    {
+     "id": "praise-8",
+     "text": "Well done for keeping going!",
+     "note": "After a little help"
+    },
+    {
+     "id": "praise-9",
+     "text": "Yes, that's it!",
+     "note": "After a little help"
+    },
+    {
+     "id": "h-lets-count",
+     "text": "Let's count.",
+     "note": ""
+    },
+    {
+     "id": "h-keep-counting",
+     "text": "Now you keep counting.",
+     "note": ""
+    },
+    {
+     "id": "h-count-all",
+     "text": "Let's count them all.",
+     "note": ""
+    },
+    {
+     "id": "h-picture",
+     "text": "Let's look at a picture.",
+     "note": ""
+    },
+    {
+     "id": "say-can-you",
+     "text": "Can you say it?",
+     "note": ""
+    },
+    {
+     "id": "say-brilliant",
+     "text": "Brilliant talking!",
+     "note": ""
+    }
+   ]
+  },
+  {
+   "group": "Home, sessions and friends",
+   "lines": [
+    {
+     "id": "s-hello",
+     "text": "Hello!",
+     "note": ""
+    },
+    {
+     "id": "s-ready",
+     "text": "Ready for some maths?",
+     "note": ""
+    },
+    {
+     "id": "s-all-done",
+     "text": "All done!",
+     "note": ""
+    },
+    {
+     "id": "s-good-stopping",
+     "text": "Good stopping!",
+     "note": ""
+    },
+    {
+     "id": "s-found",
+     "text": "You found a new friend!",
+     "note": ""
+    },
+    {
+     "id": "f-pig",
+     "text": "Pig.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-sheep",
+     "text": "Sheep.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-cow",
+     "text": "Cow.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-chicken",
+     "text": "Chicken.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-frog",
+     "text": "Frog.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-fox",
+     "text": "Fox.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-zib",
+     "text": "Zib.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-robot",
+     "text": "Robot.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-astronaut",
+     "text": "Astronaut.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-twinkle",
+     "text": "Twinkle.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-moonie",
+     "text": "Moonie.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-blip",
+     "text": "Blip.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-red-engine",
+     "text": "Red engine.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-blue-carriage",
+     "text": "Blue carriage.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-green-engine",
+     "text": "Green engine.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-yellow-carriage",
+     "text": "Yellow carriage.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-red-carriage",
+     "text": "Red carriage.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-green-carriage",
+     "text": "Green carriage.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-egg",
+     "text": "Egg.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-rex",
+     "text": "Rex.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-steggy",
+     "text": "Steggy.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-trike",
+     "text": "Trike.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-ptera",
+     "text": "Ptera.",
+     "note": "Friend name"
+    },
+    {
+     "id": "f-blue-egg",
+     "text": "Blue egg.",
+     "note": "Friend name"
+    },
+    {
+     "id": "hat-party",
+     "text": "in a party hat.",
+     "note": ""
+    },
+    {
+     "id": "hat-crown",
+     "text": "with a crown.",
+     "note": ""
+    },
+    {
+     "id": "hat-top",
+     "text": "in a top hat.",
+     "note": ""
+    },
+    {
+     "id": "hat-bow",
+     "text": "with a bow.",
+     "note": ""
+    },
+    {
+     "id": "hat-flower",
+     "text": "with a flower.",
+     "note": ""
+    },
+    {
+     "id": "hat-cap",
+     "text": "in a cap.",
+     "note": ""
+    },
+    {
+     "id": "hat-wizard",
+     "text": "in a wizard hat.",
+     "note": ""
+    }
+   ]
+  },
+  {
+   "group": "Breaks and Build time",
+   "lines": [
+    {
+     "id": "b-break",
+     "text": "Break time. Breathe with me.",
+     "note": "Slow and soft"
+    },
+    {
+     "id": "b-in",
+     "text": "Breathe in…",
+     "note": "Slow and soft"
+    },
+    {
+     "id": "b-out",
+     "text": "Breathe out…",
+     "note": "Slow and soft"
+    },
+    {
+     "id": "b-ready",
+     "text": "Ready when you are.",
+     "note": "Slow and soft"
+    },
+    {
+     "id": "bd-tower-of",
+     "text": "A tower of",
+     "note": "Followed by an answer number"
+    },
+    {
+     "id": "bd-one-minute",
+     "text": "One minute left.",
+     "note": ""
+    },
+    {
+     "id": "bd-finished",
+     "text": "Build time is finished. Your world is saved.",
+     "note": ""
+    },
+    {
+     "id": "bd-find-friend",
+     "text": "Do some jobs to find this friend!",
+     "note": ""
+    },
+    {
+     "id": "bd-opens",
+     "text": "Build time opens after you find a friend.",
+     "note": ""
+    },
+    {
+     "id": "set-test",
+     "text": "Hello! Shall we do some maths?",
+     "note": "Used to test the voice in settings"
+    }
+   ]
+  }
+ ]
+}
