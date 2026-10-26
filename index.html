@@ -161,6 +161,9 @@ body[data-theme=dinos] .box{background:radial-gradient(ellipse at 50% 60%,#f2e2b
 .it.gone{opacity:.28}
 .it.gone::before{content:"";position:absolute;inset:18% 10%;background:linear-gradient(45deg,transparent 45%,var(--ink) 45% 55%,transparent 55%),linear-gradient(-45deg,transparent 45%,var(--ink) 45% 55%,transparent 55%);opacity:.7;z-index:2}
 .it.counted,.cell.counted{background:rgba(255,216,79,.6);box-shadow:0 0 0 3px var(--hl)}
+.nb{position:absolute;left:50%;top:-20px;transform:translateX(-50%);min-width:28px;height:28px;padding:0 6px;box-sizing:border-box;border-radius:14px;background:var(--accent);color:#fff;font:800 16px/28px var(--font-ui);text-align:center;box-shadow:0 2px 0 var(--accent2);z-index:4;pointer-events:none;animation:popin .3s cubic-bezier(.3,1.6,.6,1)}
+.cell .nb{top:-10px}
+.nlast .nb{background:var(--hl);color:#2a2a22;box-shadow:0 2px 0 var(--hl2);transform:translateX(-50%) scale(1.3)}
 .ghost{position:fixed;left:0;top:0;z-index:60;pointer-events:none;filter:drop-shadow(0 10px 8px rgba(0,0,0,.3));will-change:transform;line-height:0}
 .ghost .spr{width:var(--s);height:auto}
 .numbered{counter-reset:n}
@@ -409,7 +412,7 @@ let VOICES=[];
 function loadVoices(){try{VOICES=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang))}catch(e){}}
 if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
 function pickVoice(){return VOICES.find(v=>v.name===DB.voiceName)||VOICES.find(v=>/en[-_]GB/i.test(v.lang)&&/enhanced|premium|natural/i.test(v.name))||VOICES.find(v=>/en[-_]GB/i.test(v.lang))||VOICES[0]}
-function say(t,o={}){if(!DB.voice||!t||!('speechSynthesis' in window)){o.end&&setTimeout(o.end,10);return}
+function say(t,o={}){if(!DB.voice||!t||!('speechSynthesis' in window)||(!o.tap&&DB.reading!=='all')){o.end&&setTimeout(o.end,10);return}
   try{const s=speechSynthesis;if(!o.queue)s.cancel();const u=new SpeechSynthesisUtterance(t);const v=pickVoice();u.lang=v?v.lang:'en-GB';if(v)u.voice=v;u.rate=DB.rate==='slow'?.76:.92;u.pitch=1.05;
     if(o.onword)u.onboundary=e=>{if(e.charIndex!=null)o.onword(e.charIndex)};if(o.end)u.onend=o.end;s.speak(u)}catch(e){}}
 function hush(){try{speechSynthesis.cancel()}catch(e){}}
@@ -558,7 +561,7 @@ function gen(id,b,st){const th=T(),v=pick(th.variants),v2=pick(th.variants.filte
     if(Math.random()<.5){const a=R(Math.max(0,lo-1),hi-3);return{sig:'cAs'+a,mode:'choose',text:'What number comes next?',
       html:`<div class="board"><div class="seq">${[a,a+1,a+2].map(x=>`<div class="ntile">${x}</div>`).join('')}<div class="ntile q">?</div></div></div>`,
       q:{ans:a+3,ch:choices(a+3,0,hi+3)},pic:track(Math.min(20,Math.max(10,a+5)),[a,a+1,a+2]),sayIt:{show:`${a}, ${a+1}, ${a+2}, ${a+3}`,say:`${word(a)}, ${word(a+1)}, ${word(a+2)}, ${word(a+3)}`}}}
-    return{sig:'cAw'+n,mode:'choose',text:`Find the number ${word(n)}.`,html:`<div class="board"><div class="bigword">${word(n)}</div></div>`,q:{ans:n,ch:choices(n,0,hi+2)},pic:frameHTML(n<=5?5:n<=10?10:20,n,{v}),sayIt:{show:n,say:word(n)}}}
+    return{sig:'cAw'+n,mode:'choose',text:`Find the number ${word(n)}.`,html:`<div class="board"><div class="bigword">${word(n)}</div></div>`,q:{ans:n,ch:choices(n,0,hi+2)},pic:frameHTML(n<=5?5:n<=10?10:20,n,{v}),picSel:'#helpbox .cell.full',sayIt:{show:n,say:word(n)}}}
 
   if(id==='make'){const[lo,hi]=[[1,5],[3,10],[8,20]][b-1],n=band(lo,hi);
     const msg=c=>c===n||(c<n?`There ${c===1?'is':'are'} ${c}. We need ${n}. Add ${n-c} more.`:`There are ${c}. We need ${n}. Take ${c-n} out.`);
@@ -568,7 +571,7 @@ function gen(id,b,st){const th=T(),v=pick(th.variants),v2=pick(th.variants.filte
     if(st==='P')return{sig:'mP'+n,s:10,mode:'frame',text:`Fill ${n} ${n===1?'square':'squares'}.`,v,
       html:`<div class="board"><div class="target">${n}</div>${frameHTML(n<=5?5:n<=10?10:20,0,{v,tap:true})}</div>`,
       done:true,check:()=>msg($$('#board .cell.full').length),helpSel:'#board .cell.full',sayIt:{show:n,say:word(n)}};
-    return{sig:'mA'+n,mode:'choose',text:`Find the number ${word(n)}.`,html:`<div class="board"><div class="bigword">${word(n)}</div></div>`,q:{ans:n,ch:choices(n,0,hi+2)},pic:frameHTML(n<=5?5:n<=10?10:20,n,{v}),sayIt:{show:n,say:word(n)}}}
+    return{sig:'mA'+n,mode:'choose',text:`Find the number ${word(n)}.`,html:`<div class="board"><div class="bigword">${word(n)}</div></div>`,q:{ans:n,ch:choices(n,0,hi+2)},pic:frameHTML(n<=5?5:n<=10?10:20,n,{v}),picSel:'#helpbox .cell.full',sayIt:{show:n,say:word(n)}}}
 
   if(id==='moreless'){const[lo,hi]=[[1,5],[2,9],[8,19]][b-1],n=band(lo,hi),dir=n<=1?'more':pick(['more','less']),t=dir==='more'?n+1:n-1;
     if(st==='C')return{sig:'oC'+n+dir,s:n+1,mode:'drag',text:`There ${n===1?'is':'are'} ${n}. Make it one ${dir}.`,
@@ -576,7 +579,7 @@ function gen(id,b,st){const th=T(),v=pick(th.variants),v2=pick(th.variants.filte
       spawn:'box',tapTo:f=>f==='box'?'x':null,done:true,
       check:()=>{const c=cnt('box');return c===t||(c<t?`There ${c===1?'is':'are'} ${c}. One ${dir} than ${n} is ${t}. Add ${t-c}.`:`There are ${c}. One ${dir} than ${n} is ${t}. Take ${c-t} out.`)},
       q:{text:'How many now?',ans:t,ch:choices(t,0,hi+2)},helpSel:'[data-z=box] .it',sayIt:{show:`One ${dir} than ${n} is ${t}`,say:`One ${dir} than ${word(n)} is ${word(t)}`}};
-    if(st==='P')return{sig:'oP'+n+dir,s:n,mode:'choose',text:`What is one ${dir} than this?`,html:`<div class="board">${frameHTML(n<5?5:n<10?10:20,n,{v})}</div>`,q:{ans:t,ch:choices(t,0,hi+2)},helpSel:'.cell.full',sayIt:{show:`One ${dir} than ${n} is ${t}`,say:`One ${dir} than ${word(n)} is ${word(t)}`}};
+    if(st==='P')return{sig:'oP'+n+dir,s:n,mode:'choose',text:`What is one ${dir} than this?`,html:`<div class="board">${frameHTML(n<5?5:n<10?10:20,n,{v})}</div>`,q:{ans:t,ch:choices(t,0,hi+2)},helpSel:'.cell.full',after:`One ${dir} than that is…`,sayIt:{show:`One ${dir} than ${n} is ${t}`,say:`One ${dir} than ${word(n)} is ${word(t)}`}};
     return{sig:'oA'+n+dir,mode:'choose',text:`One ${dir} than ${n} is…`,say:`One ${dir} than ${word(n)} is what?`,html:`<div class="board"><div class="sum">${dir==='more'?`${n} + 1`:`${n} − 1`}</div></div>`,q:{ans:t,ch:choices(t,0,hi+2)},pic:track(Math.max(10,Math.min(20,n+3)),[n]),sayIt:{show:`One ${dir} than ${n} is ${t}`,say:`One ${dir} than ${word(n)} is ${word(t)}`}}}
 
   if(id==='compare'){const hi=[5,10,20][b-1];let a=R(1,hi),c=R(1,hi);if(b===1)while(c===a)c=R(1,hi);else if(Math.random()<.18)c=a;else while(c===a)c=R(1,hi);
@@ -584,9 +587,9 @@ function gen(id,b,st){const th=T(),v=pick(th.variants),v2=pick(th.variants.filte
     const opt=(k,inner)=>`<button class="opt" data-pick="${k}">${inner}</button>`;
     if(st==='C'){return{sig:'kC'+a+c+want,s:Math.max(a,c)+3,mode:'choose',text:`Which ${B} has ${want}?`,
       html:`<div class="board" style="flex-direction:column">${opt('L',`<div class="zone box line"><div class="zin">${its(a,v,'fixed')}</div></div>`)}${opt('R',`<div class="zone box line"><div class="zin">${its(c,v2,'fixed')}</div></div>`)}</div>`,
-      q:{ans,custom:true,extra:same},helpSel:'.opt .it'}}
+      q:{ans,custom:true,extra:same},helpGroups:['[data-pick=L] .it','[data-pick=R] .it']}}
     if(st==='P'||hi<=10&&st!=='A'){const tot=Math.max(a,c)<=5?5:Math.max(a,c)<=10?10:20;return{sig:'kP'+a+c+want,s:10,mode:'choose',text:`Which has ${want}?`,
-      html:`<div class="board">${opt('L',frameHTML(tot,a,{v}))}${opt('R',frameHTML(tot,c,{v:v2}))}</div>`,q:{ans,custom:true,extra:same},helpSel:'.opt .cell.full'}}
+      html:`<div class="board">${opt('L',frameHTML(tot,a,{v}))}${opt('R',frameHTML(tot,c,{v:v2}))}</div>`,q:{ans,custom:true,extra:same},helpGroups:['[data-pick=L] .cell.full','[data-pick=R] .cell.full']}}
     if(a===c)c=a===hi?a-1:a+1;const big=want==='more'?'bigger':'smaller',ansA=want==='more'?(a>c?'L':'R'):(a<c?'L':'R');
     return{sig:'kA'+a+c+want,mode:'choose',text:`Which number is ${big}?`,html:'',q:{ans:ansA,custom:true,opts:`<div class="choices">${opt('L',a).replace('class="opt"','class="opt num"')}${opt('R',c).replace('class="opt"','class="opt num"')}</div>`},
       pic:track(Math.max(10,Math.min(20,Math.max(a,c)+1)),[a,c])}}
@@ -633,8 +636,8 @@ function applyTheme(){document.body.dataset.theme=DB.theme;document.body.classLi
 const SPEAK='<svg viewBox="0 0 24 24" fill="#fff"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
 function wordsHTML(t){let i=0;return String(t).split(/(\s+)/).map(w=>{const s=i;i+=w.length;return/^\s+$/.test(w)?w:`<span data-c="${s}">${esc(w)}</span>`}).join('')}
 function promptHTML(text,spoken,id,cls=''){return`<div class="prompt ${cls}"><button class="speak" data-act="speak" data-for="${id}" aria-label="Hear it">${SPEAK}</button><p id="${id}" data-say="${esc(spoken||text)}" data-same="${spoken&&spoken!==text?0:1}">${wordsHTML(text)}</p></div>`}
-function readOut(id){const el=document.getElementById(id);if(!el)return;const t=el.dataset.say,same=el.dataset.same==='1',sp=$$('span',el);
-  say(t,{onword:same?ci=>sp.forEach(s=>{const c=+s.dataset.c;s.classList.toggle('on',ci>=c&&ci<c+s.textContent.length)}):null,end:()=>sp.forEach(s=>s.classList.remove('on'))})}
+function readOut(id,tap){const el=document.getElementById(id);if(!el)return;const t=el.dataset.say,same=el.dataset.same==='1',sp=$$('span',el);
+  say(t,{tap,onword:same?ci=>sp.forEach(s=>{const c=+s.dataset.c;s.classList.toggle('on',ci>=c&&ci<c+s.textContent.length)}):null,end:()=>sp.forEach(s=>s.classList.remove('on'))})}
 function autoRead(id){const btn=document.querySelector(`[data-for="${id}"]`);
   if(DB.reading==='all')readOut(id);
   else if(DB.reading==='try'&&btn){btn.classList.add('wait');setTimeout(()=>{btn.classList.remove('wait');btn.classList.add('ready')},4000)}}
@@ -697,22 +700,30 @@ function showQ(first){const q=J.r.q;J.phase='q';$('#board').classList.add('locke
   if(q.text&&!first)setTimeout(()=>autoRead('qtext'),350)}
 
 /* gentle mistakes: first miss shows help, second shows the answer — never red, never a buzzer */
-async function countAlong(els){J.busy=true;let i=0;for(const el of els){if(!J||!J.busy)break;i++;el.classList.add('counted');say(word(i));sfx.plop(i);await sleep(still()?750:620)}await sleep(300);els.forEach(e=>e.classList.remove('counted'));if(J)J.busy=false;return i}
+/* counting help: miss 1 starts the count (1… 2…) and hands it back; miss 2 hops through every one and the right button glows. The answer is never said for them. */
 function note(t){$('#fb').innerHTML=`<div class="soft-note pop">${esc(t)}</div>`}
-async function helpOne(){const r=J.r;J.helped=true;
-  if(r.pic){$('#helpbox').innerHTML=`<span class="hl">A picture to help</span><div style="--s:${sizeFor(r.s||8)};display:flex;justify-content:center">${r.pic}</div>`;say("Let's look at a picture.");
-    if(r.picSel){await sleep(1200);const els=$$(r.picSel);if(els.length)await countAlong(els)}return}
-  if(r.helpSel){say("Let's count them together.");await sleep(1100);await countAlong($$(r.helpSel))}}
-function helpTwo(){const q=J.r.q;J.shown=true;const el=document.querySelector(`[data-pick="${q.ans}"]`);if(el)el.classList.add('glow');
-  const a=q.ans==='L'?'this one':q.ans==='R'?'this one':q.ans==='S'?'the same':q.ans;note(`It's ${a}. Tap it.`);say(`It's ${typeof a==='number'?word(a):a}. Tap it.`)}
+function clearNums(){$$('.nb').forEach(n=>n.remove());$$('.nlast').forEach(e=>e.classList.remove('nlast'))}
+async function countAlong(els,o={}){const upto=Math.min(o.upto||els.length,els.length);let i=0;
+  for(const el of els.slice(0,upto)){if(!J)break;i++;const b=document.createElement('span');b.className='nb';b.textContent=i;el.appendChild(b);
+    if(!still()&&el.animate)el.animate([{transform:'none'},{transform:'translateY(-16px)',offset:.4},{transform:'none'}],{duration:440,easing:'ease-out'});
+    say(word(i)+(o.upto&&i===upto?'…':''));sfx.plop(i);await sleep(still()?850:680)}
+  if(o.last&&i)els[i-1].classList.add('nlast');return i}
+function groupsFor(r,inPic){const g=inPic?(r.picGroups||(r.picSel?[r.picSel]:null)):(r.helpGroups||(r.helpSel?[r.helpSel]:null));return g?g.map(x=>$$(x)).filter(a=>a.length):[]}
+async function hint(level){J.busy=true;try{await hintRun(level)}finally{if(J)J.busy=false}}
+async function hintRun(level){const r=J.r;J.helped=true;let inPic=false;
+  if(r.pic){inPic=true;if(!$('#helpbox').innerHTML){$('#helpbox').innerHTML=`<span class="hl">A picture to help</span><div style="--s:${sizeFor(r.s||8)};display:flex;justify-content:center">${r.pic}</div>`;say("Let's look at a picture.");await sleep(1400)}}
+  const gs=groupsFor(r,inPic);clearNums();
+  if(level===1){if(gs.length){const g=gs[0],up=Math.max(1,Math.min(2,g.length-1));say("Let's count.");await sleep(900);await countAlong(g,{upto:up});await sleep(300);note('Now you keep counting.');say('Now you keep counting.')}}
+  else{if(gs.length){say("Let's count them all.");await sleep(1000);for(const g of gs){await countAlong(g,{last:true});await sleep(500)}if(r.after){say(r.after);note(r.after);await sleep(1400)}}
+    J.shown=true;const el=document.querySelector(`[data-pick="${r.q.ans}"]`);if(el)el.classList.add('glow')}}
 async function choose(btn){if(!J||J.locked||J.busy||J.phase!=='q')return;const v=btn.dataset.pick,ans=String(J.r.q.ans);
-  if(v===ans){btn.classList.add('right');return success()}
-  J.miss++;btn.classList.add('dim');sfx.soft();
-  if(J.miss===1){note("Not that one. Let's look again.");await helpOne()}else helpTwo()}
+  if(v===ans){btn.classList.add('right');clearNums();return success()}
+  J.miss++;btn.classList.add('dim');sfx.soft();$('#fb').innerHTML='';
+  await hint(J.miss===1?1:2)}
 async function doneTap(){if(!J||J.locked||J.busy)return;const res=J.r.check();
-  if(res===true){if(J.r.q){showQ();return}return success()}
-  J.miss++;J.helped=true;sfx.soft();J.busy=true;$('#board').classList.add('locked');
-  const els=$$(J.r.helpSel||'#board .it');if(els.length)await countAlong(els);J.busy=true;
+  if(res===true){clearNums();if(J.r.q){showQ();return}return success()}
+  J.miss++;J.helped=true;sfx.soft();J.busy=true;$('#board').classList.add('locked');clearNums();
+  const els=$$(J.r.helpSel||'#board .it');if(els.length){await countAlong(els,{last:true});await sleep(300)}
   note(res);say(res);await sleep(400);J.busy=false;$('#board').classList.remove('locked');if(J.miss>=2)J.shown=true}
 function phaseDone(){if(J.phase!=='do')return;J.phase='q';setTimeout(()=>{if(J&&J.r.q)showQ();else success()},450)}
 const PRAISE_FIRST=['Brilliant!','You did it!','Yes!','Super!','Spot on!','Great work!'],PRAISE_HELP=['You got it!','Well done for keeping going!','Yes, that\'s it!'];
@@ -856,7 +867,7 @@ function settingsHTML(){return`
   <div class="set"><b>Build time</b>${segHTML('buildWhen',[['after','After jobs'],['any','Any time']])}<span>Build blocks are only earned by doing maths, so building always follows learning.</span></div>
   <div class="privacy">Our promise: no ads, no accounts, no WiFi needed. Everything stays private on this device. Nothing is ever sent anywhere.</div>
   <button class="btn soft danger" data-act="reset" style="min-height:48px;font-size:16px">Start again from scratch</button>`}
-function fillVoices(){const sel=$('#voicePick');if(!sel)return;loadVoices();const cur=pickVoice();sel.innerHTML=VOICES.length?VOICES.map(v=>`<option value="${esc(v.name)}"${cur&&v.name===cur.name?' selected':''}>${esc(v.name)} (${esc(v.lang)})</option>`).join(''):'<option>Default voice</option>';sel.onchange=()=>{DB.voiceName=sel.value;save();say('Hello! Shall we do some maths?')}}
+function fillVoices(){const sel=$('#voicePick');if(!sel)return;loadVoices();const cur=pickVoice();sel.innerHTML=VOICES.length?VOICES.map(v=>`<option value="${esc(v.name)}"${cur&&v.name===cur.name?' selected':''}>${esc(v.name)} (${esc(v.lang)})</option>`).join(''):'<option>Default voice</option>';sel.onchange=()=>{DB.voiceName=sel.value;save();say('Hello! Shall we do some maths?',{tap:true})}}
 function saveSheetNames(){const c=$('#sChild'),h=$('#sHelper');if(c){DB.child=c.value.trim().slice(0,24);DB.helper=h.value.trim().slice(0,24);save()}}
 function statusText(k){const s=sk(k.id),st=s.step;if(!s.done&&!st)return'Not started yet.';if(st>=LADDER.length)return`Secure with ${k.range[2]}, using objects, pictures and numbers.`;
   const lastIdx=b=>LADDER.map(x=>x[0]).lastIndexOf(b);let sb=0;for(let b=1;b<=3;b++)if(st>lastIdx(b))sb=b;const[b,g]=LADDER[st];
@@ -892,11 +903,11 @@ document.addEventListener('click',e=>{const p=e.target.closest('[data-pick]');if
     case'exit':if(S&&J)askStop();else{hush();showHome()}break;
     case'keep':b.closest('.modal').remove();break;
     case'stopjobs':b.closest('.modal').remove();if(S){J.busy=false;finish(true)}break;
-    case'speak':readOut(b.dataset.for);break;
+    case'speak':readOut(b.dataset.for,true);break;
     case'done':doneTap();break;
     case'next':nextTap();break;
     case'said':{const box=b.closest('.sayit');box.innerHTML=`<p>Brilliant talking!</p><button class="btn big" data-act="next">${S&&S.i>=S.n-1?'Finish':'Next'}</button>`;sfx.yes();say('Brilliant talking!');break}
-    case'hearit':if(J&&J.r.sayIt)say(J.r.sayIt.say);break;
+    case'hearit':if(J&&J.r.sayIt)say(J.r.sayIt.say,{tap:true});break;
     case'rec':recordEcho(b);break;
     case'break':openBreak();break;
     case'brkback':closeBreak();break;
@@ -910,10 +921,10 @@ document.addEventListener('click',e=>{const p=e.target.closest('[data-pick]');if
     case'setupDone':DB.setup=true;save();showHome();say(DB.child?`Hi ${DB.child}! Ready for some maths?`:'Ready for some maths?');break;
     case'seg':{const key=b.closest('.seg').dataset.key;let v=b.dataset.v;v=v==='true'?true:v==='false'?false:/^\d+$/.test(v)?+v:v;DB[key]=v;save();
       $$('button',b.closest('.seg')).forEach(x=>x.classList.toggle('on',x===b));
-      if(key==='theme'||key==='motion')applyTheme();if(key==='sound')soundIcon();if(key==='voice'&&v)say('Voice on.');break}
+      if(key==='theme'||key==='motion')applyTheme();if(key==='sound')soundIcon();if(key==='voice'&&v)say('Voice on.',{tap:true});break}
     case'tab':saveSheetNames();TAB=b.dataset.k;renderPanel();break;
     case'closepanel':closePanel();break;
-    case'testvoice':say(`Hello${DB.child?' '+DB.child:''}! Three add four makes seven.`);break;
+    case'testvoice':say(`Hello${DB.child?' '+DB.child:''}! Three add four makes seven.`,{tap:true});break;
     case'lv':{const s=sk(b.dataset.k);s.step=Math.max(0,Math.min(LADDER.length,s.step+(+b.dataset.d)));s.pts=0;s.miss=0;save();renderPanel();break}
     case'report':saveSheetNames();$('#panel').hidden=true;showReport();break;
     case'closereport':$('#reportView').hidden=true;openPanel();break;
