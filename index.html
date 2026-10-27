@@ -307,6 +307,15 @@ body.still .parade .pf{animation:none}
 .wtabs button{border:3px solid var(--edge);background:var(--panel);border-radius:999px;padding:8px 16px;font:800 15px var(--font-ui);color:var(--ink)}
 .wtabs button.on{background:var(--accent);border-color:var(--accent2);color:var(--accentInk)}
 .purse{cursor:pointer;border:0}
+/* present reveal */
+.gift{border:0;background:none;padding:0;width:min(140px,38vw);cursor:pointer;animation:gwob 1.8s ease-in-out infinite;transform-origin:50% 90%}
+.gift .spr{width:100%;height:auto}
+@keyframes gwob{0%,55%,100%{transform:rotate(0)}65%{transform:rotate(-7deg)}75%{transform:rotate(7deg)}85%{transform:rotate(-4deg)}}
+.gift.shake{animation:gshake .55s linear}
+@keyframes gshake{0%,100%{transform:none}20%{transform:rotate(-12deg) scale(1.05)}40%{transform:rotate(12deg) scale(1.1)}60%{transform:rotate(-10deg) scale(1.15)}80%{transform:rotate(10deg) scale(1.25);opacity:.6}}
+body.still .gift{animation:none}
+.fcell.sp{border-color:var(--hl2);background:linear-gradient(var(--soft),var(--panel))}
+.fcell.no.sp span{opacity:.85;font-weight:800}
 /* world ten-frames */
 body[data-theme=blocks] .frame{background:#7f8380;box-shadow:inset 0 -4px 0 #6a6e6b,0 4px 0 #5f6360}
 body[data-theme=blocks] .cell{background:#dcdfdc;box-shadow:inset 0 3px 0 rgba(0,0,0,.14);border-radius:6px}
@@ -331,7 +340,8 @@ body[data-theme=dinos] .cell{background:radial-gradient(circle,#f6e8c2,#e6cf98);
 .brk-in{position:relative;display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center;padding:24px}
 .brk-ring{position:relative;width:min(260px,64vw);aspect-ratio:1;display:grid;place-items:center}
 .brk-ring svg.ring{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
-.breathe{width:42%;animation:breathe 8s ease-in-out infinite}
+.breathe{width:42%;animation:breathe 6s ease-in-out infinite}
+.breathe.still{animation:none}
 .breathe .spr{width:100%;height:auto}
 @keyframes breathe{0%,100%{transform:scale(.8)}50%{transform:scale(1.18)}}
 body.still .breathe{animation-duration:12s}
@@ -486,7 +496,7 @@ function hash(s){let h=2166136261;for(const c of s)h=Math.imul(h^c.charCodeAt(0)
 
 /* ================= storage (stays on this device) ================= */
 const KEY='le-maths-v1';
-const DEF={setup:false,child:'',helper:'',theme:'blocks',sound:true,voice:true,voiceName:'',rate:'normal',pack:'amelia',reading:'all',sayit:'some',record:false,party:'big',motion:'full',jobs:5,breakMin:2,buildWhen:'after',buildUntil:0,buildMin:0,chalOn:true,tnt:true,every:3,skills:{},blocks:0,earned:0,worlds:{},log:[],sessions:[],tipSeen:false};
+const DEF={setup:false,child:'',helper:'',theme:'blocks',sound:true,voice:true,voiceName:'',rate:'normal',pack:'amelia',reading:'all',sayit:'some',record:false,party:'big',motion:'full',jobs:5,breakMin:2,buildWhen:'after',buildUntil:0,buildMin:0,chalOn:true,tnt:true,every:3,breakStyle:'watch',specials:{},breaksTotal:0,skills:{},blocks:0,earned:0,worlds:{},log:[],sessions:[],tipSeen:false};
 let DB;try{DB=Object.assign({},DEF,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){DB=Object.assign({},DEF)}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}}
 const still=()=>DB.motion==='gentle'||matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -559,6 +569,7 @@ function sentClips(x,multi){const n=vnorm(x);if(VMAP[n])return[VMAP[n]];const th
   if(/^(hi|hello)( .*)?$/.test(n))return['s-hello'];
   if(/^all done( .*)?$/.test(n))return['s-all-done'];
   if(/^good stopping( .*)?$/.test(n))return['s-good-stopping'];
+  if(/^great work( .*)?$/.test(n))return['praise-6'];
   if(n==='voice on')return['set-test'];
   return null}
 async function clipBuf(id){const k=DB.pack+'/'+id;if(VBUF[k])return VBUF[k];const r=await fetch(`voices/${DB.pack}/${id}.mp3`);if(!r.ok)throw new Error('missing '+id);const ab=await r.arrayBuffer();
@@ -685,7 +696,7 @@ function unlocked(i){return true}
 function focusSkill(){let best=SK[0],bs=99;SK.forEach((k,i)=>{if(!unlocked(i))return;const s=sk(k.id).step;if(s<LADDER.length&&s<bs){bs=s;best=k}});return best}
 function record(k,res){const s=sk(k.id);s.done++;let ch=0;
   if(res.first){s.first++;s.pts++;s.miss=0}else if(res.shown){s.miss++;s.pts=Math.max(0,s.pts-1)}
-  if(s.pts>=3&&s.step<LADDER.length){s.step++;s.pts=0;ch=1}
+  if(s.pts>=3&&s.step<LADDER.length){s.step++;s.pts=0;ch=1;if(s.step>=LADDER.length){const sp=awardSpecial('golden');if(sp&&S)(S.specials=S.specials||[]).push(sp)}}
   else if(s.miss>=2&&s.step>0&&LADDER[s.step]&&LADDER[s.step][1]!=='C'){s.step--;s.miss=0;s.pts=0;ch=-1}
   DB.log.unshift({d:Date.now(),k:k.id,st:s.step,f:res.first?1:0,h:res.first?0:1});DB.log=DB.log.slice(0,1500);save();return ch}
 
@@ -842,6 +853,8 @@ function showFriends(w){if(S&&J)return;S=null;J=null;FBW=w||FBW||DB.theme;CUR=()
   card(`<div class="hello"><h1>My friends</h1><p>${n} of ${all.length} found in ${THEMES[FBW].name}</p></div>
     <div class="wtabs">${Object.keys(THEMES).map(k=>`<button class="${k===FBW?'on':''}" data-act="fbworld" data-k="${k}">${THEMES[k].name} · ${haveN(k)}</button>`).join('')}</div>
     <div class="fbook">${all.map((f,i)=>i<n?`<button class="fcell" data-act="fbhop" data-i="${i}" aria-label="${esc(f.n)}">${friendSvg(f)}<span>${esc(f.n)}</span></button>`:`<div class="fcell no" aria-label="Not found yet">${friendSvg(f)}<span>???</span></div>`).join('')}</div>
+    <h3 class="sub" style="text-align:center">Special friends</h3>
+    <div class="fbook">${specialsOf(FBW).map((f,i)=>hasSpecial(f.sid,FBW)?`<button class="fcell sp" data-act="fbhopsp" data-i="${i}" aria-label="${esc(f.n)}">${friendSvg(f)}<span>${esc(f.n)}</span></button>`:`<div class="fcell no sp">${friendSvg(f)}<span>${esc(f.hint)}</span></div>`).join('')}</div>
     <p class="muted">${n<all.length?`Do ${(DB.every||3)-Math.min((DB.every||3)-1,DB.fprog||0)} more ${(DB.every||3)-Math.min((DB.every||3)-1,DB.fprog||0)===1?'job':'jobs'} to find the next one.${FBW!==DB.theme?` Switch to ${THEMES[FBW].name} to find friends here.`:''}`:'You found them all!'}</p>`)}
 
 /* ---------- a session of jobs ---------- */
@@ -902,7 +915,7 @@ function success(){if(J.locked)return;J.locked=true;J.phase='end';$('#board').cl
   sfx.yes();if(DB.party==='big'&&!still())confetti(26);
   const sy=J.r.sayIt,doSay=sy&&(DB.sayit==='all'||(DB.sayit==='some'&&Math.random()<.5)),last=S.i>=S.n-1;
   const nextBtn=`<button class="btn big" data-act="next">${last?'Finish':'Next'}</button>`;
-  if(nf){$('#fb').innerHTML=`<div class="yes pop">${pr}</div><div class="found pop"><div class="newfriend">${friendSvg(nf)}</div><p>You found a new friend: <b>${esc(nf.n)}</b>!</p><div class="row"><button class="btn big" data-act="next">${last?'Finish':'Next job'}</button><button class="btn soft" data-act="goplay">Go and play</button></div></div>`;sfx.win();if(DB.party==='big'&&!still())confetti(70);say(`${pr} You found a new friend, ${nf.n}!`)}
+  if(nf){J.nf=nf;J.last=last;$('#fb').innerHTML=`<div class="yes pop">${pr}</div><div class="found pop" id="foundBox"><button class="gift" data-act="opengift" aria-label="Open your present">${giftSvg()}</button><p>${DB.theme==='dinos'?'An egg!':'A present!'} Tap to open it.</p></div>`;[784,988,1175].forEach((f,i)=>tone(f,.18,i*.1,.03,'triangle'));say(pr)}
   else if(doSay){$('#fb').innerHTML=`<div class="yes pop">${pr}</div><div class="sayit pop"><p>Can you say it?</p><div class="bigword">${esc(sy.show)}</div>
       <div class="row">${DB.record?'<button class="btn" data-act="rec"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>Say it</button>':'<button class="btn" data-act="said">I said it</button>'}<button class="btn soft" data-act="hearit">Hear it</button><button class="btn soft" data-act="next">Skip</button></div></div>`;
     say(`${pr} Can you say it? ${sy.say}`)}
@@ -915,16 +928,22 @@ async function recordEcho(btn){const box=btn.closest('.sayit');try{const st=awai
       box.querySelector('.row').innerHTML=`<button class="btn big" data-act="next">${S&&S.i>=S.n-1?'Finish':'Next'}</button>`};
     mr.start();setTimeout(()=>{try{mr.stop()}catch(e){}},2600)}
   catch(e){box.querySelector('p').textContent='Say it out loud!';box.querySelector('.row').innerHTML='<button class="btn" data-act="said">I said it</button>'}}
+function openGift(btn){if(!J||!J.nf||btn.dataset.open)return;btn.dataset.open=1;const nf=J.nf,last=J.last;const show=()=>{const box=$('#foundBox');if(!box)return;
+    box.innerHTML=`<div class="newfriend">${friendSvg(nf)}</div><p>You found a new friend: <b>${esc(nf.n)}</b>!</p><div class="row"><button class="btn big" data-act="next">${last?'Finish':'Next job'}</button><button class="btn soft" data-act="goplay">Go and play</button></div>`;
+    sfx.win();if(DB.party==='big'&&!still())confetti(70);say(`You found a new friend, ${nf.n}!`)};
+  if(still())return show();btn.classList.add('shake');tone(300,.08,0,.03,'square');tone(360,.08,.12,.03,'square');tone(420,.08,.24,.03,'square');setTimeout(show,560)}
 function nextTap(){if(!S)return;hush();S.i++;nextJob()}
 function logSession(early){if(!S||S.logged)return;S.logged=1;DB.sessions.unshift({d:Date.now(),k:S.k.id,n:S.n,done:S.done,first:S.first,breaks:S.breaks,breakMs:S.breakMs,ms:Date.now()-S.t0,early:!!early});DB.sessions=DB.sessions.slice(0,400);save()}
 function finish(early){const th=T(),found=S.found||[],kid=S.k.id;logSession(early);
   if(found.length){buildOpen=true;DB.buildUntil=Date.now()+45*60e3}save();updPurse();const ups=S.ups.map(id=>{const k=SK.find(x=>x.id===id),st=LADDER[Math.min(sk(id).step,LADDER.length-1)];return`<div class="lvup">New level: ${k.kid} · ${STAGE[st[1]]}</div>`}).join('');
-  const done=S.done;S=null;J=null;CUR=null;hdr({});
-  card(`<div class="done"><h1>${early?'Good stopping':'All done'}${DB.child?', '+esc(DB.child):''}!</h1>
+  const done=S.done,spDone=S.specials||[];S=null;J=null;CUR=null;hdr({});
+  const nm=DB.child?', '+esc(DB.child):'',head=early?(done?`Great work${nm}!`:`See you next time${nm}!`):`All done${nm}!`,sps=(S&&S.specials)||spDone||[];
+  card(`<div class="done"><h1>${head}</h1>${early&&done?`<p class="muted" style="font-size:20px">You did ${done} ${done===1?'job':'jobs'}.</p>`:''}
+    ${sps.length?`<div class="row">${sps.map(f=>`<div class="newfriend" style="width:min(110px,28vw)">${friendSvg(f)}</div>`).join('')}</div><p class="muted" style="font-size:20px">You earned a special friend: <b style="color:var(--ink)">${sps.map(f=>esc(f.n)).join(', ')}</b>!</p>`:''}
     ${found.length?`<div class="row">${found.map(f=>`<div class="newfriend" style="width:min(110px,28vw)">${friendSvg(f)}</div>`).join('')}</div><p class="muted" style="font-size:20px">You found ${found.length===1?'a new friend':found.length+' new friends'} this time!</p>`:''}
     ${done?friendMeter():''}${ups}
     <div class="row">${done?`<button class="btn big" data-act="morejobs" data-k="${kid}">More jobs</button>`:''}${canBuild()?`<button class="btn ${done?'soft':'big'}" data-act="build">${th.build}</button>`:''}<button class="btn soft" data-act="home">Home</button></div></div>`);
-  if(done){sfx.win();if(DB.party==='big'&&!still()&&found.length)confetti(90);say(`${early?'Good stopping':'All done'}${DB.child?', '+DB.child:''}!`)}}
+  if(done){sfx.win();if(DB.party==='big'&&!still()&&found.length)confetti(90);if(!early||done)say(early?`Great work${DB.child?', '+DB.child:''}!`:`All done${DB.child?', '+DB.child:''}!`)}}
 function askStop(){const m=document.createElement('div');m.className='modal';m.innerHTML=`<section class="card"><h2>Stop the jobs?</h2><p class="muted">Your jobs still count towards your next friend.</p><div class="row"><button class="btn" data-act="keep">Keep going</button><button class="btn soft" data-act="stopjobs">Stop</button></div></section>`;document.body.appendChild(m)}
 
 /* ---------- drag-or-tap engine ---------- */
@@ -959,15 +978,15 @@ function changed(z){if(!J)return;$('#fb').innerHTML='';const r=J.r;
 /* ---------- break corner: rest, not reward ---------- */
 let BRK=null;
 function openBreak(){if(BRK)return;hush();const ms=(DB.breakMin||2)*60e3;BRK={t0:Date.now(),ms,raf:0,ready:false,flakes:[]};$('#brk').hidden=false;$('#brkBack').classList.remove('ready');$('#brkBack').textContent="I'm ready";
-  say('Break time. Breathe with me.');const cv=$('#brkfx'),dpr=Math.min(2,devicePixelRatio||1);cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;const ctx=cv.getContext('2d');
+  const bs=DB.breakStyle||'watch';$('#breathe').className='breathe '+bs;$('#brkText').textContent=bs==='breathe'?'Breathe in…':'Take a rest';if(bs==='breathe')say('Break time. Breathe with me.');const cv=$('#brkfx'),dpr=Math.min(2,devicePixelRatio||1);cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;const ctx=cv.getContext('2d');
   const cols=DB.theme==='space'?['#ffd84f','#ffffff','#b48cff']:DB.theme==='dinos'?['#bfe3a0','#ffd0a0','#ffffff']:DB.theme==='trains'?['#ffe7c6','#ffad78','#ffffff']:['#ffffff','#cfefff','#ffd84f'];
   for(let i=0;i<40;i++)BRK.flakes.push({x:Math.random()*cv.width,y:Math.random()*cv.height,s:(2+Math.random()*4)*dpr,v:(.15+Math.random()*.35)*dpr,c:pick(cols),a:.25+Math.random()*.5});
   let phase=-1;const loop=()=>{if(!BRK)return;const el=Date.now()-BRK.t0,k=Math.min(1,el/BRK.ms);$('#brkArc').style.strokeDashoffset=String(289*k);
-    const ph=Math.floor(el/4000)%2;if(ph!==phase&&!BRK.ready){phase=ph;$('#brkText').textContent=ph?'Breathe out…':'Breathe in…'}
+    const ph=Math.floor(el/3000)%2;if(bs==='breathe'&&ph!==phase&&!BRK.ready){phase=ph;$('#brkText').textContent=ph?'Breathe out…':'Breathe in…'}
     if(k>=1&&!BRK.ready){BRK.ready=true;$('#brkText').textContent='Ready when you are';$('#brkBack').classList.add('ready');sfx.chime();say('Ready when you are.')}
-    ctx.clearRect(0,0,cv.width,cv.height);BRK.flakes.forEach(f=>{if(!still()){f.y+=f.v;if(f.y>cv.height)f.y=-10}ctx.globalAlpha=f.a;ctx.fillStyle=f.c;ctx.fillRect(Math.round(f.x),Math.round(f.y),f.s,f.s)});ctx.globalAlpha=1;
+    ctx.clearRect(0,0,cv.width,cv.height);BRK.flakes.forEach(f=>{if(!still()&&bs!=='still'){f.y+=f.v;if(f.y>cv.height)f.y=-10}ctx.globalAlpha=f.a;ctx.fillStyle=f.c;ctx.fillRect(Math.round(f.x),Math.round(f.y),f.s,f.s)});ctx.globalAlpha=1;
     BRK.raf=requestAnimationFrame(loop)};loop()}
-function closeBreak(){if(!BRK)return;cancelAnimationFrame(BRK.raf);if(S){S.breaks++;S.breakMs+=Date.now()-BRK.t0}BRK=null;$('#brk').hidden=true;hush();if(J&&J.phase!=='end'){const id=J.phase==='q'&&$('#qtext')?'qtext':'ptext';setTimeout(()=>readOut(id),300)}}
+function closeBreak(){if(!BRK)return;cancelAnimationFrame(BRK.raf);if(S){S.breaks++;S.breakMs+=Date.now()-BRK.t0}DB.breaksTotal=(DB.breaksTotal||0)+1;save();if(DB.breaksTotal>=3){const sp=awardSpecial('sleepy');if(sp){if(S)(S.specials=S.specials||[]).push(sp);setTimeout(()=>{if(J&&$('#fb')&&J.phase!=='end')note(`You earned a special friend: ${sp.n}! Thanks for taking a rest.`)},500)}}BRK=null;$('#brk').hidden=true;hush();if(J&&J.phase!=='end'){const id=J.phase==='q'&&$('#qtext')?'qtext':'ptext';setTimeout(()=>readOut(id),300)}}
 
 /* ---------- friends: earned by doing jobs, one per finished session ---------- */
 const K='#2a2a22';
@@ -1022,6 +1041,21 @@ function friendMeter(){const all=friendsOf(),n=haveN(),ev=DB.every||3,p=Math.min
   if(n>=all.length)return`<div class="fmeter"><div class="fsil got">${friendSvg(all[all.length-1])}</div><span>You've found all ${all.length} friends in ${T().name}! Try another world.</span></div>`;
   const left=ev-p;return`<div class="fmeter"><div class="fsil">${friendSvg(all[n])}</div><div><div class="fpips">${Array.from({length:ev},(_,i)=>`<i class="${i<p?'on':''}"></i>`).join('')}</div><span>${left} more ${left===1?'job':'jobs'} to find a new friend</span></div></div>`}
 
+/* ---------- special friends: earned by effort, never by chance ---------- */
+function hatOn(b,h,name){const w=Math.max(...b.rows.map(r=>r.length)),hw=Math.max(...h.rows.map(r=>r.length)),off=Math.max(0,Math.floor((w-hw)/2));
+  return{n:name,rows:[...h.rows.map(r=>('.'.repeat(off)+r.padEnd(hw,'.')).padEnd(w,'.')),...b.rows.map(r=>r.padEnd(w,'.'))],pal:Object.assign({},b.pal,h.pal)}}
+function goldPal(pal){const o={};for(const k in pal){const c=pal[k],v=parseInt(c.slice(1),16),l=(.3*(v>>16)+.59*((v>>8)&255)+.11*(v&255))/255;o[k]=l<.2?c:l>.85?'#fff3b8':l>.65?'#ffd84f':l>.45?'#f2b82b':'#c98a12'}return o}
+const SPECIALS=[
+  {id:'golden',hint:'Finish every level of one skill',base:0,make:b=>({n:'Golden '+b.n,rows:b.rows,pal:goldPal(b.pal)})},
+  {id:'builder',hint:'Build a tower of 20',base:1,make:b=>hatOn(b,{rows:["..1111..",".111111.","12222221"],pal:{1:'#f2b82b',2:'#d39c18'}},'Builder '+b.n)},
+  {id:'sleepy',hint:'Take 3 breaks when you need them',base:2,make:b=>hatOn(b,{rows:["......3","....11.","..1111.",".11111.","1111111"],pal:{1:'#5a7fd0',3:'#ffffff'}},'Sleepy '+b.n)}];
+const SPC={};function specialsOf(th=DB.theme){return SPC[th]||(SPC[th]=SPECIALS.map(d=>Object.assign(d.make((FRIENDS[th]||FRIENDS.blocks)[d.base]),{sid:d.id,hint:d.hint})))}
+const hasSpecial=(id,th=DB.theme)=>((DB.specials||{})[th]||[]).includes(id);
+function awardSpecial(id,th=DB.theme){if(hasSpecial(id,th))return null;DB.specials=DB.specials||{};(DB.specials[th]=DB.specials[th]||[]).push(id);save();return specialsOf(th).find(f=>f.sid===id)}
+function friendAt(k){return k>=1000?specialsOf()[k-1000]:friendsOf()[k]}
+function giftSvg(){if(DB.theme==='dinos')return pxsvg(EGG,{e:'#bfe3a0',E:'#8fbf6a',s:'#5f8f3e'});const c={blocks:['#7cc444','#5fa832'],space:['#b4aaf0','#8b7fe0'],trains:['#6fa8dc','#3f86c8']}[DB.theme]||['#7cc444','#5fa832'];
+  return pxsvg(["...rr..rr...","..r..rr..r..","...rrrrrr...","BBBBBrrBBBBB","BBBBBrrBBBBB",".bbbbrrbbbb.",".bbbbrrbbbb.",".bbbbrrbbbb.",".bbbbrrbbbb.",".bbbbrrbbbb.",".dddddddddd."],{r:'#ffd84f',B:c[0],b:c[1],d:'rgba(0,0,0,.18)'})}
+
 /* ---------- build time: full-screen physics island, unlimited blocks ---------- */
 let PL=null;
 const SHAPES=['sq','plank','ball'];
@@ -1044,7 +1078,7 @@ const IC={
 function buildTray(){const ts=tiles(),fr=friendsOf(),n=haveN();
   $('#ptray').innerHTML=`<div class="pgrp">${ts.map((t,i)=>`<button class="tl" data-act="ptile" data-i="${i}" aria-label="${esc(t.n)}" data-tilecanvas="${i}"></button>`).join('')}${DB.tnt===false?'':'<button class="tl" data-act="ptnt" aria-label="TNT" id="tntBtn"></button>'}</div>
     <div class="pgrp"><button class="tl shape" data-act="pshape" aria-label="Change shape">${IC[(PL&&PL.shape)||'sq']}</button></div>
-    <div class="pgrp">${fr.slice(0,n).map((f,i)=>`<button class="tl fr" data-act="pfriend" data-i="${i}" aria-label="${esc(f.n)}">${friendSvg(f)}</button>`).reverse().join('')}${n<fr.length?`<button class="tl fr locked" data-act="plocked" aria-label="A friend to find">${friendSvg(fr[n])}</button>`:''}</div>
+    <div class="pgrp">${specialsOf().map((f,i)=>hasSpecial(f.sid)?`<button class="tl fr" data-act="pfriend" data-i="${1000+i}" aria-label="${esc(f.n)}">${friendSvg(f)}</button>`:'').join('')}${fr.slice(0,n).map((f,i)=>`<button class="tl fr" data-act="pfriend" data-i="${i}" aria-label="${esc(f.n)}">${friendSvg(f)}</button>`).reverse().join('')}${n<fr.length?`<button class="tl fr locked" data-act="plocked" aria-label="A friend to find">${friendSvg(fr[n])}</button>`:''}</div>
     <div class="pgrp"><button class="tl" data-act="pwind" aria-label="Wind">${IC.wind}</button><button class="tl" data-act="ppush" aria-label="Whoosh">${IC.push}</button><button class="tl" data-act="pdig" aria-label="Take one away">${IC.dig}</button></div>`;
   fillTileCanvases();const tb=$('#tntBtn');if(tb){const c=document.createElement('canvas');c.width=c.height=32;const x=c.getContext('2d');x.imageSmoothingEnabled=false;x.drawImage(TNT,0,0,32,32);tb.appendChild(c)}
   $('#pideasBtn').innerHTML=IC.ideas;$('#pclearBtn').innerHTML=IC.bin.replace('viewBox','width="22" height="22" viewBox');
@@ -1072,7 +1106,7 @@ function startPlay(){const{Engine,Bodies,Composite,Events,Body,Sleeping}=Matter;
     if(PL.wind&&now>=PL.wind.until)PL.wind=null});
   restorePlay();bindPlay(cv);ambStart();PL.last=performance.now();PL.raf=requestAnimationFrame(playFrame)}
 function mkBody(t,k,shape,x,y,a=0){const{Bodies,Body,Composite}=Matter,c=PL.cell;let b;
-  if(t==='friend'){const f=friendsOf()[k];if(!f)return null;const w=Math.max(...f.rows.map(r=>r.length)),h=f.rows.length,s=c*1.4/Math.max(w,h*.9);b=Bodies.rectangle(x,y,w*s,h*s,{chamfer:{radius:3},restitution:.25,friction:.5,density:.0016});b.le={t,k,w:w*s,h:h*s,face:1,next:performance.now()+1500+Math.random()*3000}}
+  if(t==='friend'){const f=friendAt(k);if(!f)return null;const w=Math.max(...f.rows.map(r=>r.length)),h=f.rows.length,s=c*1.4/Math.max(w,h*.9);b=Bodies.rectangle(x,y,w*s,h*s,{chamfer:{radius:3},restitution:.25,friction:.5,density:.0016});b.le={t,k,w:w*s,h:h*s,face:1,next:performance.now()+1500+Math.random()*3000}}
   else if(t==='tnt'){b=Bodies.rectangle(x,y,c,c,{friction:.8,restitution:.05,density:.002});b.le={t,k:0,shape:'sq'}}
   else if(shape==='ball'){b=Bodies.circle(x,y,c*.5,{restitution:.35,friction:.15,density:.002});b.le={t,k,shape}}
   else if(shape==='plank'){b=Bodies.rectangle(x,y,c*3,c*.5,{friction:.8,restitution:.05,density:.002});b.le={t,k,shape}}
@@ -1135,7 +1169,7 @@ function drawPlay(t){const{ctx,W,H,cell,groundTop,ix,iw,cols}=PL,sc=DB.pscene||'
   if(DB.chalOn!==false){const tg=chalTarget(),y=groundTop-tg*cell;ctx.save();ctx.setLineDash([cell*.4,cell*.3]);ctx.strokeStyle=PL.h>=tg?'#ffd84f':'rgba(255,255,255,.85)';ctx.lineWidth=4/z;ctx.beginPath();ctx.moveTo(ix-cell,y);ctx.lineTo(ix+iw+cell,y);ctx.stroke();ctx.restore();
     ctx.fillStyle='rgba(0,0,0,.35)';const fs=Math.round(cell*.6/Math.max(z,.5));ctx.font=`800 ${fs}px ui-rounded,system-ui,sans-serif`;ctx.fillText(String(tg),ix-cell*.9,y-cell*.2)}
   for(const b of bodiesDyn()){const L=b.le;ctx.save();ctx.translate(b.position.x,b.position.y);ctx.rotate(b.angle);
-    if(L.t==='friend'){const f=friendsOf()[L.k];if(f){const fc=friendCanvas(f);if(L.face<0)ctx.scale(-1,1);ctx.drawImage(fc,-L.w/2,-L.h/2,L.w,L.h)}}
+    if(L.t==='friend'){const f=friendAt(L.k);if(f){const fc=friendCanvas(f);if(L.face<0)ctx.scale(-1,1);ctx.drawImage(fc,-L.w/2,-L.h/2,L.w,L.h)}}
     else if(L.t==='tnt'){ctx.drawImage(TNT,-cell/2,-cell/2,cell,cell);if(L.fuse&&Math.floor((L.fuse-t)/140)%2===0){ctx.fillStyle='rgba(255,255,255,.55)';ctx.fillRect(-cell/2,-cell/2,cell,cell)}}
     else{const tx=PL.tex[L.k]||PL.tex[0];if(L.shape==='ball'){ctx.beginPath();ctx.arc(0,0,cell*.5,0,Math.PI*2);ctx.clip();ctx.drawImage(tx,-cell/2,-cell/2,cell,cell);ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=2;ctx.stroke()}
       else if(L.shape==='plank'){for(let i=0;i<3;i++)ctx.drawImage(tx,0,0,8,4,-cell*1.5+i*cell,-cell/4,cell,cell/2);ctx.strokeStyle='rgba(0,0,0,.15)';ctx.lineWidth=1;ctx.strokeRect(-cell*1.5,-cell/4,cell*3,cell/2)}
@@ -1149,7 +1183,7 @@ function drawPlay(t){const{ctx,W,H,cell,groundTop,ix,iw,cols}=PL,sc=DB.pscene||'
   if(PL.wind){ctx.strokeStyle='rgba(255,255,255,.5)';ctx.lineWidth=2;for(let i=0;i<14;i++){const y=(i*67+t*.05)%groundTop,x=((t*.8*PL.wind.dir+i*211)%(W+200)+W+200)%(W+200)-100;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+60*PL.wind.dir,y);ctx.stroke()}}
   ctx.restore()}
 function savePlay(){if(!PL)return;DB.play=DB.play||{};DB.play[PL.theme]=bodiesDyn().filter(b=>b.position.y<PL.groundTop+PL.cell).slice(-180).map(b=>({v:2,p:b.le.pre?1:0,t:b.le.t,k:b.le.k,s:b.le.shape,x:+((b.position.x-PL.W/2)/PL.cell).toFixed(3),y:+((PL.groundTop-b.position.y)/PL.cell).toFixed(3),a:+b.angle.toFixed(3)}));save()}
-function restorePlay(){const list=(DB.play&&DB.play[DB.theme])||[];list.sort((a,b)=>a.y-b.y).forEach(o=>{if(o.t==='friend'&&o.k>=haveN())return;if(o.t==='tnt')return;const x=o.v===2?PL.W/2+o.x*PL.cell:o.x*PL.W;const q=mkBody(o.t,o.k,o.s,x,PL.groundTop-o.y*PL.cell,o.a);if(q&&o.p)q.le.pre=1});
+function restorePlay(){const list=(DB.play&&DB.play[DB.theme])||[];list.sort((a,b)=>a.y-b.y).forEach(o=>{if(o.t==='friend'&&(o.k>=1000?!hasSpecial(SPECIALS[o.k-1000]&&SPECIALS[o.k-1000].id):o.k>=haveN()))return;if(o.t==='tnt')return;const x=o.v===2?PL.W/2+o.x*PL.cell:o.x*PL.W;const q=mkBody(o.t,o.k,o.s,x,PL.groundTop-o.y*PL.cell,o.a);if(q&&o.p)q.le.pre=1});
   if(!list.length){mkBody('friend',haveN()-1,null,PL.W*.5,PL.groundTop-PL.cell*3)}}
 function closePlay(){if(!PL)return;savePlay();ambStop();cancelAnimationFrame(PL.raf);Matter.Engine.clear(PL.eng);PL=null;$('#play').hidden=true;$('#ptimeup').hidden=true;$('#pideas').hidden=true;document.body.classList.remove('playing');showHome()}
 function restartPlay(){if(!PL)return;savePlay();ambStop();cancelAnimationFrame(PL.raf);Matter.Engine.clear(PL.eng);$('#ptitle').textContent=T().build;buildTray();startPlay()}
@@ -1159,7 +1193,7 @@ function chalTarget(){DB.chal=DB.chal||{};const i=DB.chal[DB.theme]||0;return i<
 function towerH(){let top=Infinity;const d=PL.drag&&PL.drag.b;for(const b of bodiesDyn()){if(b.le.t==='friend'||b.le.pre||b===d||b.speed>.3)continue;if(b.position.x<PL.ix-PL.cell||b.position.x>PL.ix+PL.iw+PL.cell||b.position.y>PL.groundTop)continue;if(b.bounds.min.y<top)top=b.bounds.min.y}return top===Infinity?0:Math.max(0,Math.round((PL.groundTop-top)/PL.cell))}
 function playTick(t){PL.h=towerH();const ch=$('#pchal');
   if(DB.chalOn!==false){const tg=chalTarget();ch.hidden=false;ch.classList.toggle('win',PL.h>=tg);ch.innerHTML=`<b>${PL.h}</b><div><small>Tower challenge</small><span>Build a tower of ${tg}</span></div>`;
-    if(PL.h>=tg){if(!PL.holdT)PL.holdT=t;else if(t-PL.holdT>1500){PL.holdT=0;DB.chal[DB.theme]=(DB.chal[DB.theme]||0)+1;save();sfx.win();const y=PL.groundTop-tg*PL.cell,now=performance.now();for(let i=0;i<40;i++)PL.parts.push({x:PL.W/2+(Math.random()-.5)*PL.iw*.6,y,vx:(Math.random()-.5)*10,vy:-Math.random()*10,c:pick(['#ffd84f','#ffffff','#7cc444','#ff8fc8']),t0:now,s:5+Math.random()*6});toast(`A tower of ${tg}! Brilliant!`);say(`A tower of ${word(tg)||tg}! Brilliant!`)}}else PL.holdT=0}else ch.hidden=true;
+    if(PL.h>=tg){if(!PL.holdT)PL.holdT=t;else if(t-PL.holdT>1500){PL.holdT=0;DB.chal[DB.theme]=(DB.chal[DB.theme]||0)+1;save();sfx.win();const y=PL.groundTop-tg*PL.cell,now=performance.now();for(let i=0;i<40;i++)PL.parts.push({x:PL.W/2+(Math.random()-.5)*PL.iw*.6,y,vx:(Math.random()-.5)*10,vy:-Math.random()*10,c:pick(['#ffd84f','#ffffff','#7cc444','#ff8fc8']),t0:now,s:5+Math.random()*6});toast(`A tower of ${tg}! Brilliant!`);say(`A tower of ${word(tg)||tg}! Brilliant!`);if(tg>=20){const sp=awardSpecial('builder');if(sp){setTimeout(()=>{toast(`You earned a special friend: ${sp.n}!`);sfx.win()},2400);buildTray()}}}}else PL.holdT=0}else ch.hidden=true;
   if(PL.tEnd){const left=PL.tEnd-Date.now(),tot=PL.buildMin*60e3;$('#ptime').hidden=false;$('#ptArc').style.strokeDashoffset=String(88*(1-Math.max(0,left)/tot));
     if(left<=60e3&&!PL.warned){PL.warned=1;toast('One minute left of build time');say('One minute left.')}
     if(left<=0&&$('#ptimeup').hidden){PL.tEnd=0;savePlay();buildOpen=false;DB.buildUntil=0;save();$('#ptimeup').hidden=false;sfx.chime();say('Build time is finished. Your world is saved.')}}else $('#ptime').hidden=true}
@@ -1209,6 +1243,7 @@ function settingsHTML(){return`
   <h3>Jobs, breaks and building</h3>
   <div class="set"><b>Jobs each time</b>${segHTML('jobs',[[3,'3'],[5,'5'],[8,'8']])}</div>
   <div class="set"><b>A new friend every</b>${segHTML('every',[[1,'job'],[3,'3 jobs'],[5,'5 jobs']])}<span>Friends are the reward for doing maths. There are 48 to find in each world.</span></div>
+  <div class="set"><b>Break style</b>${segHTML('breakStyle',[['watch','Just watch'],['breathe','Breathe with me'],['still','Quiet and still']])}<span>"Just watch" shows a block gently growing and shrinking, with no instructions. Some children find being told how to breathe uncomfortable.</span></div>
   <div class="set"><b>Break length</b>${segHTML('breakMin',[[1,'1 min'],[2,'2 min'],[3,'3 min'],[5,'5 min']])}<span>Breaks are always allowed. They're a quiet rest, not a game, and each one shows in the report.</span></div>
   <div class="set"><b>Build time limit</b>${segHTML('buildMin',[[0,'Off'],[5,'5 min'],[10,'10 min'],[15,'15 min'],[20,'20 min']])}<span>A small timer shows while they build, with a warning at one minute and a calm finish screen.</span></div>
   <div class="set"><b>Tower challenges</b>${segHTML('chalOn',[[true,'On'],[false,'Off']])}</div>
@@ -1231,7 +1266,7 @@ function reportTabHTML(){const m=sums(30);return`<div class="stats"><div class="
 function fmtDate(d){return new Date(d).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
 function showReport(){const m=sums(30),name=DB.child||'Your child',sk30=k=>{const l=m.lg.filter(x=>x.k===k.id);return l.length?`${l.length} jobs, ${Math.round(100*l.filter(x=>x.f).length/l.length)}% first time`:'—'};
   const avgBreak=m.breaks?Math.max(1,Math.round(m.breakMs/m.breaks/6e4)):0;
-  $('#reportView').innerHTML=`<div class="rbar"><button data-act="closereport">Back</button><button class="pri" data-act="print">Save as PDF or print</button></div>
+  $('#reportView').innerHTML=`<div class="rbar"><button data-act="closereport">Back</button><button class="pri" data-act="print" id="pdfBtn">Save or share PDF</button></div>
   <div class="doc"><h1>${esc(name)}: maths learning summary</h1><p class="meta">Little Easier – Maths · ${fmtDate(Date.now()-30*864e5)} to ${fmtDate(Date.now())}${DB.helper?` · Prepared by ${esc(DB.helper)}`:''}</p>
   <h2>At a glance</h2><div class="stats"><div class="stat"><b>${m.n}</b><span>sessions</span></div><div class="stat"><b>${m.mins}</b><span>minutes of maths</span></div><div class="stat"><b>${m.jobs}</b><span>jobs completed</span></div><div class="stat"><b>${m.first}%</b><span>right first time</span></div><div class="stat"><b>${m.breaks}</b><span>breaks${m.breaks?`, about ${avgBreak} min each`:''}</span></div></div>
   <h2>Where ${esc(name)} is now</h2><table><tbody>${SK.map(k=>`<tr><th>${k.name}</th><td>${statusText(k)}<br><span style="color:#66675c;font-size:13px">Last 30 days: ${sk30(k)}</span></td><td class="cur">${k.cur}</td></tr>`).join('')}</tbody></table>
@@ -1239,6 +1274,38 @@ function showReport(){const m=sums(30),name=DB.child||'Your child',sk30=k=>{cons
   <h2>How ${esc(name)} learns here</h2><p>Each skill moves through three stages: hands-on (moving real objects on screen), pictures (ten frames and groups), then numbers only. This follows the concrete–pictorial–abstract approach used in UK schools. Mistakes are never marked as wrong: a first miss shows a picture or counts along together, and a second miss shows the answer. Breaks are always allowed and are recorded above.</p>
   <h2>Notes</h2><div class="lines"></div>
   <p class="foot">Made on this device with Little Easier – Maths (littleeasier.co.uk). Nothing in this report has been shared or uploaded.</p></div>`;$('#reportView').hidden=false;$('#reportView').scrollTop=0}
+
+/* ---------- PDF report, built on the device (no printing needed) ---------- */
+function loadJsPdf(){return window.jspdf?Promise.resolve():new Promise((res,rej)=>{const sc=document.createElement('script');sc.src='jspdf.min.js';sc.onload=res;sc.onerror=rej;document.head.appendChild(sc)})}
+const pdfSafe=t=>String(t).replace(/−/g,'-').replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/…/g,'...').replace(/[^\x20-\x7E -ÿ–—·£]/g,'');
+async function makePdf(btn){const lab=btn.textContent;btn.textContent='Making the PDF…';btn.disabled=true;
+  try{await loadJsPdf();const{jsPDF}=window.jspdf,d=new jsPDF({unit:'mm',format:'a4'}),W=210,M=16,CW=W-M*2;let y=M;const m=sums(30),name=DB.child||'Your child';
+    const ink=[31,32,27],mut=[102,103,92],line=[221,218,206],acc=[63,122,34];
+    const need=h=>{if(y+h>297-M){d.addPage();y=M}};
+    const txt=(t,x,size,opt={})=>{d.setFont('helvetica',opt.bold?'bold':'normal');d.setFontSize(size);d.setTextColor(...(opt.col||ink));const lines=d.splitTextToSize(pdfSafe(t),opt.w||CW);d.text(lines,x,y+size*.35);return lines.length*size*.42};
+    const h2=t=>{need(14);y+=6;d.setDrawColor(...line);d.setLineWidth(.4);txt(t.toUpperCase(),M,10,{bold:true,col:mut});y+=5;d.line(M,y,W-M,y);y+=4};
+    d.setFillColor(...acc);d.rect(0,0,W,4,'F');y=M+2;
+    y+=txt(`${name}: maths learning summary`,M,18,{bold:true})+2;
+    y+=txt(`Little Easier – Maths · ${fmtDate(Date.now()-30*864e5)} to ${fmtDate(Date.now())}${DB.helper?` · Prepared by ${DB.helper}`:''}`,M,10,{col:mut})+2;
+    h2('At a glance');const avg=m.breaks?Math.max(1,Math.round(m.breakMs/m.breaks/6e4)):0;
+    const st=[[m.n,'sessions'],[m.mins,'minutes of maths'],[m.jobs,'jobs completed'],[m.first+'%','right first time'],[m.breaks,m.breaks?`breaks, ~${avg} min each`:'breaks']],bw=(CW-4*3)/5;
+    need(20);st.forEach(([v,l],i)=>{const x=M+i*(bw+3);d.setFillColor(241,239,230);d.roundedRect(x,y,bw,18,2,2,'F');d.setFont('helvetica','bold');d.setFontSize(15);d.setTextColor(...ink);d.text(String(v),x+3,y+8);d.setFont('helvetica','normal');d.setFontSize(7.5);d.setTextColor(...mut);d.text(d.splitTextToSize(l,bw-5),x+3,y+13)});y+=24;
+    h2(`Where ${name} is now`);
+    SK.forEach(k=>{const l=m.lg.filter(x=>x.k===k.id),last=l.length?`Last 30 days: ${l.length} jobs, ${Math.round(100*l.filter(x=>x.f).length/l.length)}% right first time`:'Last 30 days: no jobs yet';
+      d.setFont('helvetica','normal');d.setFontSize(9.5);const a=d.splitTextToSize(pdfSafe(statusText(k)),CW*.47),b2=d.splitTextToSize(pdfSafe(k.cur),CW*.33);const h=Math.max(a.length*4+5,b2.length*3.6)+4;need(h+2);
+      d.setFont('helvetica','bold');d.setFontSize(10);d.setTextColor(...ink);d.text(d.splitTextToSize(k.name,CW*.18),M,y+3.5);
+      d.setFont('helvetica','normal');d.setFontSize(9.5);d.text(a,M+CW*.2,y+3.5);d.setFontSize(8);d.setTextColor(...mut);d.text(pdfSafe(last),M+CW*.2,y+3.5+a.length*4+1);
+      d.setFontSize(8);d.text(b2,M+CW*.68,y+3.5);y+=h;d.setDrawColor(...line);d.line(M,y,W-M,y);y+=2});
+    h2('Recent sessions');if(!m.ss.length){y+=txt('No sessions yet.',M,10,{col:mut})}else{const cols=[0,.22,.5,.72,.88],hd=['Date','Jobs','Done','First time','Breaks'];need(8);d.setFont('helvetica','bold');d.setFontSize(9);d.setTextColor(...mut);hd.forEach((h,i)=>d.text(h,M+cols[i]*CW,y+3));y+=6;
+      d.setFont('helvetica','normal');d.setTextColor(...ink);m.ss.slice(0,14).forEach(s0=>{need(6);const r=[fmtDate(s0.d),(SK.find(k=>k.id===s0.k)||{}).name||'',`${s0.done} of ${s0.n}${s0.early?' (stopped)':''}`,String(s0.first),String(s0.breaks)];r.forEach((v,i)=>d.text(pdfSafe(v),M+cols[i]*CW,y+3));y+=5.5;d.setDrawColor(...line);d.line(M,y,W-M,y);y+=.5})}
+    h2(`How ${name} learns here`);y+=txt('Each skill moves through three stages: hands-on (moving objects on screen), pictures (ten frames and groups), then numbers only. This follows the concrete–pictorial–abstract approach used in UK schools. Mistakes are never marked as wrong: a first miss starts counting together, a second counts everything together and highlights the answer. Breaks are always allowed and are recorded above.',M,9.5)+2;
+    h2('Notes');need(40);for(let i=0;i<5;i++){y+=8;d.setDrawColor(...line);d.line(M,y,W-M,y)}y+=8;
+    need(10);y+=txt('Made on this device with Little Easier – Maths (littleeasier.co.uk). Nothing in this report has been shared or uploaded.',M,8,{col:mut});
+    const fname=`Maths summary - ${pdfSafe(name)} - ${fmtDate(Date.now())}.pdf`,blob=d.output('blob'),file=new File([blob],fname,{type:'application/pdf'});
+    let shared=false;try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:fname});shared=true}}catch(e){if(e&&e.name==='AbortError')shared=true}
+    if(!shared){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fname;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},5000)}
+    btn.textContent='PDF ready';setTimeout(()=>{btn.textContent=lab;btn.disabled=false},1800)}
+  catch(e){btn.textContent="Couldn't make the PDF. Try again";btn.disabled=false;setTimeout(()=>btn.textContent=lab,2500)}}
 
 /* ================= actions ================= */
 document.addEventListener('click',e=>{const p=e.target.closest('[data-pick]');if(p&&J){choose(p);return}
@@ -1252,6 +1319,7 @@ document.addEventListener('click',e=>{const p=e.target.closest('[data-pick]');if
     case'friends':if(S&&J)break;sfx.tap();showFriends(DB.theme);break;
     case'fbworld':sfx.tap();showFriends(b.dataset.k);break;
     case'fbhop':{const f=friendsOf(FBW)[+b.dataset.i];b.classList.remove('hop');void b.offsetWidth;b.classList.add('hop');tone(520,.08,0,.04,'triangle');tone(780,.12,.08,.035,'triangle');say(f.n+'!',{tap:true});break}
+    case'fbhopsp':{const f=specialsOf(FBW)[+b.dataset.i];b.classList.remove('hop');void b.offsetWidth;b.classList.add('hop');tone(620,.08,0,.04,'triangle');tone(930,.12,.08,.035,'triangle');say(f.n+'!',{tap:true});break}
     case'pfhop':{b.style.animation='none';void b.offsetWidth;b.style.animation='bhop2 .6s cubic-bezier(.3,1.6,.5,1)';setTimeout(()=>b.style.animation='',700);tone(520,.08,0,.04,'triangle');tone(780,.12,.08,.035,'triangle');break}
     case'exit':if(S&&J)askStop();else{hush();showHome()}break;
     case'keep':b.closest('.modal').remove();break;
@@ -1259,6 +1327,7 @@ document.addEventListener('click',e=>{const p=e.target.closest('[data-pick]');if
     case'speak':readOut(b.dataset.for,true);break;
     case'done':doneTap();break;
     case'next':nextTap();break;
+    case'opengift':openGift(b);break;
     case'said':{const box=b.closest('.sayit');box.innerHTML=`<p>Brilliant talking!</p><button class="btn big" data-act="next">${S&&S.i>=S.n-1?'Finish':'Next'}</button>`;sfx.yes();say('Brilliant talking!');break}
     case'hearit':if(J&&J.r.sayIt)say(J.r.sayIt.say,{tap:true});break;
     case'rec':recordEcho(b);break;
@@ -1281,11 +1350,11 @@ document.addEventListener('click',e=>{const p=e.target.closest('[data-pick]');if
     case'lv':{const s=sk(b.dataset.k);s.step=Math.max(0,Math.min(LADDER.length,s.step+(+b.dataset.d)));s.pts=0;s.miss=0;save();renderPanel();break}
     case'report':saveSheetNames();$('#panel').hidden=true;showReport();break;
     case'closereport':$('#reportView').hidden=true;openPanel();break;
-    case'print':window.print();break;
+    case'print':makePdf(b);break;
     case'reset':if(b.dataset.sure){localStorage.removeItem(KEY);location.reload()}else{b.dataset.sure='1';b.textContent='Tap again to delete everything on this device'}break;
     case'ptile':PL.tool={k:'tile',i:+b.dataset.i};markTool();sfx.tap();break;
     case'ptnt':PL.tool={k:'tnt'};markTool();sfx.tap();toast('TNT! It goes boom after it lands');break;
-    case'pfriend':PL.tool={k:'friend',i:+b.dataset.i};markTool();sfx.tap();toast(`Tap to drop ${friendsOf()[+b.dataset.i].n}`);break;
+    case'pfriend':PL.tool={k:'friend',i:+b.dataset.i};markTool();sfx.tap();toast(`Tap to drop ${friendAt(+b.dataset.i).n}`);break;
     case'plocked':toast('Do some jobs to find this friend!');say('Do some jobs to find this friend!');break;
     case'pshape':PL.shape=SHAPES[(SHAPES.indexOf(PL.shape)+1)%SHAPES.length];if(PL.tool.k!=='tile')PL.tool={k:'tile',i:0};buildTray();sfx.tap();toast(PL.shape==='sq'?'Blocks':PL.shape==='plank'?'Planks':'Balls');break;
     case'pwind':gust();break;
