@@ -277,6 +277,45 @@ body.playing .grown{z-index:36;bottom:calc(env(safe-area-inset-bottom,0px) + 92p
 body.playing .tip{z-index:36;bottom:calc(env(safe-area-inset-bottom,0px) + 148px)}
 @media (max-width:560px){.ptop b{display:none}.pchal{top:calc(env(safe-area-inset-top,0px) + 70px)}}
 .ptoast{top:calc(env(safe-area-inset-top,0px) + 132px)!important}
+/* buddy, parade, friends book */
+.jobtop{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;position:relative;min-height:40px}
+.buddy{position:absolute;right:0;top:50%;width:46px;transform:translateY(-50%);transform-origin:50% 100%}
+.buddy .spr{width:100%;height:auto;display:block}
+.buddy.hop{animation:bhop .7s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bhop{0%{transform:translateY(-50%)}35%{transform:translateY(calc(-50% - 22px)) rotate(-6deg)}70%{transform:translateY(-50%) scaleY(.9)}100%{transform:translateY(-50%)}}
+.buddy.tilt{animation:btilt 1.1s ease-in-out}
+@keyframes btilt{30%,70%{transform:translateY(-50%) rotate(-12deg)}}
+@media (max-width:560px){#homeBtn:not([hidden]) ~ .mark{display:none}.buddy{width:36px}.jobtop .lvl{padding-right:40px}}
+.parade{width:100%;max-width:860px;position:relative;display:flex;justify-content:center;align-items:flex-end;gap:clamp(4px,1.6vw,14px);padding:6px 10px 0;box-sizing:border-box;min-height:64px}
+.parade::after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:12px;border-radius:6px;background:linear-gradient(var(--accent) 0 45%,var(--accent2) 45%);opacity:.9}
+.parade .pf{width:clamp(34px,6.5vw,52px);background:none;border:0;padding:0;line-height:0}
+.parade .pf .spr{width:100%;height:auto}
+.parade .pf{animation:pidle 4.8s ease-in-out infinite;animation-delay:calc(var(--i) * -.7s)}
+@keyframes pidle{0%,80%,100%{transform:translateY(0)}86%{transform:translateY(-12px)}92%{transform:translateY(0) scaleY(.92)}}
+body.still .parade .pf{animation:none}
+.homebtns{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;width:100%;max-width:860px}
+.homebtns .buildtile{max-width:none}
+.fbook{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px;width:100%;max-width:860px}
+.fcell{background:var(--soft);border:3px solid var(--edge);border-radius:16px;padding:8px 6px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:96px;justify-content:flex-end}
+.fcell .spr{width:54px;height:auto}
+.fcell span{font:700 11px/1.2 var(--font-ui);color:var(--muted);text-align:center;min-height:26px}
+.fcell.no .spr{filter:brightness(0) opacity(.18)}
+.fcell.no span{opacity:.5}
+.fcell.hop .spr{animation:bhop2 .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bhop2{40%{transform:translateY(-16px)}}
+.wtabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.wtabs button{border:3px solid var(--edge);background:var(--panel);border-radius:999px;padding:8px 16px;font:800 15px var(--font-ui);color:var(--ink)}
+.wtabs button.on{background:var(--accent);border-color:var(--accent2);color:var(--accentInk)}
+.purse{cursor:pointer;border:0}
+/* world ten-frames */
+body[data-theme=blocks] .frame{background:#7f8380;box-shadow:inset 0 -4px 0 #6a6e6b,0 4px 0 #5f6360}
+body[data-theme=blocks] .cell{background:#dcdfdc;box-shadow:inset 0 3px 0 rgba(0,0,0,.14);border-radius:6px}
+body[data-theme=space] .frame{background:#3f3892;box-shadow:0 0 18px rgba(139,127,224,.45)}
+body[data-theme=space] .cell{background:radial-gradient(circle at 35% 30%,#3a3480,#1d1a4a);border-radius:14px}
+body[data-theme=trains] .frame{background:#5f6368;box-shadow:0 4px 0 #45484c}
+body[data-theme=trains] .cell{background:#eef0f1;border-radius:6px;box-shadow:inset 0 -4px 0 #cfd3d6}
+body[data-theme=dinos] .frame{background:#8a6a3a;border-radius:20px;box-shadow:0 4px 0 #6e5229}
+body[data-theme=dinos] .cell{background:radial-gradient(circle,#f6e8c2,#e6cf98);border-radius:50%}
 /* friend meter */
 .fmeter{display:flex;align-items:center;gap:14px;background:var(--panel);border:3px solid var(--edge);border-radius:18px;padding:10px 16px;max-width:520px;width:100%;box-sizing:border-box}
 .fmeter span{font:700 16px var(--font-ui);color:var(--muted)}
@@ -389,7 +428,7 @@ body.still .breathe{animation-duration:12s}
     <button class="pill" id="breakBtn" data-act="break" hidden aria-label="Take a break">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 9a4 4 0 0 1 0 8z"/></svg><span>Break</span>
     </button>
-    <div class="purse" id="purse" aria-label="Friends found"><span class="ic" id="purseIc"></span><b id="purseN">0</b></div>
+    <button class="purse" id="purse" data-act="friends" aria-label="My friends"><span class="ic" id="purseIc"></span><b id="purseN">0</b></button>
     <button class="round" id="soundBtn" data-act="sound" aria-label="Sound"></button>
     <button class="round" id="worldBtn" data-act="world" aria-label="Change world">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.5"/></svg>
@@ -514,6 +553,7 @@ function sentClips(x,multi){const n=vnorm(x);if(VMAP[n])return[VMAP[n]];const th
   if(m=n.match(/^you found a new friend (.+)$/)){const base=(FRIENDS[w]||[]).map(f=>f.n).sort((a,b)=>b.length-a.length).find(b=>m[1].startsWith(vnorm(b)));if(!base)return null;
     const rest=m[1].slice(vnorm(base).length).trim(),hi=HATS.findIndex(h=>vnorm(h.n)===rest),hid=['hat-party','hat-crown','hat-top','hat-bow','hat-flower','hat-cap','hat-wizard'];
     if(rest&&hi<0)return null;return['s-found','f-'+vnorm(base).replace(/ /g,'-'),...(rest?[hid[hi]]:[])]}
+  {const base=(FRIENDS[w]||[]).map(f=>f.n).sort((a,b)=>b.length-a.length).find(b=>n.startsWith(vnorm(b)));if(base){const rest=n.slice(vnorm(base).length).trim(),hi=HATS.findIndex(h=>vnorm(h.n)===rest),hid=['hat-party','hat-crown','hat-top','hat-bow','hat-flower','hat-cap','hat-wizard'];if(!rest||hi>=0)return['f-'+vnorm(base).replace(/ /g,'-'),...(rest?[hid[hi]]:[])]}}
   if(m=n.match(re('N( N)+'))){const t=n.split(' ').map(toN);if(t.some(v=>v==null))return null;return t.map((v,i)=>i===t.length-1?'ans-'+v:'num-'+v)}
   if(m=n.match(re('N')))return[(multi?'ans-':'num-')+toN(m[1])];
   if(/^(hi|hello)( .*)?$/.test(n))return['s-hello'];
@@ -528,7 +568,7 @@ async function playClips(ids,o={}){const gen=++VGEN;try{AC=AC||new(window.AudioC
     const parts=ids.filter(i=>i!=='_'),bufs=await Promise.all(parts.map(clipBuf));if(gen!==VGEN)return true;
     const g=AC.createGain();g.gain.value=1;g.connect(AC.destination);let t=AC.currentTime+.03,k=0;VSRC=[];
     ids.forEach(id=>{if(id==='_'){t+=.22;return}const b=bufs[k++],src=AC.createBufferSource();src.buffer=b;src.connect(g);src.start(t);VSRC.push(src);t+=b.duration+.05});
-    if(o.all)o.all();const last=VSRC[VSRC.length-1];if(last)last.onended=()=>{if(gen===VGEN){VSRC=[];o.end&&o.end()}};return true}
+    if(o.all)o.all();const last=VSRC[VSRC.length-1];let fin=false;const done=()=>{if(fin)return;fin=true;if(gen===VGEN)VSRC=[];o.end&&o.end()};if(last)last.onended=done;setTimeout(done,(t-AC.currentTime)*1000+600);return true}
   catch(e){return false}}
 function preloadPack(){if(!DB.pack||DB.pack==='device')return;loadLines().then(async()=>{const ids=[...new Set(Object.values(VMAP||{}))];for(let i=0;i<ids.length;i+=6){await Promise.all(ids.slice(i,i+6).map(id=>clipBuf(id).catch(()=>{})));await sleep(30)}})}
 
@@ -783,15 +823,26 @@ function firstThen(k,n){const th=T();return`<div class="ft"><div class="ftb"><sm
   <div class="ftb"><small>Then</small><div class="ftic">${friendSvg(friendsOf()[haveN()-1])}</div><b>${th.build}</b></div></div>`}
 function fillTileCanvases(){$$('[data-tilecanvas]').forEach(el=>{el.innerHTML='';el.appendChild(tileImg(+el.dataset.tilecanvas||0))})}
 function showHome(){S=null;J=null;CUR=showHome;hdr({});const k=focusSkill(),n=DB.jobs,th=T(),bl=canBuild();
+  const got=friendsOf().slice(0,haveN()),par=got.slice(-9);
   card(`<div class="hello"><h1>${DB.child?`Hi ${esc(DB.child)}!`:'Hello!'}</h1><p>Ready for some maths?</p></div>
+    <div class="parade" aria-label="Your friends">${par.map((f,i)=>`<button class="pf" style="--i:${i}" data-act="pfhop" aria-label="${esc(f.n)}">${friendSvg(f)}</button>`).join('')}</div>
     <div class="today"><div class="nextup"><small>Next up</small><b>${n} ${k.name.toLowerCase()} jobs</b></div>${friendMeter()}<button class="btn big" data-act="start" data-k="${k.id}">Start</button></div>
     <h3 class="sub">Or pick your jobs</h3>
     <div class="skills">${SK.map(skillTile).join('')}</div>
-    <button class="buildtile${bl?'':' locked'}" data-act="build"><span class="bti">${friendsOf().slice(0,haveN()).slice(-3).map(f=>friendSvg(f)).join('')}</span><div><b>${th.build}</b><span>${bl?`Build anything and play with your ${haveN()===1?'friend':haveN()+' friends'}`:'Opens after your jobs'}</span></div></button>`);
+    <div class="homebtns"><button class="buildtile${bl?'':' locked'}" data-act="build"><span data-tilecanvas="0"></span><div><b>${th.build}</b><span>${bl?`Build anything and play with your ${haveN()===1?'friend':haveN()+' friends'}`:'Opens after you find a friend'}</span></div></button>
+    <button class="buildtile" data-act="friends"><span class="bti">${got.slice(-2).map(f=>friendSvg(f)).join('')}</span><div><b>My friends</b><span>${haveN()} of ${friendsOf().length} found in ${th.name}</span></div></button></div>`);
   fillTileCanvases()}
 function showFirstThen(id){const k=SK.find(x=>x.id===id),n=DB.jobs,th=T();CUR=()=>showFirstThen(id);hdr({home:1,noWorld:1});
   card(`<div class="hello"><h1>${k.kid}</h1></div><div class="today">${firstThen(k,n)}<button class="btn big" data-act="start" data-k="${id}">Let's go</button></div>`);
   fillTileCanvases();say(`First, ${word(n)} ${k.name.toLowerCase()} jobs. Then, ${th.build.toLowerCase()}.`)}
+
+/* ---------- my friends book ---------- */
+let FBW=null;
+function showFriends(w){if(S&&J)return;S=null;J=null;FBW=w||FBW||DB.theme;CUR=()=>showFriends(FBW);hdr({home:1});const all=friendsOf(FBW),n=haveN(FBW);
+  card(`<div class="hello"><h1>My friends</h1><p>${n} of ${all.length} found in ${THEMES[FBW].name}</p></div>
+    <div class="wtabs">${Object.keys(THEMES).map(k=>`<button class="${k===FBW?'on':''}" data-act="fbworld" data-k="${k}">${THEMES[k].name} · ${haveN(k)}</button>`).join('')}</div>
+    <div class="fbook">${all.map((f,i)=>i<n?`<button class="fcell" data-act="fbhop" data-i="${i}" aria-label="${esc(f.n)}">${friendSvg(f)}<span>${esc(f.n)}</span></button>`:`<div class="fcell no" aria-label="Not found yet">${friendSvg(f)}<span>???</span></div>`).join('')}</div>
+    <p class="muted">${n<all.length?`Do ${(DB.every||3)-Math.min((DB.every||3)-1,DB.fprog||0)} more ${(DB.every||3)-Math.min((DB.every||3)-1,DB.fprog||0)===1?'job':'jobs'} to find the next one.${FBW!==DB.theme?` Switch to ${THEMES[FBW].name} to find friends here.`:''}`:'You found them all!'}</p>`)}
 
 /* ---------- a session of jobs ---------- */
 function startSession(id){const k=SK.find(x=>x.id===id);hush();S={k,n:DB.jobs,i:0,done:0,first:0,breaks:0,breakMs:0,t0:Date.now(),ups:[],seen:new Set(),found:[]};buildOpen=false;DB.buildUntil=0;save();nextJob()}
@@ -799,7 +850,7 @@ function nextJob(){if(S.i>=S.n)return finish();const s=sk(S.k.id),lv=LADDER[Math
   do{r=gen(S.k.id,lv[0],lv[1]);t++}while(S.seen.has(r.sig)&&t<15);S.seen.add(r.sig);
   J={r,lv,miss:0,shown:false,locked:false,phase:r.mode==='choose'?'q':'do',busy:false};CUR=null;hdr({home:1,dots:1,brk:1});renderJob()}
 function renderJob(){const r=J.r,[b,st]=J.lv,stI={C:0,P:1,A:2}[st];
-  card(`<div class="lvl">${esc(S.k.name)} · ${STAGE[st]} ${[0,1,2].map(i=>`<i class="${i<=stI?'on':''}"></i>`).join('')}</div>
+  card(`<div class="jobtop"><div class="lvl">${esc(S.k.name)} · ${STAGE[st]} ${[0,1,2].map(i=>`<i class="${i<=stI?'on':''}"></i>`).join('')}</div><div class="buddy" id="buddy" aria-hidden="true">${friendSvg(friendsOf()[haveN()-1])}</div></div>
     ${promptHTML(r.text,r.say,'ptext')}
     <div id="board" style="--s:${sizeFor(r.s||5)};width:100%;display:flex;flex-direction:column;align-items:center;gap:14px">${r.html||''}</div>
     <div id="helpbox"></div>
@@ -834,16 +885,17 @@ async function hintRun(level){const r=J.r;J.helped=true;let inPic=false;
     J.shown=true;const el=document.querySelector(`[data-pick="${r.q.ans}"]`);if(el)el.classList.add('glow')}}
 async function choose(btn){if(!J||J.locked||J.busy||J.phase!=='q')return;const v=btn.dataset.pick,ans=String(J.r.q.ans);
   if(v===ans){btn.classList.add('right');clearNums();return success()}
-  J.miss++;btn.classList.add('dim');sfx.soft();$('#fb').innerHTML='';
+  J.miss++;btn.classList.add('dim');sfx.soft();$('#fb').innerHTML='';buddy('tilt');
   await hint(J.miss===1?1:2)}
 async function doneTap(){if(!J||J.locked||J.busy)return;const res=J.r.check();
   if(res===true){clearNums();if(J.r.q){showQ();return}return success()}
-  J.miss++;J.helped=true;sfx.soft();J.busy=true;$('#board').classList.add('locked');clearNums();
+  J.miss++;J.helped=true;sfx.soft();J.busy=true;$('#board').classList.add('locked');clearNums();buddy('tilt');
   const els=$$(J.r.helpSel||'#board .it');if(els.length){await countAlong(els,{last:true});await sleep(300)}
   note(res);say(res);await sleep(400);J.busy=false;$('#board').classList.remove('locked');if(J.miss>=2)J.shown=true}
 function phaseDone(){if(J.phase!=='do')return;J.phase='q';(J.r.collapse||[]).forEach(z=>{const w=zByName(z)&&zByName(z).closest('.zw');if(!w)return;const row=w.parentElement;w.hidden=true;$$(':scope > .arrow, :scope > .op',row).forEach(x=>x.style.display='none');if(![...row.children].some(c=>!c.hidden&&c.style.display!=='none'))row.style.display='none'});setTimeout(()=>{if(J&&J.r.q)showQ();else success()},450)}
 const PRAISE_FIRST=['Brilliant!','You did it!','Yes!','Super!','Spot on!','Great work!'],PRAISE_HELP=['You got it!','Well done for keeping going!','Yes, that\'s it!'];
-function success(){if(J.locked)return;J.locked=true;J.phase='end';$('#board').classList.add('locked');
+function buddy(k){const b=$('#buddy');if(!b||still())return;b.classList.remove('hop','tilt');void b.offsetWidth;b.classList.add(k)}
+function success(){if(J.locked)return;J.locked=true;J.phase='end';$('#board').classList.add('locked');buddy('hop');
   const first=J.miss===0,ch=record(S.k,{first,shown:J.shown});if(ch>0&&!S.ups.includes(S.k.id))S.ups.push(S.k.id);
   S.done++;if(first)S.first++;DB.fprog=(DB.fprog||0)+1;let nf=null;if(DB.fprog>=(DB.every||3)){DB.fprog=0;nf=unlockFriend();if(nf){S.found.push(nf);buildOpen=true;DB.buildUntil=Date.now()+45*60e3;updPurse(true)}}save();drawDots();
   const pr=pick(first?PRAISE_FIRST:PRAISE_HELP);$('#tools').innerHTML='';
@@ -1197,6 +1249,10 @@ document.addEventListener('click',e=>{const p=e.target.closest('[data-pick]');if
     case'lockedsk':say('That one opens soon. Keep going!');break;
     case'build':if(canBuild())showBuild();else{say('Build time opens after your jobs.');const t=b.querySelector('span:last-child');if(t)t.textContent='Do your jobs first, then build!'}break;
     case'home':hush();showHome();break;
+    case'friends':if(S&&J)break;sfx.tap();showFriends(DB.theme);break;
+    case'fbworld':sfx.tap();showFriends(b.dataset.k);break;
+    case'fbhop':{const f=friendsOf(FBW)[+b.dataset.i];b.classList.remove('hop');void b.offsetWidth;b.classList.add('hop');tone(520,.08,0,.04,'triangle');tone(780,.12,.08,.035,'triangle');say(f.n+'!',{tap:true});break}
+    case'pfhop':{b.style.animation='none';void b.offsetWidth;b.style.animation='bhop2 .6s cubic-bezier(.3,1.6,.5,1)';setTimeout(()=>b.style.animation='',700);tone(520,.08,0,.04,'triangle');tone(780,.12,.08,.035,'triangle');break}
     case'exit':if(S&&J)askStop();else{hush();showHome()}break;
     case'keep':b.closest('.modal').remove();break;
     case'stopjobs':b.closest('.modal').remove();if(S){J.busy=false;finish(true)}break;
