@@ -447,7 +447,7 @@ function hash(s){let h=2166136261;for(const c of s)h=Math.imul(h^c.charCodeAt(0)
 
 /* ================= storage (stays on this device) ================= */
 const KEY='le-maths-v1';
-const DEF={setup:false,child:'',helper:'',theme:'blocks',sound:true,voice:true,voiceName:'',rate:'normal',reading:'all',sayit:'some',record:false,party:'big',motion:'full',jobs:5,breakMin:2,buildWhen:'after',buildUntil:0,buildMin:0,chalOn:true,tnt:true,every:3,skills:{},blocks:0,earned:0,worlds:{},log:[],sessions:[],tipSeen:false};
+const DEF={setup:false,child:'',helper:'',theme:'blocks',sound:true,voice:true,voiceName:'',rate:'normal',pack:'amelia',reading:'all',sayit:'some',record:false,party:'big',motion:'full',jobs:5,breakMin:2,buildWhen:'after',buildUntil:0,buildMin:0,chalOn:true,tnt:true,every:3,skills:{},blocks:0,earned:0,worlds:{},log:[],sessions:[],tipSeen:false};
 let DB;try{DB=Object.assign({},DEF,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){DB=Object.assign({},DEF)}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}}
 const still=()=>DB.motion==='gentle'||matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -467,10 +467,70 @@ let VOICES=[];
 function loadVoices(){try{VOICES=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang))}catch(e){}}
 if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
 function pickVoice(){return VOICES.find(v=>v.name===DB.voiceName)||VOICES.find(v=>/en[-_]GB/i.test(v.lang)&&/enhanced|premium|natural/i.test(v.name))||VOICES.find(v=>/en[-_]GB/i.test(v.lang))||VOICES[0]}
-function say(t,o={}){if(!DB.voice||!t||!('speechSynthesis' in window)||(!o.tap&&DB.reading!=='all')){o.end&&setTimeout(o.end,10);return}
+function say(t,o={}){if(!DB.voice||!t||(!o.tap&&DB.reading!=='all')){o.end&&setTimeout(o.end,10);return}
+  if(DB.pack&&DB.pack!=='device'){const c=clipsFor(t);if(c){if(!o.queue)hush();playClips(c,o).then(ok=>{if(!ok)ttsSay(t,o)});return}}
+  ttsSay(t,o)}
+function ttsSay(t,o={}){if(!('speechSynthesis' in window)){o.end&&setTimeout(o.end,10);return}
   try{const s=speechSynthesis;if(!o.queue)s.cancel();const u=new SpeechSynthesisUtterance(t);const v=pickVoice();u.lang=v?v.lang:'en-GB';if(v)u.voice=v;u.rate=DB.rate==='slow'?.76:.92;u.pitch=1.05;
     if(o.onword)u.onboundary=e=>{if(e.charIndex!=null)o.onword(e.charIndex)};if(o.end)u.onend=o.end;s.speak(u)}catch(e){}}
-function hush(){try{speechSynthesis.cancel()}catch(e){}}
+function hush(){try{speechSynthesis.cancel()}catch(e){}stopClips()}
+/* ---------- recorded voices: stitched clips, offline once cached ---------- */
+const PACKS=[['amelia','Amelia'],['chris','Chris']];
+let VMAP=null,VGEN=0,VSRC=[];const VBUF={};
+const NUMW=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
+const TENS={'twenty-five':25,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90,'one hundred':100};
+const vnorm=t=>String(t).toLowerCase().replace(/…/g,' ').replace(/[’']/g,'').replace(/[^a-z0-9\- ]+/g,' ').replace(/\s+/g,' ').trim();
+const toN=x=>/^\d+$/.test(x)?+x:NUMW.indexOf(x)>=0?NUMW.indexOf(x):TENS[x];
+function loadLines(){if(VMAP)return Promise.resolve();return fetch('voice-lines.json').then(r=>r.json()).then(d=>{VMAP={};d.groups.forEach(g=>g.lines.forEach(l=>{const k=vnorm(l.text);if(!VMAP[k])VMAP[k]=l.id}))}).catch(()=>{})}
+function clipsFor(text){if(!VMAP)return null;const w=VMAP[vnorm(text)];if(w)return[w];
+  const ss=String(text).replace(/…/g,'.').split(/(?<=[.!?])\s+/).map(x=>x.trim()).filter(Boolean),out=[];
+  for(const x of ss){const c=sentClips(x,ss.length>1);if(!c)return null;if(out.length)out.push('_');out.push(...c)}return out}
+function sentClips(x,multi){const n=vnorm(x);if(VMAP[n])return[VMAP[n]];const th=T(),w=DB.theme,X=y=>y.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),M=X(th.many),O=X(th.one),B=X(th.box);
+  const NR='(\\d+|'+[...Object.keys(TENS),...NUMW].join('|')+')',re=pt=>new RegExp('^'+pt.replace(/N/g,NR)+'$'),num=t=>'num-'+toN(t),ans=t=>{const v=toN(t);return VMAP&&v!=null?'ans-'+v:null};let m;
+  const ok=a=>a.every(Boolean)?a:null;
+  if(m=n.match(re(`put N (${M}|${O}) in the ${B}`)))return ok(['p-put',num(m[1]),m[2]===th.many?w+'-make-many':w+'-make-one']);
+  if(m=n.match(re('fill N (squares|square)')))return['p-fill',num(m[1]),'p-'+m[2]];
+  if(m=n.match(re('find the number N')))return ok(['p-find',ans(m[1])]);
+  if(m=n.match(re('there (is|are) N')))return['p-there-'+m[1],num(m[2])];
+  if(m=n.match(re('we need N')))return['p-we-need',num(m[1])];
+  if(m=n.match(re('add N more')))return['p-add',num(m[1]),'p-more'];
+  if(m=n.match(re('add N')))return['p-add',num(m[1])];
+  if(m=n.match(re('take N out')))return['p-take',num(m[1]),'p-out'];
+  if(m=n.match(re(`take N out of the ${B}`)))return['p-take',num(m[1]),w+'-take'];
+  if(m=n.match(re('one (more|less) than N is N')))return ok(['p-one-'+m[1]+'-than',num(m[2]),'p-is',ans(m[3])]);
+  if(m=n.match(re('one (more|less) than N is what')))return['p-one-'+m[1]+'-than',num(m[2]),'p-is-what'];
+  if(m=n.match(re('what is N add N')))return['p-what-is',num(m[1]),'p-plus',num(m[2])];
+  if(m=n.match(re('what is N take away N')))return['p-what-is',num(m[1]),'p-take-away',num(m[2])];
+  if(m=n.match(re('N add N makes N')))return ok([num(m[1]),'p-plus',num(m[2]),'p-makes',ans(m[3])]);
+  if(m=n.match(re('N take away N leaves N')))return ok([num(m[1]),'p-take-away',num(m[2]),'p-leaves',ans(m[3])]);
+  if(m=n.match(re('N and N make N')))return ok([num(m[1]),'p-and',num(m[2]),'p-make',ans(m[3])]);
+  if(m=n.match(re('what and N make N')))return['p-what-and',num(m[1]),'p-make',num(m[2])];
+  if(m=n.match(re('N and what make N')))return[num(m[1]),'p-and-what-make',num(m[2])];
+  if(m=n.match(re('fill up the frame to make N')))return['p-fill-frame',num(m[1])];
+  if(m=n.match(re('how many more to make N')))return['p-more-to-make',num(m[1])];
+  if(m=n.match(re(`N ${M} go away`)))return[num(m[1]),w+'-go-away'];
+  if(m=n.match(re(`N ${O} goes away`)))return[num(m[1]),w+'-goes-away'];
+  if(m=n.match(re('a tower of N')))return ok(['bd-tower-of',ans(m[1])]);
+  if(m=n.match(/^you found a new friend (.+)$/)){const base=(FRIENDS[w]||[]).map(f=>f.n).sort((a,b)=>b.length-a.length).find(b=>m[1].startsWith(vnorm(b)));if(!base)return null;
+    const rest=m[1].slice(vnorm(base).length).trim(),hi=HATS.findIndex(h=>vnorm(h.n)===rest),hid=['hat-party','hat-crown','hat-top','hat-bow','hat-flower','hat-cap','hat-wizard'];
+    if(rest&&hi<0)return null;return['s-found','f-'+vnorm(base).replace(/ /g,'-'),...(rest?[hid[hi]]:[])]}
+  if(m=n.match(re('N( N)+'))){const t=n.split(' ').map(toN);if(t.some(v=>v==null))return null;return t.map((v,i)=>i===t.length-1?'ans-'+v:'num-'+v)}
+  if(m=n.match(re('N')))return[(multi?'ans-':'num-')+toN(m[1])];
+  if(/^(hi|hello)( .*)?$/.test(n))return['s-hello'];
+  if(/^all done( .*)?$/.test(n))return['s-all-done'];
+  if(/^good stopping( .*)?$/.test(n))return['s-good-stopping'];
+  if(n==='voice on')return['set-test'];
+  return null}
+async function clipBuf(id){const k=DB.pack+'/'+id;if(VBUF[k])return VBUF[k];const r=await fetch(`voices/${DB.pack}/${id}.mp3`);if(!r.ok)throw new Error('missing '+id);const ab=await r.arrayBuffer();
+  AC=AC||new(window.AudioContext||window.webkitAudioContext)();VBUF[k]=await new Promise((res,rej)=>AC.decodeAudioData(ab,res,rej));return VBUF[k]}
+function stopClips(){VGEN++;VSRC.forEach(x=>{try{x.onended=null;x.stop()}catch(e){}});VSRC=[]}
+async function playClips(ids,o={}){const gen=++VGEN;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();
+    const parts=ids.filter(i=>i!=='_'),bufs=await Promise.all(parts.map(clipBuf));if(gen!==VGEN)return true;
+    const g=AC.createGain();g.gain.value=1;g.connect(AC.destination);let t=AC.currentTime+.03,k=0;VSRC=[];
+    ids.forEach(id=>{if(id==='_'){t+=.22;return}const b=bufs[k++],src=AC.createBufferSource();src.buffer=b;src.connect(g);src.start(t);VSRC.push(src);t+=b.duration+.05});
+    if(o.all)o.all();const last=VSRC[VSRC.length-1];if(last)last.onended=()=>{if(gen===VGEN){VSRC=[];o.end&&o.end()}};return true}
+  catch(e){return false}}
+function preloadPack(){if(!DB.pack||DB.pack==='device')return;loadLines().then(async()=>{const ids=[...new Set(Object.values(VMAP||{}))];for(let i=0;i<ids.length;i+=6){await Promise.all(ids.slice(i,i+6).map(id=>clipBuf(id).catch(()=>{})));await sleep(30)}})}
 
 /* ================= worlds ================= */
 const THEMES={
@@ -692,7 +752,7 @@ const SPEAK='<svg viewBox="0 0 24 24" fill="#fff"><path d="M4 9h4l5-4v14l-5-4H4z
 function wordsHTML(t){let i=0;return String(t).split(/(\s+)/).map(w=>{const s=i;i+=w.length;return/^\s+$/.test(w)?w:`<span data-c="${s}">${esc(w)}</span>`}).join('')}
 function promptHTML(text,spoken,id,cls=''){return`<div class="prompt ${cls}"><button class="speak" data-act="speak" data-for="${id}" aria-label="Hear it">${SPEAK}</button><p id="${id}" data-say="${esc(spoken||text)}" data-same="${spoken&&spoken!==text?0:1}">${wordsHTML(text)}</p></div>`}
 function readOut(id,tap){const el=document.getElementById(id);if(!el)return;const t=el.dataset.say,same=el.dataset.same==='1',sp=$$('span',el);
-  say(t,{tap,onword:same?ci=>sp.forEach(s=>{const c=+s.dataset.c;s.classList.toggle('on',ci>=c&&ci<c+s.textContent.length)}):null,end:()=>sp.forEach(s=>s.classList.remove('on'))})}
+  say(t,{tap,all:same?()=>sp.forEach(s=>s.classList.add('on')):null,onword:same?ci=>sp.forEach(s=>{const c=+s.dataset.c;s.classList.toggle('on',ci>=c&&ci<c+s.textContent.length)}):null,end:()=>sp.forEach(s=>s.classList.remove('on'))})}
 function autoRead(id){const btn=document.querySelector(`[data-for="${id}"]`);
   if(DB.reading==='all')readOut(id);
   else if(DB.reading==='try'&&btn){btn.classList.add('wait');setTimeout(()=>{btn.classList.remove('wait');btn.classList.add('ready')},4000)}}
@@ -1086,7 +1146,7 @@ function settingsHTML(){return`
   <div class="set"><b>World</b>${segHTML('theme',Object.keys(THEMES).map(k=>[k,THEMES[k].name]))}</div>
   <h3>Sound and voice</h3>
   <div class="set"><b>Sounds</b>${segHTML('sound',[[true,'On'],[false,'Off']])}</div>
-  <div class="set"><b>Voice</b>${segHTML('voice',[[true,'On'],[false,'Off']])}<select id="voicePick" aria-label="Choose a voice"></select>${segHTML('rate',[['slow','Slower'],['normal','Normal']])}<button class="btn soft" data-act="testvoice" style="min-height:44px;font-size:16px;align-self:flex-start">Test the voice</button><span>On iPhone and iPad, extra natural voices can be downloaded in Settings › Accessibility › Spoken Content › Voices.</span></div>
+  <div class="set"><b>Voice</b>${segHTML('voice',[[true,'On'],[false,'Off']])}${segHTML('pack',[...PACKS,['device',"This device's voice"]])}<div class="set" id="deviceVoice" ${DB.pack==='device'?'':'hidden'}><select id="voicePick" aria-label="Choose a device voice"></select>${segHTML('rate',[['slow','Slower'],['normal','Normal']])}<span>On iPhone and iPad, extra natural voices can be downloaded in Settings › Accessibility › Spoken Content › Voices.</span></div><button class="btn soft" data-act="testvoice" style="min-height:44px;font-size:16px;align-self:flex-start">Test the voice</button><span>Amelia and Chris are recorded voices. They download once and then work without WiFi.</span></div>
   <h3>Reading and talking</h3>
   <div class="set"><b>Reading</b>${segHTML('reading',[['all','Read everything'],['tap','Tap to hear'],['try','Have a go first']])}</div>
   <div class="set"><b>"Can you say it?"</b>${segHTML('sayit',[['off','Off'],['some','Sometimes'],['all','Every time']])}</div>
@@ -1158,7 +1218,7 @@ document.addEventListener('click',e=>{const p=e.target.closest('[data-pick]');if
     case'setupDone':DB.setup=true;save();showHome();say(DB.child?`Hi ${DB.child}! Ready for some maths?`:'Ready for some maths?');break;
     case'seg':{const key=b.closest('.seg').dataset.key;let v=b.dataset.v;v=v==='true'?true:v==='false'?false:/^\d+$/.test(v)?+v:v;DB[key]=v;save();
       $$('button',b.closest('.seg')).forEach(x=>x.classList.toggle('on',x===b));
-      if(key==='theme'||key==='motion')applyTheme();if(key==='sound')soundIcon();if(key==='voice'&&v)say('Voice on.',{tap:true});break}
+      if(key==='theme'||key==='motion')applyTheme();if(key==='sound')soundIcon();if(key==='voice'&&v)say('Voice on.',{tap:true});if(key==='pack'){const dv=$('#deviceVoice');if(dv)dv.hidden=v!=='device';preloadPack();setTimeout(()=>say(`Hello${DB.child?' '+DB.child:''}! Three add four makes seven.`,{tap:true}),300)}break}
     case'tab':saveSheetNames();TAB=b.dataset.k;renderPanel();break;
     case'closepanel':closePanel();break;
     case'testvoice':say(`Hello${DB.child?' '+DB.child:''}! Three add four makes seven.`,{tap:true});break;
@@ -1191,6 +1251,7 @@ addEventListener('beforeprint',()=>{if($('#reportView').hidden)showReport()});
 
 /* ================= boot ================= */
 applyTheme();
+loadLines().then(()=>setTimeout(preloadPack,1500));
 if(DB.setup)showHome();else showSetup(0);
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
