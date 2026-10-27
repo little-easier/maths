@@ -558,7 +558,7 @@ function hash(s){let h=2166136261;for(const c of s)h=Math.imul(h^c.charCodeAt(0)
 
 /* ================= storage (stays on this device) ================= */
 const KEY='le-maths-v1';
-const DEF={setup:false,child:'',helper:'',theme:'blocks',sound:true,voice:true,voiceName:'',rate:'normal',pack:'amelia',reading:'all',sayit:'some',record:false,party:'big',motion:'full',jobs:5,breakMin:2,buildWhen:'after',buildUntil:0,buildMin:0,chalOn:true,tnt:true,every:3,breakStyle:'watch',specials:{},breaksTotal:0,skills:{},blocks:0,earned:0,worlds:{},log:[],sessions:[],tipSeen:false};
+const DEF={setup:false,child:'',helper:'',theme:'blocks',sound:true,voice:true,voiceName:'',rate:'normal',pack:'amelia',reading:'tap',sayit:'some',record:false,party:'big',motion:'full',jobs:5,breakMin:2,buildWhen:'after',buildUntil:0,buildMin:0,chalOn:true,tnt:true,every:3,breakStyle:'watch',specials:{},breaksTotal:0,skills:{},blocks:0,earned:0,worlds:{},log:[],sessions:[],tipSeen:false};
 let DB;try{DB=Object.assign({},DEF,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){DB=Object.assign({},DEF)}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}}
 const still=()=>DB.motion==='gentle'||matchMedia('(prefers-reduced-motion: reduce)').matches;
