@@ -277,6 +277,68 @@ body.playing .grown{z-index:36;bottom:calc(env(safe-area-inset-bottom,0px) + 92p
 body.playing .tip{z-index:36;bottom:calc(env(safe-area-inset-bottom,0px) + 148px)}
 @media (max-width:560px){.ptop b{display:none}.pchal{top:calc(env(safe-area-inset-top,0px) + 70px)}}
 .ptoast{top:calc(env(safe-area-inset-top,0px) + 132px)!important}
+/* KS1 part 2 */
+.strand{font:800 15px var(--font-ui);color:var(--ink);width:100%;max-width:860px;margin:6px 0 -4px}
+.sk .gl{font-size:20px;padding:0 4px;min-width:64px;width:auto}
+.tapc{border:3px solid var(--edge);background:var(--soft);border-radius:16px;padding:8px;position:relative;cursor:pointer}
+.tapc .zin{gap:3px;max-width:calc(var(--s) * 3.2)}
+.tapc.done{border-color:var(--hl2);background:rgba(255,216,79,.25)}
+.tapc .nb{top:-14px}
+.nline{display:flex;width:100%;max-width:760px;align-items:flex-end;padding:0 6px;box-sizing:border-box}
+.nline .nl{flex:1;display:flex;flex-direction:column;align-items:center;border-bottom:4px solid var(--ink);position:relative;padding-bottom:10px;min-width:0}
+.nline .nl::after{content:"";position:absolute;bottom:-12px;width:3px;height:14px;background:var(--ink)}
+.nline .nl span{font:800 clamp(14px,3.4vw,22px) var(--font-ui);min-height:26px}
+.nline.ticks .nl.at::before{content:"";position:absolute;bottom:34px;border:12px solid transparent;border-top:18px solid var(--accent)}
+.gapz{border:3px dashed var(--accent);border-radius:12px;min-width:calc(var(--s) * 1.1);min-height:calc(var(--s) * 1.1);display:flex;align-items:center;justify-content:center;padding:2px;background:rgba(255,255,255,.4)}
+.gapz .zin{min-height:0}
+.ntile.sm{width:calc(var(--s) * 1);font-size:calc(var(--s) * .5);box-shadow:0 3px 0 var(--edge)}
+.board.pat{gap:6px}
+.board.pens{gap:12px}
+.pen{min-width:min(130px,40vw)!important;min-height:calc(var(--s) + 34px)!important}
+.box.tens{min-width:min(260px,80vw)}.box.tens.sm{min-width:min(150px,42vw)}
+.box.tens .zin{align-items:flex-end}
+.target.sm{font-size:clamp(40px,7vw,64px)}
+.clock{width:min(230px,58vw);height:auto}.clock.sm{width:min(120px,26vw)}
+.clkbtns .btn{min-height:50px;font-size:18px}
+.ware{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--soft);border:3px solid var(--edge);border-radius:18px;padding:12px 18px}
+.ware .spr{width:64px;height:auto}
+.tag{font:800 26px var(--font-ui);background:#d9564a;color:#fff;padding:2px 14px;border-radius:10px;box-shadow:0 3px 0 #a3392f}
+.counter{background:#e9d3a8;border:5px solid #8a5a32;border-radius:14px;padding:12px;min-width:min(240px,80vw);min-height:calc(var(--s) * 1.4)}
+.pick.sfx{display:inline-flex;align-items:baseline;gap:2px}.pick.sfx small{font-size:.45em;font-weight:800;color:var(--muted)}
+.frac{width:min(110px,26vw);height:auto}
+.mgrid{display:grid;grid-template-columns:repeat(var(--n),var(--c,min(52px,8.5vw)));gap:4px;--c:min(52px,calc((100vw - 90px) / var(--n)))}
+.mgrid .cell{grid-row:2;border-radius:6px}
+.snake{grid-row:1;height:28px;border-radius:14px 22px 22px 14px;background:repeating-linear-gradient(90deg,var(--accent) 0 18px,var(--accent2) 18px 26px);position:relative;margin-bottom:6px}
+.snake::after{content:"";position:absolute;right:8px;top:7px;width:7px;height:7px;border-radius:50%;background:#2a2a22}
+.stackopts{display:flex;flex-direction:column;gap:10px;align-items:stretch;width:100%;max-width:560px}
+.opt.wide{display:flex;padding:14px}
+.ribbon{height:22px;border-radius:11px;background:repeating-linear-gradient(90deg,#e0453a 0 14px,#f08a7e 14px 20px)}
+.tower{display:flex;flex-direction:column-reverse;align-items:center}.tower .spr{width:34px;height:auto;margin-top:-8px}
+.balance{width:min(320px,80vw);height:auto}
+.ruler{position:relative;width:min(560px,86vw);padding-top:34px}
+.pencil{position:absolute;top:0;left:0;height:24px;border-radius:2px 14px 14px 2px;background:linear-gradient(90deg,#f2b82b 0 88%,#f6d8a8 88% 96%,#2a2a22 96%)}
+.rscale{position:relative;height:46px;background:#f6e7a8;border:2px solid #b9a24a;border-radius:6px}
+.rscale span{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center}
+.rscale span i{width:2px;height:14px;background:#5a4a10}.rscale span b{font:800 12px var(--font-ui);color:#5a4a10}
+.olab{display:block;font:800 14px var(--font-ui);margin-top:4px}
+.posgrid{display:grid;grid-template-columns:repeat(3,minmax(0,auto));gap:8px;justify-content:center;align-items:center}
+.pz{border:3px dashed var(--edge2);border-radius:14px;min-width:calc(var(--s) * 1.5);min-height:calc(var(--s) * 1.5);display:flex;align-items:center;justify-content:center}
+.pz.empty{border-color:transparent}
+.pbox{min-width:calc(var(--s) * 2.2)!important;min-height:calc(var(--s) * 1.8)!important}
+.bgraph{display:flex;gap:16px;align-items:flex-end;justify-content:center}
+.bcol{display:flex;flex-direction:column;align-items:center;gap:6px}
+.bcells{display:flex;flex-direction:column-reverse;gap:3px;background:var(--edge2);padding:5px;border-radius:10px}
+.bcells .cell{width:min(46px,13vw);border-radius:5px}
+.blab{display:flex;align-items:center;gap:6px}.blab .spr{width:34px;height:auto}.blab b{font:800 22px var(--font-ui)}
+.picto{display:flex;flex-direction:column;gap:8px;background:var(--soft);border-radius:16px;padding:12px;max-width:100%;box-sizing:border-box}
+.prow2{display:flex;align-items:center;gap:10px}.plab{width:46px;flex:none}.plab .spr{width:100%;height:auto}
+.pitems{display:flex;gap:4px;flex-wrap:wrap}.pitems .it .spr{width:min(34px,7vw)}
+.tally{height:auto}
+.arr{width:100%;height:auto}
+.opt .spr{width:var(--s,56px);height:auto;display:block;margin:0 auto}
+.opt .shp,.opt .coin{width:var(--s,70px)!important}
+.it .shp{width:calc(var(--s) * 1.15)}
+.spawn .coin{width:max(44px,calc(var(--s) * 1.5))!important}
 /* buddy, parade, friends book */
 .jobtop{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;position:relative;min-height:40px}
 .buddy{position:absolute;right:0;top:50%;width:46px;transform:translateY(-50%);transform-origin:50% 100%}
@@ -683,14 +745,29 @@ const LADDER=[[1,'C'],[1,'P'],[1,'A'],[2,'C'],[2,'P'],[2,'A'],[3,'P'],[3,'A']];
 const STAGE={C:'Hands-on',P:'Pictures',A:'Numbers'};
 const STAGE_DESC={C:'using real objects (hands-on)',P:'using pictures',A:'using numbers only'};
 const SK=[
-  {id:'count',name:'Counting',kid:'Count',gl:'123',range:['counting up to 5','counting up to 10','counting up to 20'],cur:'EYFS ELG Number: a deep understanding of number to 10. Year 1: count to and across 100, forwards and backwards.'},
-  {id:'make',name:'Making numbers',kid:'Make it',gl:'5',range:['making numbers up to 5','making numbers up to 10','making numbers up to 20'],cur:'EYFS ELG Number: subitise up to 5. Year 1: identify and represent numbers using objects and pictures.'},
-  {id:'moreless',name:'One more, one less',kid:'One more, one less',gl:'±1',range:['one more and one less within 6','one more and one less within 10','one more and one less within 20'],cur:'Year 1: given a number, identify one more and one less.'},
-  {id:'compare',name:'More and fewer',kid:'More or fewer',gl:'&lt;&gt;',range:['comparing groups up to 5','comparing groups up to 10','comparing numbers up to 20'],cur:'EYFS ELG Numerical patterns: compare quantities up to 10. Year 1: use the language of equal to, more than, less than (fewer).'},
-  {id:'add',name:'Adding',kid:'Adding',gl:'+',range:['adding with totals up to 5','adding with totals up to 10','adding with totals up to 20'],cur:'Year 1: add one-digit and two-digit numbers to 20, including zero.'},
-  {id:'take',name:'Taking away',kid:'Taking away',gl:'−',range:['taking away within 5','taking away within 10','taking away within 20'],cur:'Year 1: subtract one-digit and two-digit numbers to 20, including zero.'},
-  {id:'bonds',name:'Number bonds',kid:'Make ten',gl:'10',range:['number bonds to 5','number bonds to 10','number bonds to 10 and 20'],cur:'EYFS ELG Number: automatically recall number bonds up to 5 and some to 10. Year 1: represent and use number bonds within 20.'}
+  {id:'count',strand:'Numbers',name:'Counting',kid:'Count',gl:'123',range:['counting up to 5','counting up to 10','counting up to 20'],cur:'EYFS ELG Number: a deep understanding of number to 10. Year 1: count to and across 100, forwards and backwards.'},
+  {id:'make',strand:'Numbers',name:'Making numbers',kid:'Make it',gl:'5',range:['making numbers up to 5','making numbers up to 10','making numbers up to 20'],cur:'EYFS ELG Number: subitise up to 5. Year 1: identify and represent numbers using objects and pictures.'},
+  {id:'moreless',strand:'Numbers',name:'One more, one less',kid:'One more, one less',gl:'±1',range:['one more and one less within 6','one more and one less within 10','one more and one less within 20'],cur:'Year 1: given a number, identify one more and one less.'},
+  {id:'compare',strand:'Numbers',name:'More and fewer',kid:'More or fewer',gl:'&lt;&gt;',range:['comparing groups up to 5','comparing groups up to 10','comparing numbers up to 20'],cur:'EYFS ELG Numerical patterns: compare quantities up to 10. Year 1: use the language of equal to, more than, less than (fewer).'},
+  {id:'add',strand:'Adding and taking away',name:'Adding',kid:'Adding',gl:'+',range:['adding with totals up to 5','adding with totals up to 10','adding with totals up to 20'],cur:'Year 1: add one-digit and two-digit numbers to 20, including zero.'},
+  {id:'take',strand:'Adding and taking away',name:'Taking away',kid:'Taking away',gl:'−',range:['taking away within 5','taking away within 10','taking away within 20'],cur:'Year 1: subtract one-digit and two-digit numbers to 20, including zero.'},
+  {id:'bonds',strand:'Adding and taking away',name:'Number bonds',kid:'Make ten',gl:'10',range:['number bonds to 5','number bonds to 10','number bonds to 10 and 20'],cur:'EYFS ELG Number: automatically recall number bonds up to 5 and some to 10. Year 1: represent and use number bonds within 20.'},
+  {id:'steps',strand:'Numbers',name:'Counting in steps',kid:'Count in 2s, 5s, 10s',gl:'2·5·10',range:['counting in tens','counting in twos and fives','counting in steps forwards and backwards'],cur:'Year 1: count in multiples of twos, fives and tens. Year 2: count in steps of 2, 3, 5 and 10 from 0, forwards and backwards.'},
+  {id:'line',strand:'Numbers',name:'Number lines',kid:'Number line',gl:'0–10',range:['number lines to 10','number lines to 20','number lines to 100'],cur:'Year 1: identify and represent numbers using the number line. Year 2: compare and order numbers from 0 up to 100.'},
+  {id:'place',strand:'Numbers',name:'Tens and ones',kid:'Tens and ones',gl:'10|1',range:['tens and ones to 20','tens and ones to 50','tens and ones to 100'],cur:'Year 2: recognise the place value of each digit in a two-digit number (tens, ones).'},
+  {id:'pattern',strand:'Numbers',name:'Patterns, odd and even',kid:'Patterns',gl:'●▲●',range:['repeating patterns','longer patterns','odd and even numbers'],cur:'EYFS ELG Numerical patterns: explore and represent patterns within numbers up to 10, including evens and odds. Year 2: recognise odd and even numbers.'},
+  {id:'big',strand:'Adding and taking away',name:'Bigger adding and taking away',kid:'Big sums',gl:'23+',range:['adding tens and ones to 50','adding and taking away to 100','adding and taking away across tens'],cur:'Year 2: add and subtract using objects, pictures and mentally, including a two-digit number and ones, a two-digit number and tens, and two two-digit numbers.'},
+  {id:'groups',strand:'Multiply and share',name:'Equal groups',kid:'Equal groups',gl:'3×2',range:['equal groups of 2','equal groups of 2 and 5','the 2, 5 and 10 times tables'],cur:'Year 1: solve one-step problems involving multiplication, using objects, pictures and arrays. Year 2: recall and use multiplication facts for the 2, 5 and 10 times tables.'},
+  {id:'share',strand:'Multiply and share',name:'Sharing',kid:'Sharing',gl:'÷',range:['sharing between 2','sharing between 2, 3 and 5','dividing by 2, 5 and 10'],cur:'Year 1: solve one-step problems involving division, using objects, pictures and arrays. Year 2: recall and use division facts for the 2, 5 and 10 times tables.'},
+  {id:'frac',strand:'Fractions',name:'Halves and quarters',kid:'Halves and quarters',gl:'½',range:['halves','halves and quarters','thirds, halves and quarters'],cur:'Year 1: recognise, find and name a half and a quarter of an object, shape or quantity. Year 2: recognise, find, name and write fractions 1/3, 1/4, 2/4 and 3/4.'},
+  {id:'money',strand:'Measuring',name:'Money',kid:'Money',gl:'5p',range:['recognising coins','adding coins to 20p','working out change'],cur:'Year 1: recognise and know the value of different coins. Year 2: combine amounts to make a particular value and find change.'},
+  {id:'time',strand:'Measuring',name:'Telling the time',kid:'Time',gl:'3:00',range:["o'clock","o'clock and half past",'quarter past and quarter to'],cur:"Year 1: tell the time to the hour and half past the hour and draw the hands on a clock face. Year 2: tell and write the time including quarter past and quarter to."},
+  {id:'measure',strand:'Measuring',name:'Measuring',kid:'Measuring',gl:'cm',range:['measuring with blocks','comparing length, height and weight','measuring in centimetres'],cur:'Year 1: compare, describe and solve practical problems for lengths, heights, mass and weight. Year 2: choose and use standard units to measure length (cm).'},
+  {id:'shapes',strand:'Shapes and position',name:'Shapes',kid:'Shapes',gl:'▲■',range:['naming 2D shapes','sides and corners','naming 3D shapes'],cur:'Year 1: recognise and name common 2-D and 3-D shapes. Year 2: identify and describe the properties of 2-D and 3-D shapes, including the number of sides.'},
+  {id:'position',strand:'Shapes and position',name:'Position and turns',kid:'Where is it?',gl:'↻',range:['on top, under, in and next to','left, right, above and below','whole, half and quarter turns'],cur:'Year 1: describe position, direction and movement, including whole, half, quarter and three-quarter turns. Year 2: use mathematical vocabulary to describe position, direction and movement, including clockwise and anticlockwise.'},
+  {id:'charts',strand:'Data',name:'Charts and tallies',kid:'Charts',gl:'|||',range:['reading pictograms','making block graphs','reading tally charts'],cur:'Year 2: interpret and construct simple pictograms, tally charts, block diagrams and tables.'}
 ];
+const STRANDS=['Numbers','Adding and taking away','Multiply and share','Fractions','Measuring','Shapes and position','Data'];SK.sort((a,b)=>STRANDS.indexOf(a.strand)-STRANDS.indexOf(b.strand));
 function sk(id){return DB.skills[id]||(DB.skills[id]={step:0,pts:0,miss:0,done:0,first:0})}
 function unlocked(i){return true}
 function focusSkill(){let best=SK[0],bs=99;SK.forEach((k,i)=>{if(!unlocked(i))return;const s=sk(k.id).step;if(s<LADDER.length&&s<bs){bs=s;best=k}});return best}
@@ -704,7 +781,7 @@ function record(k,res){const s=sk(k.id);s.done++;let ch=0;
 const ARROW='<svg class="arrow" viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h38M32 3l10 9-10 9"/></svg>';
 function its(n,v,cls='',home=''){let s='';for(let i=0;i<n;i++)s+=`<div class="it${cls?' '+cls:''}" data-v="${v}"${home?` data-home="${home}"`:''}>${thing(v)}</div>`;return s}
 function zone(name,cls,label,inner='',o={}){return`<div class="zw"><div class="zlab">${esc(label||'')}</div><div class="zone ${cls}" data-z="${name}"><div class="zin">${inner}</div></div>${o.badge?'<b class="zc" hidden></b>':''}</div>`}
-function spawner(v,label){return`<div class="zw"><div class="zlab">&nbsp;</div><div class="spawn" data-v="${v}" role="button" aria-label="Add one">${thing(v)}<span>${esc(label||'Tap or drag')}</span></div></div>`}
+function spawner(v,label){return`<div class="zw"><div class="zlab">&nbsp;</div><div class="spawn" data-v="${v}" role="button" aria-label="Add one">${artFor(v)}<span>${esc(label||'Tap or drag')}</span></div></div>`}
 function frameHTML(total,filled,o={}){const per=total===5?5:10;let out='<div class="frames">';
   for(let f=0;f<Math.ceil(total/per);f++){out+='<div class="frame">';for(let i=f*per;i<Math.min(total,(f+1)*per);i++){const full=i<filled,gone=o.gone&&i>=filled-o.gone&&i<filled;out+=`<div class="cell${full?' full':''}${o.tap?(full?' lock':' tapme'):''}${gone?' gone':''}" data-i="${i}">${full?thing(o.v):''}</div>`}out+='</div>'}
   return out+'</div>'}
@@ -716,7 +793,7 @@ const cnt=z=>$$(`#board [data-z="${z}"] .it`).length;
 const plural=(n,th=T())=>n===1?th.one:th.many;
 
 /* ================= round generators ================= */
-function gen(id,b,st){const th=T(),v=pick(th.variants),v2=pick(th.variants.filter(x=>x!==v)),M=th.many,B=th.box;
+function gen(id,b,st){if(GEN2[id])return GEN2[id](b,st);const th=T(),v=pick(th.variants),v2=pick(th.variants.filter(x=>x!==v)),M=th.many,B=th.box;
   const band=(lo,hi)=>R(lo,hi);
   if(id==='count'){const[lo,hi]=[[2,5],[3,10],[8,20]][b-1],n=band(lo,hi);
     if(st==='C')return{sig:'cC'+n,s:n,mode:'drag',text:`Put the ${M} in the ${B}. Count them as you go.`,
@@ -788,6 +865,204 @@ function gen(id,b,st){const th=T(),v=pick(th.variants),v2=pick(th.variants.filte
       sayIt:{show:`${a2} + ${m2} = ${T2}`,say:`${word(a2)} and ${word(m2)} make ${word(T2)}`}}}
 }
 
+/* ================= KS1 skills, part 2: art helpers ================= */
+const VALS={c1:1,c2:2,c5:5,c10:10,c20:20,c50:50,ten:10,one:1};
+function coinSvg(v){const cu=v<5,poly=v===20||v===50,r={1:13,2:17,5:12,10:17,20:15,50:18}[v]||15,fill=cu?'#d08443':'#cfd3d8',edge=cu?'#9a5a26':'#8f959c',hi=cu?'#eaa76c':'#f3f5f7';
+  const pts=R=>Array.from({length:7},(_,i)=>{const a=-Math.PI/2+i*2*Math.PI/7;return`${(22+R*Math.cos(a)).toFixed(1)},${(22+R*Math.sin(a)).toFixed(1)}`}).join(' ');
+  const body=poly?`<polygon points="${pts(r)}" fill="${fill}" stroke="${edge}" stroke-width="2" stroke-linejoin="round"/><polygon points="${pts(r-3)}" fill="none" stroke="${hi}" stroke-width="1"/>`:`<circle cx="22" cy="22" r="${r}" fill="${fill}" stroke="${edge}" stroke-width="2"/><circle cx="22" cy="22" r="${r-3}" fill="none" stroke="${hi}" stroke-width="1"/>`;
+  return`<svg class="spr coin" viewBox="0 0 44 44" style="width:calc(var(--s) * ${(r/12).toFixed(2)})" aria-label="${v}p">${body}<text x="22" y="${(22+r*.3).toFixed(1)}" text-anchor="middle" font-size="${(r*.8).toFixed(1)}" font-weight="900" font-family="ui-rounded,system-ui,sans-serif" fill="${cu?'#5a3010':'#3a3f45'}">${v}p</text></svg>`}
+function rodSvg(n){const u=10;let s='';for(let i=0;i<n;i++)s+=`<rect x="1" y="${1+i*u}" width="${u-1}" height="${u-1}" rx="1.5" fill="var(--accent)" stroke="var(--accent2)" stroke-width="1"/>`;
+  return`<svg class="spr rod" viewBox="0 0 ${u+1} ${n*u+1}" style="width:calc(var(--s) * .36)" aria-label="${n===10?'ten':'one'}">${s}</svg>`}
+function clockSvg(h,m,cls='clock'){let s=`<svg class="${cls}" viewBox="0 0 200 200" aria-label="Clock"><circle cx="100" cy="100" r="94" fill="var(--panel)" stroke="var(--ink)" stroke-width="7"/>`;
+  for(let i=0;i<60;i++){const a=i*6*Math.PI/180,r1=i%5?84:80;s+=`<line x1="${(100+r1*Math.sin(a)).toFixed(1)}" y1="${(100-r1*Math.cos(a)).toFixed(1)}" x2="${(100+88*Math.sin(a)).toFixed(1)}" y2="${(100-88*Math.cos(a)).toFixed(1)}" stroke="var(--muted)" stroke-width="${i%5?1.5:3}"/>`}
+  for(let i=1;i<=12;i++){const a=i*30*Math.PI/180;s+=`<text x="${(100+66*Math.sin(a)).toFixed(1)}" y="${(100-66*Math.cos(a)+9).toFixed(1)}" text-anchor="middle" font-size="25" font-weight="800" fill="var(--ink)" font-family="ui-rounded,system-ui,sans-serif">${i}</text>`}
+  const ha=((h%12)+m/60)*30*Math.PI/180,ma=m*6*Math.PI/180;
+  s+=`<line x1="100" y1="100" x2="${(100+44*Math.sin(ha)).toFixed(1)}" y2="${(100-44*Math.cos(ha)).toFixed(1)}" stroke="var(--ink)" stroke-width="10" stroke-linecap="round"/>`;
+  s+=`<line x1="100" y1="100" x2="${(100+72*Math.sin(ma)).toFixed(1)}" y2="${(100-72*Math.cos(ma)).toFixed(1)}" stroke="var(--accent)" stroke-width="6" stroke-linecap="round"/><circle cx="100" cy="100" r="7" fill="var(--ink)"/></svg>`;return s}
+function tname(h,m){const nx=h%12+1;return m===0?`${h} o'clock`:m===30?`half past ${h}`:m===15?`quarter past ${h}`:`quarter to ${nx}`}
+const SHCOL=['#e0453a','#3f86c8','#5fa832','#f2b82b','#7a55a0','#e8893a'];
+function shapeSvg(name,col){col=col||SHCOL[hash(name)%SHCOL.length];const st=`fill="${col}" stroke="rgba(0,0,0,.4)" stroke-width="2" stroke-linejoin="round"`,sh=o=>`fill="${col}" fill-opacity="${o}" stroke="rgba(0,0,0,.4)" stroke-width="2" stroke-linejoin="round"`;
+  const poly=n=>Array.from({length:n},(_,i)=>{const a=-Math.PI/2+i*2*Math.PI/n;return`${(30+25*Math.cos(a)).toFixed(1)},${(32+25*Math.sin(a)).toFixed(1)}`}).join(' ');let b='';
+  switch(name){case'circle':b=`<circle cx="30" cy="30" r="25" ${st}/>`;break;case'triangle':b=`<polygon points="30,5 56,52 4,52" ${st}/>`;break;case'square':b=`<rect x="7" y="7" width="46" height="46" ${st}/>`;break;
+    case'rectangle':b=`<rect x="1" y="15" width="58" height="30" ${st}/>`;break;case'pentagon':b=`<polygon points="${poly(5)}" ${st}/>`;break;case'hexagon':b=`<polygon points="${poly(6)}" ${st}/>`;break;
+    case'cube':b=`<polygon points="8,22 38,22 38,52 8,52" ${st}/><polygon points="8,22 20,10 50,10 38,22" ${sh(.7)}/><polygon points="38,22 50,10 50,40 38,52" ${sh(.5)}/>`;break;
+    case'cuboid':b=`<polygon points="2,26 42,26 42,50 2,50" ${st}/><polygon points="2,26 16,14 56,14 42,26" ${sh(.7)}/><polygon points="42,26 56,14 56,38 42,50" ${sh(.5)}/>`;break;
+    case'sphere':b=`<circle cx="30" cy="30" r="25" ${st}/><ellipse cx="22" cy="21" rx="8" ry="5" fill="#fff" opacity=".45"/>`;break;
+    case'cylinder':b=`<path d="M10 14 V46 A20 7 0 0 0 50 46 V14" ${st}/><ellipse cx="30" cy="14" rx="20" ry="7" ${sh(.65)}/>`;break;
+    case'cone':b=`<path d="M30 4 L50 48 A20 7 0 0 1 10 48 Z" ${st}/><ellipse cx="30" cy="48" rx="20" ry="7" ${sh(.6)}/>`;break;
+    case'pyramid':b=`<polygon points="30,4 6,46 34,54" ${st}/><polygon points="30,4 34,54 56,44" ${sh(.6)}/>`;break}
+  return`<svg class="spr shp" viewBox="0 0 60 60" aria-label="${name}">${b}</svg>`}
+const SIDES={circle:0,triangle:3,square:4,rectangle:4,pentagon:5,hexagon:6};
+function fracSvg(kind,parts,shaded,unequal){const st='stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"',fill=i=>i<shaded?'var(--accent)':'var(--panel)';let s='';
+  if(kind==='circle'){const cut=unequal?[0,.36,1]:Array.from({length:parts+1},(_,i)=>i/parts);if(parts===1)s=`<circle cx="35" cy="35" r="30" fill="${fill(0)}" ${st}/>`;
+    else for(let i=0;i<cut.length-1;i++){const a0=cut[i]*2*Math.PI-Math.PI/2,a1=cut[i+1]*2*Math.PI-Math.PI/2,lg=cut[i+1]-cut[i]>.5?1:0;s+=`<path d="M35 35 L${(35+30*Math.cos(a0)).toFixed(2)} ${(35+30*Math.sin(a0)).toFixed(2)} A30 30 0 ${lg} 1 ${(35+30*Math.cos(a1)).toFixed(2)} ${(35+30*Math.sin(a1)).toFixed(2)} Z" fill="${fill(i)}" ${st}/>`}}
+  else{const cut=unequal?[0,.3,1]:Array.from({length:parts+1},(_,i)=>i/parts);for(let i=0;i<cut.length-1;i++)s+=`<rect x="${(5+60*cut[i]).toFixed(1)}" y="15" width="${(60*(cut[i+1]-cut[i])).toFixed(1)}" height="40" fill="${fill(i)}" ${st}/>`}
+  return`<svg class="frac" viewBox="0 0 70 70" aria-hidden="true">${s}</svg>`}
+function arrowSvg(d){return`<svg class="arr" viewBox="0 0 60 60" style="transform:rotate(${d*90}deg)" aria-hidden="true"><path d="M30 6 L50 30 H38 V54 H22 V30 H10 Z" fill="var(--accent)" stroke="var(--accent2)" stroke-width="2" stroke-linejoin="round"/></svg>`}
+const DIRW=['up','right','down','left'];
+function tallySvg(n){let s='',x=4;for(let g=0;g<Math.ceil(n/5);g++){const k=Math.min(5,n-g*5);for(let i=0;i<Math.min(4,k);i++)s+=`<line x1="${x+i*9}" y1="6" x2="${x+i*9}" y2="46" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>`;
+    if(k===5)s+=`<line x1="${x-4}" y1="40" x2="${x+31}" y2="12" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>`;x+=48}
+  return`<svg class="tally" viewBox="0 0 ${Math.max(48,x)} 52" style="width:${Math.max(48,x)*1.6}px;max-width:100%" aria-label="Tally of ${n}">${s}</svg>`}
+function artFor(v){if(/^c\d+$/.test(v))return coinSvg(+v.slice(1));if(v==='ten')return rodSvg(10);if(v==='one')return rodSvg(1);if(/^n\d+$/.test(v))return`<div class="ntile sm">${v.slice(1)}</div>`;if(/^sh-/.test(v))return shapeSvg(v.slice(3));if(/^fr\d+$/.test(v))return friendSvg(friendsOf()[+v.slice(2)]||friendsOf()[0]);return thing(v)}
+function vIts(n,v,cls='',home=''){let s='';for(let i=0;i<n;i++)s+=`<div class="it${cls?' '+cls:''}" data-v="${v}"${VALS[v]?` data-val="${VALS[v]}"`:''}${home?` data-home="${home}"`:''}>${artFor(v)}</div>`;return s}
+const sumZ=z=>$$(`#board [data-z="${z}"] .it`).reduce((a,e)=>a+(+e.dataset.val||1),0);
+const vsIn=z=>$$(`#board [data-z="${z}"] .it`).map(e=>e.dataset.v);
+function rodsHTML(n,cls='fixed'){return vIts(Math.floor(n/10),'ten',cls)+vIts(n%10,'one',cls)}
+function catName(v,th=T()){return DB.theme==='blocks'?`${v} blocks`:`${v} ${th.many}`}
+function wordPicks(arr){return`<div class="choices">${arr.map(w=>`<button class="pick word" data-pick="${esc(w)}">${esc(w)}</button>`).join('')}</div>`}
+const optB=(k,inner,cls='')=>`<button class="opt ${cls}" data-pick="${esc(k)}">${inner}</button>`;
+function penZones(k,label){let s='<div class="board pens">';for(let i=0;i<k;i++)s+=zone('p'+i,'box pen',label?`${label} ${i+1}`:'');return s+'</div>'}
+const penCounts=k=>Array.from({length:k},(_,i)=>cnt('p'+i));
+
+/* ================= KS1 skills, part 2: generators ================= */
+const GEN2={
+steps(b,st){const th=T(),v=pick(th.variants);
+  if(st==='C'){const k=b===1?10:pick([2,5]),n=R(3,b===1?6:5),grp=i=>k===10?rodSvg(10):its(k,v,'fixed');
+    return{sig:'sC'+k+n,s:k===10?8:10,mode:'tap',text:`Count in ${k===10?'tens':k===2?'twos':'fives'}. Tap each group.`,
+      html:`<div class="board">${Array.from({length:n},(_,i)=>`<button class="tapc" data-add="${k}" aria-label="Group of ${k}"><div class="zin">${grp(i)}</div></button>`).join('')}</div>`,
+      auto:()=>$$('#board .tapc:not(.done)').length===0,q:{text:'How many altogether?',ans:n*k,ch:[n*k-k,n*k,n*k+k]},
+      tip:`Count in ${k===10?'tens: 10, 20, 30':k===2?'twos: 2, 4, 6':'fives: 5, 10, 15'}…`,sayIt:{show:Array.from({length:n},(_,i)=>(i+1)*k).join(', '),say:Array.from({length:n},(_,i)=>(i+1)*k).join(', ')}}}
+  const k=b===1?10:b===2?pick([2,5,10]):pick([2,3,5,10]),back=b===3&&Math.random()<.4,start=b===3?k*R(0,4):0;
+  const seq=back?[start+k*6,start+k*5,start+k*4]:[start+k,start+k*2,start+k*3],ans=back?start+k*3:start+k*4;
+  const ch=[ans-k,ans,ans+k].filter(x=>x>=0);while(ch.length<3)ch.push(ans+k*2);
+  if(st==='P'&&!back){const n=4;return{sig:'sP'+k+start,s:10,mode:'choose',text:`Count in ${k===10?'tens':k===2?'twos':k===5?'fives':'threes'}. How many altogether?`,
+    html:`<div class="board">${Array.from({length:n},()=>`<div class="tapc done static"><div class="zin">${k===10?rodSvg(10):its(k,v,'fixed')}</div></div>`).join('')}</div>`,q:{ans:n*k,ch:[n*k-k,n*k,n*k+k].sort((a,c)=>a-c)},tip:`Count in ${k}s for each group.`,helpSel:'.tapc .it'}}
+  return{sig:'sA'+k+start+back,mode:'choose',text:'What number comes next?',html:`<div class="board"><div class="seq">${seq.map(x=>`<div class="ntile">${x}</div>`).join('')}<div class="ntile q">?</div></div></div>`,
+    q:{ans,ch:ch.sort((a,c)=>a-c)},tip:`Each number goes ${back?'down':'up'} by ${k}.`,sayIt:{show:[...seq,ans].join(', '),say:[...seq,ans].join(', ')}}},
+
+line(b,st){const hi=b===1?10:b===2?20:100;
+  if(st==='C'){const lo=b===1?0:R(0,hi-10),nums=Array.from({length:11},(_,i)=>lo+i),gaps=shuffle(nums.slice(1,10)).slice(0,b===1?1:2).sort((a,c)=>a-c);
+    const extra=pick(nums.filter(x=>!gaps.includes(x))),tiles=shuffle([...gaps,extra]);
+    return{sig:'lC'+lo+gaps.join('-'),s:5,mode:'drag',text:gaps.length===1?'Which number is missing? Put it in the gap.':'Which numbers are missing? Put them in the gaps.',
+      html:`<div class="nline">${nums.map(x=>gaps.includes(x)?`<div class="nl">${zone('g'+x,'gapz','')}</div>`:`<div class="nl"><span>${x}</span></div>`).join('')}</div><div class="board">${zone('tray','tray','',tiles.map(x=>vIts(1,'n'+x)).join(''))}</div>`,
+      tapTo:(f,it)=>{if(f==='tray'){const g=gaps.find(x=>cnt('g'+x)===0);return g!=null?'g'+g:null}return'tray'},accept:(f,to)=>to==='tray'||cnt(to)===0,done:true,
+      check:()=>{const wrong=gaps.filter(x=>vsIn('g'+x)[0]!=='n'+x);if(!wrong.length)return true;return gaps.some(x=>!vsIn('g'+x).length)?'Fill every gap first.':'Count along the line from the start to check.'},tip:'Count along the line, one step at a time.'}}
+  if(st==='P'){const step=b===3?10:b===2?5:1,mx=b===3?100:hi,t=b===3?R(1,9)*10:R(1,hi-1);let ticks='';for(let x=0;x<=mx;x+=(b===3?10:1)){const lab=x===0||x===mx||(b===2&&x%5===0)||b===3;ticks+=`<div class="nl${x===t?' at':''}"><span>${lab&&x!==t?x:''}</span></div>`}
+    return{sig:'lP'+t,mode:'choose',text:'What number is the arrow pointing to?',html:`<div class="nline ticks">${ticks}</div>`,q:{ans:t,ch:choices(t,0,mx,3).map(x=>b===3?Math.round(x/10)*10||10:x).filter((x,i,a)=>a.indexOf(x)===i).concat(t).filter((x,i,a)=>a.indexOf(x)===i).sort((a,c)=>a-c).slice(0,3)},tip:`Start at 0 and count along${b===3?' in tens':''}.`}}
+  const ns=[];while(ns.length<3){const x=R(0,hi);if(!ns.includes(x))ns.push(x)}const big=Math.random()<.5,ans=big?Math.max(...ns):Math.min(...ns);
+  return{sig:'lA'+ns.join('-')+big,mode:'choose',text:`Which number is the ${big?'biggest':'smallest'}?`,html:'',q:{ans,custom:true,opts:`<div class="choices">${ns.map(x=>optB(x,x,'num')).join('')}</div>`},tip:b===3?'Look at the tens first.':'Think where each number is on the number line.'}},
+
+place(b,st){const lo=[11,20,21][b-1],hi=[19,50,99][b-1],n=R(lo,hi),T1=Math.floor(n/10),O=n%10;
+  if(st==='C')return{sig:'pC'+n,s:9,mode:'drag',text:`Make ${n} with tens and ones.`,html:`<div class="board"><div class="target">${n}</div>${spawner('ten','Ten')}${spawner('one','One')}</div><div class="board">${zone('box','box tens',T().box)}</div>`,
+    spawn:'box',tapTo:f=>f==='box'?'x':null,done:true,check:()=>{const s=sumZ('box'),t=vsIn('box').filter(x=>x==='ten').length,o=vsIn('box').filter(x=>x==='one').length;return s===n||`You have ${t} ${t===1?'ten':'tens'} and ${o} ${o===1?'one':'ones'}. That makes ${s}. ${n} is ${T1} ${T1===1?'ten':'tens'} and ${O} ${O===1?'one':'ones'}.`},
+    tip:`${n} has ${T1} ${T1===1?'ten':'tens'} and ${O} ${O===1?'one':'ones'}.`,sayIt:{show:`${n} = ${T1} tens and ${O} ones`,say:`${n} is ${T1} tens and ${O} ones`}};
+  if(st==='P')return{sig:'pP'+n,s:9,mode:'choose',text:'What number is this?',html:`<div class="board"><div class="zone box tens"><div class="zin">${rodsHTML(n)}</div></div></div>`,q:{ans:n,ch:[n,n+10<=99?n+10:n-10,O<9?n+1:n-1].sort((a,c)=>a-c)},tip:'Count the tens first: 10, 20… then the ones.',sayIt:{show:n,say:String(n)}};
+  if(Math.random()<.5)return{sig:'pAt'+n,mode:'choose',text:`What is ${T1} tens and ${O} ones?`,html:'',q:{ans:n,ch:[n,O*10+T1,n+10>99?n-10:n+10].filter((x,i,a)=>a.indexOf(x)===i).sort((a,c)=>a-c)},pic:`<div class="zone box tens"><div class="zin">${rodsHTML(n)}</div></div>`,picSel:null,tip:'Each ten is 10. Then add the ones.'};
+  return{sig:'pAh'+n,mode:'choose',text:`How many tens are in ${n}?`,html:`<div class="board"><div class="sum">${n}</div></div>`,q:{ans:T1,ch:[T1,O,T1+1].filter((x,i,a)=>a.indexOf(x)===i).sort((a,c)=>a-c)},tip:'The first digit tells you the tens.',pic:`<div class="zone box tens"><div class="zin">${rodsHTML(n)}</div></div>`}},
+
+pattern(b,st){const th=T(),vs=shuffle(th.variants);
+  const unit=b===1?[vs[0],vs[1]]:pick([[vs[0],vs[1],vs[2]],[vs[0],vs[0],vs[1]],[vs[0],vs[1],vs[1]]]);const L=b===1?6:unit.length*2+(unit.length===3?0:0);
+  const full=Array.from({length:L+2},(_,i)=>unit[i%unit.length]);
+  if(st==='C'){const shown=full.slice(0,L),need=full.slice(L),tray=shuffle([...need,pick(vs.filter(x=>!need.includes(x)))||vs[3]||vs[0],...(unit.length===3?[]:[])]);
+    return{sig:'tC'+full.join(''),s:9,mode:'drag',text:'Finish the pattern. What comes next?',html:`<div class="board pat">${shown.map(x=>vIts(1,x,'fixed')).join('')}${zone('g0','gapz','')}${zone('g1','gapz','')}</div><div class="board">${zone('tray','tray','',tray.map(x=>vIts(1,x)).join(''))}</div>`,
+      tapTo:f=>f==='tray'?(cnt('g0')===0?'g0':cnt('g1')===0?'g1':null):'tray',accept:(f,to)=>to==='tray'||cnt(to)===0,done:true,
+      check:()=>{const a=vsIn('g0')[0],c=vsIn('g1')[0];if(!a||!c)return'Fill both gaps.';return(a===need[0]&&c===need[1])||'Say the pattern out loud to check.'},tip:'Point to each one and say the pattern out loud.'}}
+  if(st==='P'){const shown=full.slice(0,L),ans=full[L],opts=shuffle([...new Set([ans,...unit,vs[3]||vs[2]])]).slice(0,3);if(!opts.includes(ans))opts[0]=ans;
+    return{sig:'tP'+full.join(''),s:9,mode:'choose',text:'What comes next?',html:`<div class="board pat">${shown.map(x=>vIts(1,x,'fixed')).join('')}<div class="ntile q">?</div></div>`,q:{ans,custom:true,opts:`<div class="choices">${shuffle(opts).map(x=>optB(x,`<div style="--s:56px">${artFor(x)}</div>`)).join('')}</div>`},tip:'Say the pattern out loud.'}}
+  if(b<3){const u=b===1?[1,2]:pick([[1,2,3],[1,1,2],[5,10]]),f=Array.from({length:7},(_,i)=>u[i%u.length]),ans=f[6];
+    return{sig:'tA'+u.join(''),mode:'choose',text:'What comes next?',html:`<div class="board"><div class="seq">${f.slice(0,6).map(x=>`<div class="ntile">${x}</div>`).join('')}<div class="ntile q">?</div></div></div>`,q:{ans,ch:[...new Set([...u,ans+1])].slice(0,3).sort((a,c)=>a-c)},tip:'Say the pattern out loud.'}}
+  if(Math.random()<.5){const n=R(1,20),odd=n%2===1;return{sig:'tAo'+n,mode:'choose',text:`Is ${n} odd or even?`,html:`<div class="board"><div class="sum">${n}</div></div>`,q:{ans:odd?'odd':'even',custom:true,opts:wordPicks(['odd','even'])},pic:frameHTML(n<=10?10:20,n,{v:pick(T().variants)}),tip:'Even numbers can be shared into pairs with none left over.'}}
+  const odd=Math.random()<.5,s0=odd?2*R(0,4)+1:2*R(0,4),seq=[s0,s0+2,s0+4];return{sig:'tAs'+s0,mode:'choose',text:'What comes next?',html:`<div class="board"><div class="seq">${seq.map(x=>`<div class="ntile">${x}</div>`).join('')}<div class="ntile q">?</div></div></div>`,q:{ans:s0+6,ch:[s0+5,s0+6,s0+7]},tip:'Each number goes up by 2.'}},
+
+big(b,st){const sub=b>1&&Math.random()<.45;let a,c;
+  if(b===1){a=R(11,30);c=R(1,Math.min(9,49-a));if((a%10)+(c%10)>9)c=9-(a%10)||1}else if(b===2){a=R(20,70);c=R(11,99-a);if(!sub&&(a%10)+(c%10)>9)c=c-((a%10)+(c%10)-9);if(sub){c=R(11,a-10);if(c%10>a%10)c=c-(c%10)+(a%10)}}else{a=R(25,75);c=R(12,sub?a-10:99-a)}
+  if(c<1)c=1;const ans=sub?a-c:a+c,sy={show:`${a} ${sub?'−':'+'} ${c} = ${ans}`,say:`${a} ${sub?'take away':'add'} ${c} ${sub?'leaves':'makes'} ${ans}`};
+  const pic=sub?`<div class="zone box tens"><div class="zin">${rodsHTML(a)}</div></div>`:`<div class="board">${`<div class="zone box tens sm"><div class="zin">${rodsHTML(a)}</div></div>`}<div class="op">+</div><div class="zone box tens sm"><div class="zin">${rodsHTML(c)}</div></div></div>`;
+  if(st==='C'&&!sub)return{sig:'gC'+a+c,s:8,mode:'drag',text:`Put them all in the ${T().big}.`,html:`<div class="board">${zone('a','box tens sm','',rodsHTML(a,'').replace(/class="it"/g,'class="it" data-home="a"'))}<div class="op">+</div>${zone('c','box tens sm','',rodsHTML(c,'').replace(/class="it"/g,'class="it" data-home="c"'))}</div><div class="board">${zone('big','box tens',T().big)}</div>`,
+    tapTo:(f,it)=>f==='big'?it.dataset.home:'big',accept:(f,to,it)=>to==='big'||(it&&to===it.dataset.home),auto:()=>cnt('a')+cnt('c')===0,collapse:['a','c'],q:{text:'How many altogether?',ans,ch:[ans-10,ans,ans+10].filter(x=>x>0)},tip:'Count the tens first, then the ones.',sayIt:sy};
+  if(st==='P'||st==='C')return{sig:'gP'+a+c+sub,s:8,mode:'choose',text:sub?`Take away ${c}. How many are left?`:'How many altogether?',html:sub?`<div class="board"><div class="target sm">${a}</div>${pic}</div>`:pic,q:{ans,ch:[ans-10,ans,ans+10].filter(x=>x>=0).sort((x,y)=>x-y)},tip:sub?'Take away the tens, then the ones.':'Count the tens first, then the ones.',sayIt:sy};
+  return{sig:'gA'+a+c+sub,mode:'choose',text:`${a} ${sub?'−':'+'} ${c} = ?`,say:`What is ${a} ${sub?'take away':'add'} ${c}?`,html:`<div class="board"><div class="sum">${a} ${sub?'−':'+'} ${c} = ?</div></div>`,q:{ans,ch:[ans-10,ans,ans+10,ans+1].filter(x=>x>=0).slice(0,3).sort((x,y)=>x-y)},pic,tip:sub?'Take away the tens, then the ones.':'Add the tens, then the ones.',sayIt:sy}},
+
+groups(b,st){const th=T(),v=pick(th.variants),g=b===1?2:b===2?pick([2,5]):pick([2,5,10]),k=R(2,b===1?5:4),n=g*k;
+  if(st==='C')return{sig:'eC'+g+k,s:n,mode:'drag',text:`Make ${k} groups of ${g}.`,html:`<div class="board">${zone('tray','tray','',its(n,v))}</div>${penZones(k)}`,
+    tapTo:f=>{if(f!=='tray')return'tray';const i=penCounts(k).findIndex(c=>c<g);return i<0?null:'p'+i},done:true,check:()=>{const c=penCounts(k);if(cnt('tray'))return`Use all the ${th.many}. Put ${g} in each group.`;return c.every(x=>x===g)||`Each group needs ${g}. Count each group.`},
+    q:{text:`How many ${th.many} altogether?`,ans:n,ch:[n-g,n,n+g].filter(x=>x>0)},tip:`Count in ${g}s.`,helpSel:'.pen .it',sayIt:{show:`${k} groups of ${g} = ${n}`,say:`${k} groups of ${g} makes ${n}`}};
+  if(st==='P')return{sig:'eP'+g+k,s:n,mode:'choose',text:`${k} groups of ${g}. How many altogether?`,html:`<div class="board pens">${Array.from({length:k},()=>`<div class="zone box pen"><div class="zin">${its(g,v,'fixed')}</div></div>`).join('')}</div>`,q:{ans:n,ch:[n-g,n,n+g].filter(x=>x>0)},helpSel:'.pen .it',tip:`Count in ${g}s.`,sayIt:{show:`${k} groups of ${g} = ${n}`,say:`${k} groups of ${g} makes ${n}`}};
+  const dbl=b<3&&Math.random()<.3,dn=R(1,10);if(dbl)return{sig:'eAd'+dn,mode:'choose',text:`What is double ${dn}?`,html:`<div class="board"><div class="sum">double ${dn}</div></div>`,q:{ans:dn*2,ch:[dn*2-1,dn*2,dn*2+1].filter(x=>x>0)},pic:`<div class="board pens">${Array.from({length:2},()=>`<div class="zone box pen"><div class="zin">${its(dn,v,'fixed')}</div></div>`).join('')}</div>`,picSel:'#helpbox .it',sayIt:{show:`double ${dn} = ${dn*2}`,say:`double ${dn} is ${dn*2}`}};
+  const sym=b===3;return{sig:'eA'+g+k,mode:'choose',text:sym?`${k} × ${g} = ?`:`${k} groups of ${g} = ?`,say:sym?`What is ${k} times ${g}?`:`What is ${k} groups of ${g}?`,html:`<div class="board"><div class="sum">${sym?`${k} × ${g}`:`${k} groups of ${g}`} = ?</div></div>`,q:{ans:n,ch:[n-g,n,n+g].filter(x=>x>0)},
+    pic:`<div class="board pens">${Array.from({length:k},()=>`<div class="zone box pen"><div class="zin">${its(g,v,'fixed')}</div></div>`).join('')}</div>`,picSel:'#helpbox .it',tip:`Count in ${g}s.`,sayIt:{show:`${k} × ${g} = ${n}`,say:`${k} times ${g} is ${n}`}}},
+
+share(b,st){const th=T(),v=pick(th.variants),k=b===1?2:pick([2,3,5]),g=R(2,b===1?5:4),n=g*k;
+  if(st==='C')return{sig:'hC'+k+g,s:n,mode:'drag',text:`Share ${n} ${th.many} between ${k} ${th.box==='chest'?'chests':th.box==='spaceship'?'spaceships':th.box==='shed'?'sheds':'nests'}.`,html:`<div class="board">${zone('tray','tray','',its(n,v))}</div>${penZones(k)}`,
+    tapTo:f=>{if(f!=='tray')return'tray';const c=penCounts(k),m=Math.min(...c);return'p'+c.indexOf(m)},done:true,check:()=>{const c=penCounts(k);if(cnt('tray'))return`Share all the ${th.many}. Give one to each in turn.`;return c.every(x=>x===c[0])||'Make sure each one has the same.'},
+    q:{text:'How many in each?',ans:g,ch:[g-1,g,g+1].filter(x=>x>0)},tip:'Give one to each in turn, like dealing cards.',helpSel:'[data-z=p0] .it',sayIt:{show:`${n} shared between ${k} = ${g} each`,say:`${n} shared between ${k} is ${g} each`}};
+  if(st==='P')return{sig:'hP'+k+g,s:n,mode:'choose',text:`${n} shared between ${k}. How many each?`,html:`<div class="board pens">${Array.from({length:k},()=>`<div class="zone box pen"><div class="zin">${its(g,v,'fixed')}</div></div>`).join('')}</div>`,q:{ans:g,ch:[g-1,g,g+1].filter(x=>x>0)},helpSel:'.pen:first-child .it',sayIt:{show:`${n} shared between ${k} = ${g} each`,say:`${n} shared between ${k} is ${g} each`}};
+  const sym=b===3,kk=sym?pick([2,5,10]):k,gg=sym?R(1,10):g,nn=kk*gg;return{sig:'hA'+kk+gg,mode:'choose',text:sym?`${nn} ÷ ${kk} = ?`:`${nn} shared between ${kk} is…`,say:sym?`What is ${nn} divided by ${kk}?`:`What is ${nn} shared between ${kk}?`,html:`<div class="board"><div class="sum">${sym?`${nn} ÷ ${kk}`:`${nn} shared between ${kk}`}</div></div>`,q:{ans:gg,ch:[gg-1,gg,gg+1].filter(x=>x>0)},
+    pic:`<div class="board pens">${Array.from({length:kk},()=>`<div class="zone box pen"><div class="zin">${its(gg,v,'fixed')}</div></div>`).join('')}</div>`,picSel:'#helpbox .pen:first-child .it',tip:'Share them out one at a time.',sayIt:{show:`${nn} ÷ ${kk} = ${gg}`,say:`${nn} divided by ${kk} is ${gg}`}}},
+
+frac(b,st){const th=T(),v=pick(th.variants),parts=b===1?2:pick([2,4]),fname=parts===2?'half':'quarter';
+  if(st==='C'){const g=R(1,b===1?5:3),n=g*parts;return{sig:'fC'+parts+g,s:n,mode:'drag',text:`Find ${parts===2?'half':'a quarter'} of ${n}. Share them into ${parts} equal groups.`,html:`<div class="board">${zone('tray','tray','',its(n,v))}</div>${penZones(parts)}`,
+    tapTo:f=>{if(f!=='tray')return'tray';const c=penCounts(parts),m=Math.min(...c);return'p'+c.indexOf(m)},done:true,check:()=>{const c=penCounts(parts);if(cnt('tray'))return'Share them all out.';return c.every(x=>x===c[0])||'Each group must have the same.'},
+    q:{text:`What is ${parts===2?'half':'a quarter'} of ${n}?`,ans:g,ch:[g-1,g,g+1].filter(x=>x>0)},helpSel:'[data-z=p0] .it',tip:`${parts===2?'Half':'A quarter'} means ${parts} equal parts.`,sayIt:{show:`${parts===2?'half':'a quarter'} of ${n} = ${g}`,say:`${parts===2?'half':'a quarter'} of ${n} is ${g}`}}}
+  if(st==='P'){const want=b===3?pick([['a third',3,1],['three quarters',4,3],['a quarter',4,1],['a half',2,1]]):parts===2?['a half',2,1]:['a quarter',4,1];const [nm,p,sh]=want,kind=pick(['circle','rect']);
+    const right=fracSvg(kind,p,sh,false),wrongs=[fracSvg(kind,2,1,true),fracSvg(kind,p===2?4:2,1,false),fracSvg(kind===`circle`?'rect':'circle',p,Math.min(p,sh+1),false)];
+    const opts=shuffle([['R',right],['W1',wrongs[0]],['W2',wrongs[1]]]);return{sig:'fP'+nm+kind,mode:'choose',text:`Which shows ${nm}?`,html:'',q:{ans:'R',custom:true,opts:`<div class="choices">${opts.map(([k,svg])=>optB(k,svg)).join('')}</div>`},tip:'The parts must all be the same size.'}}
+  const opt=b===3?pick([[3,1,'a third'],[4,3,'three quarters'],[4,2,'two quarters'],[2,1,'half']]):parts===2?[2,1,'half']:[4,1,'a quarter'];const[p,sh,nm]=opt,g=R(1,b===3?4:5),n=g*p,ans=g*sh;
+  return{sig:'fA'+p+sh+n,mode:'choose',text:`What is ${nm} of ${n}?`,html:`<div class="board"><div class="sum">${nm} of ${n}</div></div>`,q:{ans,ch:[ans-1,ans,ans+1].filter(x=>x>0)},pic:`<div class="board pens">${Array.from({length:p},()=>`<div class="zone box pen"><div class="zin">${its(g,v,'fixed')}</div></div>`).join('')}</div>`,picSel:'#helpbox .pen:first-child .it',tip:`Share ${n} into ${p} equal groups.`,sayIt:{show:`${nm} of ${n} = ${ans}`,say:`${nm} of ${n} is ${ans}`}}},
+
+money(b,st){const coins=b===1?['c1','c2','c5']:b===2?['c1','c2','c5','c10']:['c1','c2','c5','c10','c20','c50'];
+  if(st==='C'){const p=R(3,b===1?10:20),item=pick(T().variants);return{sig:'mnC'+p,s:7,mode:'drag',text:`The ${T().one} costs ${p}p. Pay ${p}p.`,html:`<div class="board"><div class="ware">${artFor(item)}<span class="tag">${p}p</span></div></div><div class="board">${coins.map(c=>spawner(c,'')).join('')}</div><div class="board">${zone('pay','counter','Pay here')}</div>`,
+    spawn:'pay',tapTo:f=>f==='pay'?'x':null,done:true,check:()=>{const s=sumZ('pay');return s===p||(s<p?`You have put in ${s}p. It costs ${p}p. Add ${p-s}p more.`:`You have put in ${s}p. That's too much. It costs ${p}p.`)},tip:'Count the coins by their value, not how many there are.',sayIt:{show:`${p}p`,say:`${p} pence`}}}
+  if(st==='P'){if(b===1){const c=pick(coins),o=shuffle(['c1','c2','c5','c10']).filter(x=>x!==c).slice(0,2);return{sig:'mnPf'+c,s:6,mode:'choose',text:`Find the ${c.slice(1)}p coin.`,html:'',q:{ans:c,custom:true,opts:`<div class="choices">${shuffle([c,...o]).map(x=>optB(x,`<div style="--s:70px">${coinSvg(+x.slice(1))}</div>`)).join('')}</div>`},tip:'Look for the number on the coin.'}}
+    const set=Array.from({length:R(2,b===2?3:4)},()=>pick(coins)),s=set.reduce((a,c)=>a+VALS[c],0);return{sig:'mnP'+set.join(''),s:6,mode:'choose',text:'How much money is here?',html:`<div class="board"><div class="zone counter"><div class="zin">${set.map(c=>vIts(1,c,'fixed')).join('')}</div></div></div>`,q:{ans:s,ch:[s-1,s,s+2].filter(x=>x>0),suffix:'p'},tip:'Start with the biggest coin, then count on.',sayIt:{show:`${s}p`,say:`${s} pence`}}}
+  if(b<3){const a=pick([1,2,5,10]),c=pick([1,2,5]),s=a+c;return{sig:'mnA'+a+c,mode:'choose',text:`${a}p + ${c}p = ?`,say:`What is ${a} pence add ${c} pence?`,html:`<div class="board"><div class="sum">${a}p + ${c}p</div></div>`,q:{ans:s,ch:[s-1,s,s+1],suffix:'p'},pic:`<div class="zone counter"><div class="zin">${vIts(1,'c'+a,'fixed')}${vIts(1,'c'+c,'fixed')}</div></div>`,sayIt:{show:`${a}p + ${c}p = ${s}p`,say:`${a} pence add ${c} pence makes ${s} pence`}}}
+  const have=pick([10,20,50]),spend=R(2,have-1),left=have-spend;return{sig:'mnAc'+have+spend,mode:'choose',text:`You have ${have}p. You spend ${spend}p. How much is left?`,html:`<div class="board"><div class="sum">${have}p − ${spend}p</div></div>`,q:{ans:left,ch:[left-1,left,left+1].filter(x=>x>0),suffix:'p'},tip:`Count on from ${spend}p to ${have}p.`,sayIt:{show:`${have}p − ${spend}p = ${left}p`,say:`${have} pence take away ${spend} pence leaves ${left} pence`}}},
+
+time(b,st){const ms=b===1?[0]:b===2?[0,30]:[0,30,15,45],h=R(1,12),m=pick(ms),nm=tname(h,m);
+  if(st==='C')return{sig:'kC'+h+m,mode:'clock',text:`Set the clock to ${nm}.`,clk:{h:R(1,12),m:0},target:{h,m},ms,html:`<div class="board"><div id="clockbox"></div></div><div class="row clkbtns"><button class="btn soft" data-act="clkh" data-d="-1">◀ Hour</button><button class="btn soft" data-act="clkh" data-d="1">Hour ▶</button>${ms.length>1?`<button class="btn soft" data-act="clkm">Minutes</button>`:''}</div>`,
+    done:true,check:function(){const c=this.clk;return(c.h===h&&c.m===m)||(c.h!==h?`The short hand shows the hour. ${nm} needs the short hand ${m===0?'on':m===30?'just past':'near'} ${m===45?h%12+1:h}.`:`The long hand shows the minutes. ${m===0?"For o'clock it points to 12.":m===30?'For half past it points to 6.':m===15?'For quarter past it points to 3.':'For quarter to it points to 9.'}`)},tip:"The short hand is the hour. The long hand is the minutes.",sayIt:{show:nm,say:nm}};
+  const others=[];while(others.length<2){const h2=pick([h,h%12+1,(h+10)%12+1,R(1,12)]),m2=pick(ms.length>1?ms:[0]);const t=tname(h2,m2);if(t!==nm&&!others.includes(t)&&!(h2===h&&m2===m))others.push(t)}
+  if(st==='P')return{sig:'kP'+h+m,mode:'choose',text:'What time is it?',html:`<div class="board">${clockSvg(h,m)}</div>`,q:{ans:nm,custom:true,opts:wordPicks(shuffle([nm,...others]))},tip:"Look at the short hand for the hour, then the long hand.",sayIt:{show:nm,say:nm}};
+  const opts=shuffle([[nm,h,m],...others.map(t=>{const mm=/^half/.test(t)?30:/^quarter past/.test(t)?15:/^quarter to/.test(t)?45:0;const n=+t.match(/\d+/)[0];return[t,mm===45?(n+10)%12+1:n,mm]})]);
+  return{sig:'kA'+h+m,mode:'choose',text:`Which clock shows ${nm}?`,html:'',q:{ans:nm,custom:true,opts:`<div class="choices">${opts.map(([t,hh,mm])=>optB(t,clockSvg(hh,mm,'clock sm'))).join('')}</div>`},tip:"Look at the short hand for the hour, then the long hand.",sayIt:{show:nm,say:nm}}},
+
+measure(b,st){const th=T();
+  if(st==='C'){const L=R(3,b===1?7:9),v=pick(th.variants);return{sig:'zC'+L,mode:'frame',v,text:'How long is the snake? Fill the blocks underneath, from the start to the end.',
+    html:`<div class="mgrid" style="--n:${L+3}"><div class="snake" style="grid-column:1 / span ${L}"></div>${Array.from({length:L+3},(_,i)=>`<div class="cell tapme" data-i="${i}"></div>`).join('')}</div>`,
+    done:true,check:()=>{const f=$$('#board .cell').map(c=>c.classList.contains('full'));const c=f.filter(Boolean).length,contig=f.slice(0,c).every(Boolean);return(c===L&&contig)||(!contig?'Start at the very beginning and leave no gaps.':c<L?'Keep going to the end of the snake.':'That goes past the end of the snake.')},
+    q:{text:'How many blocks long is the snake?',ans:L,ch:[L-1,L,L+1]},helpSel:'#board .cell.full',sayIt:{show:`${L} blocks long`,say:`${L} blocks long`}}}
+  if(st==='P'){if(b===2&&Math.random()<.5){const lh=Math.random()<.5,want=pick(['heavier','lighter']),ans=(want==='heavier')===lh?'left':'right';return{sig:'zPw'+lh+want,mode:'choose',text:`Which side is ${want}?`,html:`<div class="board">${balanceSvg(lh)}</div>`,q:{ans,custom:true,opts:wordPicks(['left','right'])},tip:'The heavier side goes down.'}}
+    const n=b===1?2:3,ls=shuffle([3,5,7,9,11].slice(0,n+1)).slice(0,n),vert=b===2&&Math.random()<.5,want=pick(vert?['tallest','shortest']:n===2?['longer','shorter']:['longest','shortest']),pickMax=/long|tall/.test(want),ans=String(ls.indexOf(pickMax?Math.max(...ls):Math.min(...ls)));
+    return{sig:'zP'+ls.join('-')+want,mode:'choose',text:`Which is ${want}?`,html:'',q:{ans,custom:true,opts:`<div class="${vert?'choices':'stackopts'}">${ls.map((l,i)=>optB(String(i),vert?`<div class="tower">${Array.from({length:l},()=>thing(pick(th.variants))).join('')}</div>`:`<div class="ribbon" style="width:calc(${l} * min(26px,6vw))"></div>`,vert?'':'wide')).join('')}</div>`},tip:'Line them up at the start and compare the ends.'}}
+  const L=R(2,13),pc=pick(['pencil','crayon','ribbon']);return{sig:'zA'+L,mode:'choose',text:`How long is the ${pc}?`,html:`<div class="board">${rulerHTML(L)}</div>`,q:{ans:L,ch:[L-1,L,L+1],suffix:' cm'},tip:'Start at 0 and read the number at the end.',sayIt:{show:`${L} cm`,say:`${L} centimetres`}}},
+
+shapes(b,st){const two=['circle','triangle','square','rectangle'].concat(b>1?['pentagon','hexagon']:[]),three=['cube','cuboid','sphere','cylinder','cone','pyramid'],pool=b===3?three:two;
+  if(st==='C'){const tgt=pick(pool),k=R(2,3),others=shuffle(pool.filter(x=>x!==tgt)),mix=shuffle([...Array(k).fill(tgt),...others.slice(0,4)]);
+    return{sig:'yC'+tgt+mix.join(''),s:7,mode:'drag',text:`Put all the ${tgt==='sphere'?'spheres':tgt+'s'} in the ${T().box}.`,html:`<div class="board">${zone('tray','tray','',mix.map(x=>vIts(1,'sh-'+x)).join(''))}${ARROW}${zone('box','box',T().box)}</div>`,
+      tapTo:f=>f==='tray'?'box':'tray',done:true,check:()=>{const inn=vsIn('box'),bad=inn.filter(x=>x!=='sh-'+tgt).length,got=inn.length-bad;return(bad===0&&got===k)||(bad?`One of those isn't a ${tgt}. Take it out.`:`There ${k-got===1?'is':'are'} more ${tgt}s to find.`)},
+      tip:tgt==='triangle'?'A triangle has 3 sides.':tgt==='square'?'A square has 4 equal sides.':tgt==='circle'?'A circle is round with no corners.':tgt==='rectangle'?'A rectangle has 4 sides, two long and two short.':`Look carefully at each one.`}}
+  if(st==='P'){const tgt=pick(pool),opts=shuffle([tgt,...shuffle(pool.filter(x=>x!==tgt)).slice(0,2)]);const prop=b===2&&Math.random()<.5&&SIDES[tgt];
+    return{sig:'yP'+tgt+prop,mode:'choose',text:prop?`Find the shape with ${SIDES[tgt]} sides.`:`Find the ${tgt}.`,html:'',q:{ans:tgt,custom:true,opts:`<div class="choices">${opts.map(x=>optB(x,`<div style="--s:70px">${shapeSvg(x)}</div>`)).join('')}</div>`},tip:'Count the sides and corners.'}}
+  if(b<3){const tgt=pick(two.filter(x=>x!=='circle')),c=Math.random()<.5;return{sig:'yA'+tgt+c,mode:'choose',text:`How many ${c?'corners':'sides'} does a ${tgt} have?`,html:`<div class="board"><div class="bigword">${tgt}</div></div>`,q:{ans:SIDES[tgt],ch:[SIDES[tgt]-1,SIDES[tgt],SIDES[tgt]+1]},pic:`<div style="--s:110px">${shapeSvg(tgt)}</div>`,tip:'Picture the shape and count each side.'}}
+  const facts=[['Which shape can roll and has no flat faces?','sphere'],['Which shape has 6 square faces?','cube'],['Which shape has a point at the top and a round base?','cone'],['Which shape has two round faces and can roll?','cylinder']],[qt,ans]=pick(facts);
+  return{sig:'yA3'+ans,mode:'choose',text:qt,html:'',q:{ans,custom:true,opts:`<div class="choices">${shuffle([ans,...shuffle(three.filter(x=>x!==ans)).slice(0,2)]).map(x=>optB(x,`<div style="--s:70px">${shapeSvg(x)}</div><span class="olab">${x}</span>`)).join('')}</div>`},tip:'Think about which ones can roll and which can stack.'}},
+
+position(b,st){const th=T(),fi=R(0,Math.max(0,haveN()-1)),f=friendsOf()[fi],fn=f.n;
+  const P1=[['top','on top of'],['under','under'],['in','in'],['next','next to']],P2=[['left','to the left of'],['right','to the right of'],['top','above'],['under','below']];
+  if(st==='C'){const [z,w]=pick(b===1?P1:P2);return{sig:'oC'+z+fi,mode:'drag',s:6,text:`Put ${fn} ${w} the ${th.box}.`,
+    html:`<div class="board">${zone('tray','tray','',vIts(1,'fr'+fi))}</div><div class="posgrid"><div></div>${zone('top','pz','')}<div></div>${zone('left','pz','')}${zone('in','box pbox',th.box)}${zone('right','pz','')}<div></div>${zone('under','pz','')}<div></div></div>`,
+    tapTo:()=>null,tapZone:to=>to,accept:(f0,to)=>true,done:true,check:()=>{const at=['top','under','in','left','right'].find(q=>cnt(q));if(!at)return`Move ${fn} next to the ${th.box}.`;const ok=z==='next'?(at==='left'||at==='right'):at===z;return ok||`Not quite. ${fn} needs to be ${w} the ${th.box}.`},tip:`${w}: think about where that is.`}}
+  if(st==='P'){const [z,w]=pick(b===1?P1:P2),words=shuffle([w,...shuffle((b===1?P1:P2).filter(x=>x[0]!==z)).slice(0,2).map(x=>x[1])]),at=z==='next'?pick(['left','right']):z;const cell=q=>at===q?`<div class="zone pz"><div class="zin"><div class="it fixed">${friendSvg(f)}</div></div></div>`:'<div class="zone pz empty"></div>';
+    return{sig:'oP'+z+fi,mode:'choose',text:`Where is ${fn}?`,html:`<div class="posgrid"><div></div>${cell('top')}<div></div>${cell('left')}<div class="zone box pbox"><div class="zin">${at==='in'?`<div class="it fixed">${friendSvg(f)}</div>`:''}</div></div>${cell('right')}<div></div>${cell('under')}<div></div></div>`,q:{ans:w,custom:true,opts:wordPicks(words.map(x=>`${x} the ${th.box}`)).replace(/data-pick="([^"]+) the [^"]+"/g,'data-pick="$1"')},tip:'Look where the friend is compared with the box.'}}
+  const turns=b===3?[['a quarter turn clockwise',1],['a half turn',2],['a quarter turn anticlockwise',3],['a three-quarter turn clockwise',3],['a whole turn',0]]:[['a quarter turn clockwise',1],['a half turn',2],['a whole turn',0]];const [tw,d]=pick(turns),start=R(0,3),end=(start+d)%4;
+  return{sig:'oA'+tw+start,mode:'choose',text:`The arrow points ${DIRW[start]}. Make ${tw}. Which way does it point now?`,html:`<div class="board"><div style="width:96px">${arrowSvg(start)}</div></div>`,q:{ans:DIRW[end],custom:true,opts:`<div class="choices">${[0,1,2,3].map(x=>optB(DIRW[x],`<div style="width:60px">${arrowSvg(x)}</div><span class="olab">${DIRW[x]}</span>`)).join('')}</div>`},tip:'Clockwise goes the same way as clock hands.'}},
+
+charts(b,st){const th=T(),cats=shuffle(th.variants).slice(0,3),cnts=cats.map(()=>R(1,b===1?5:7));
+  if(st==='C'){return{sig:'cC'+cnts.join(''),mode:'frame',v:cats[0],text:'Make the block graph. Fill in each column to match the numbers.',
+    html:`<div class="bgraph">${cats.map((c,i)=>`<div class="bcol"><div class="bcells">${Array.from({length:7},(_,j)=>`<div class="cell tapme" data-col="${i}" data-i="${j}"></div>`).join('')}</div><div class="blab">${artFor(c)}<b>${cnts[i]}</b></div></div>`).join('')}</div>`,
+    fillArt:cell=>artFor(cats[+cell.dataset.col]),done:true,check:()=>{const got=cats.map((_,i)=>$$(`#board .cell.full[data-col="${i}"]`).length),bad=got.findIndex((g,i)=>g!==cnts[i]);return bad<0||`Check the ${catName(cats[bad])} column. It needs ${cnts[bad]}.`},tip:'Count up each column from the bottom.'}}
+  const rows=cats.map((c,i)=>`<div class="prow2"><div class="plab">${artFor(c)}</div><div class="pitems">${its(cnts[i],c,'fixed')}</div></div>`).join('');
+  if(st==='P'){if(Math.random()<.5&&new Set(cnts).size===3){const most=Math.random()<.5,i=cnts.indexOf(most?Math.max(...cnts):Math.min(...cnts));return{sig:'cPm'+cnts.join('')+most,s:7,mode:'choose',text:`Which has the ${most?'most':'fewest'}?`,html:`<div class="picto">${rows}</div>`,q:{ans:cats[i],custom:true,opts:`<div class="choices">${cats.map(c=>optB(c,`<div style="--s:56px">${artFor(c)}</div>`)).join('')}</div>`},tip:'Compare how long each row is.'}}
+    const i=R(0,2);return{sig:'cP'+cnts.join('')+i,s:7,mode:'choose',text:`How many ${catName(cats[i])} are there?`,html:`<div class="picto">${rows}</div>`,q:{ans:cnts[i],ch:[cnts[i]-1,cnts[i],cnts[i]+1].filter(x=>x>0)},helpSel:`.prow2:nth-child(${i+1}) .it`}}
+  const n=R(3,b===3?20:12);return{sig:'cA'+n,mode:'choose',text:'How many does this tally show?',html:`<div class="board">${tallySvg(n)}</div>`,q:{ans:n,ch:[n-1,n,n+1]},tip:'Each bundle with a line across is 5. Count in fives, then the rest.'}}
+};
+function balanceSvg(leftHeavy){const t=leftHeavy?-9:9,ly=leftHeavy?62:42,ry=leftHeavy?42:62,w=(x,y,n)=>Array.from({length:n},(_,i)=>`<rect x="${x-14+i%3*10}" y="${y-12-Math.floor(i/3)*9}" width="9" height="8" rx="2" fill="var(--accent)" stroke="var(--accent2)"/>`).join('');
+  return`<svg class="balance" viewBox="0 0 200 110" aria-label="Balance"><polygon points="100,40 88,104 112,104" fill="var(--edge2)"/><g transform="rotate(${-t} 100 40)"><rect x="20" y="37" width="160" height="6" rx="3" fill="var(--ink)"/></g>
+    <line x1="${100-80*Math.cos(t*Math.PI/180)}" y1="${40+80*Math.sin(t*Math.PI/180)}" x2="${100-80*Math.cos(t*Math.PI/180)}" y2="${ly}" stroke="var(--ink)" stroke-width="2"/><line x1="${100+80*Math.cos(t*Math.PI/180)}" y1="${40-80*Math.sin(t*Math.PI/180)}" x2="${100+80*Math.cos(t*Math.PI/180)}" y2="${ry}" stroke="var(--ink)" stroke-width="2"/>
+    <rect x="${100-80*Math.cos(t*Math.PI/180)-22}" y="${ly}" width="44" height="6" rx="3" fill="var(--ink)"/><rect x="${100+80*Math.cos(t*Math.PI/180)-22}" y="${ry}" width="44" height="6" rx="3" fill="var(--ink)"/>
+    ${w(100-80*Math.cos(t*Math.PI/180),ly,leftHeavy?6:2)}${w(100+80*Math.cos(t*Math.PI/180),ry,leftHeavy?2:6)}</svg>`}
+function rulerHTML(L){let t='';for(let i=0;i<=15;i++)t+=`<span style="left:${i/15*100}%"><i></i><b>${i}</b></span>`;return`<div class="ruler"><div class="pencil" style="width:${L/15*100}%"></div><div class="rscale">${t}</div></div>`}
+
 /* ================= screens ================= */
 let S=null,J=null,CUR=null,buildOpen=false;
 function card(html,cls=''){$('#stage').innerHTML=`<section class="card ${cls}" id="card">${html}</section>`;$('#card').scrollTop=0}
@@ -839,7 +1114,7 @@ function showHome(){S=null;J=null;CUR=showHome;hdr({});const k=focusSkill(),n=DB
     <div class="parade" aria-label="Your friends">${par.map((f,i)=>`<button class="pf" style="--i:${i}" data-act="pfhop" aria-label="${esc(f.n)}">${friendSvg(f)}</button>`).join('')}</div>
     <div class="today"><div class="nextup"><small>Next up</small><b>${n} ${k.name.toLowerCase()} jobs</b></div>${friendMeter()}<button class="btn big" data-act="start" data-k="${k.id}">Start</button></div>
     <h3 class="sub">Or pick your jobs</h3>
-    <div class="skills">${SK.map(skillTile).join('')}</div>
+    ${STRANDS.map(st=>`<h4 class="strand">${st}</h4><div class="skills">${SK.map((k,i)=>k.strand===st?skillTile(k,i):'').join('')}</div>`).join('')}
     <div class="homebtns"><button class="buildtile${bl?'':' locked'}" data-act="build"><span data-tilecanvas="0"></span><div><b>${th.build}</b><span>${bl?`Build anything and play with your ${haveN()===1?'friend':haveN()+' friends'}`:'Opens after you find a friend'}</span></div></button>
     <button class="buildtile" data-act="friends"><span class="bti">${got.slice(-2).map(f=>friendSvg(f)).join('')}</span><div><b>My friends</b><span>${haveN()} of ${friendsOf().length} found in ${th.name}</span></div></button></div>`);
   fillTileCanvases()}
@@ -871,9 +1146,10 @@ function renderJob(){const r=J.r,[b,st]=J.lv,stI={C:0,P:1,A:2}[st];
     <div id="q" class="qa"></div>
     <div id="fb" class="fb"></div>`,'fill');
   if(r.mode==='choose')showQ(true);
+  if(r.mode==='clock')$('#clockbox').innerHTML=clockSvg(r.clk.h,r.clk.m);
   autoRead('ptext')}
 function choicesHTML(q){if(q.opts)return q.opts+(q.extra?`<div class="row">${q.extra}</div>`:'');if(q.custom)return q.extra?`<div class="row">${q.extra}</div>`:'';
-  return`<div class="choices">${q.ch.map(n=>`<button class="pick" data-pick="${n}" aria-label="${n}">${n}</button>`).join('')}</div>`}
+  const sf=q.suffix||'',ch=[...new Set(q.ch)].sort((a,b)=>a-b);return`<div class="choices">${ch.map(n=>`<button class="pick${sf?' sfx':''}" data-pick="${n}" aria-label="${n}${sf}">${n}${sf?`<small>${sf.trim()}</small>`:''}</button>`).join('')}</div>`}
 function showQ(first){const q=J.r.q;J.phase='q';$('#board').classList.add('locked');$('#tools').innerHTML='';
   $('#q').innerHTML=(q.text?promptHTML(q.text,q.say,'qtext','small'):'')+choicesHTML(q);
   if(q.text&&!first)setTimeout(()=>autoRead('qtext'),350);
@@ -893,6 +1169,7 @@ async function hint(level){J.busy=true;try{await hintRun(level)}finally{if(J)J.b
 async function hintRun(level){const r=J.r;J.helped=true;let inPic=false;
   if(r.pic){inPic=true;if(!$('#helpbox').innerHTML){$('#helpbox').innerHTML=`<span class="hl">A picture to help</span><div style="--s:${sizeFor(r.s||8)};display:flex;justify-content:center">${r.pic}</div>`;say("Let's look at a picture.");await sleep(1400)}}
   const gs=groupsFor(r,inPic);clearNums();
+  if(level===1&&!gs.length&&r.tip){note(r.tip);say(r.tip);return}
   if(level===1){if(gs.length){const g=gs[0],up=Math.max(1,Math.min(2,g.length-1));say("Let's count.");await sleep(900);await countAlong(g,{upto:up});await sleep(300);note('Now you keep counting.');say('Now you keep counting.')}}
   else{if(gs.length){say("Let's count them all.");await sleep(1000);for(const g of gs){await countAlong(g,{last:true});await sleep(500)}if(r.after){say(r.after);note(r.after);await sleep(1400)}}
     J.shown=true;const el=document.querySelector(`[data-pick="${r.q.ans}"]`);if(el)el.classList.add('glow')}}
@@ -950,6 +1227,8 @@ function askStop(){const m=document.createElement('div');m.className='modal';m.i
 let DRG=null;
 document.addEventListener('pointerdown',e=>{if(!J||J.locked||J.busy||J.phase!=='do')return;const b=e.target.closest('#board');if(!b)return;
   const cell=e.target.closest('.cell.tapme');if(cell){tapCell(cell);return}
+  const tc=e.target.closest('.tapc:not(.done):not(.static)');if(tc){tapCount(tc);return}
+  if(J.r.tapZone&&!e.target.closest('.it')){const zEl=e.target.closest('.zone');const it=$('#board .it:not(.fixed)');if(zEl&&it&&zEl!==it.closest('.zone')){moveTo(it,zEl);return}}
   const it=e.target.closest('.it:not(.fixed)'),sp=e.target.closest('.spawn');if(!it&&!sp)return;e.preventDefault();
   DRG={it,sp,x:e.clientX,y:e.clientY,id:e.pointerId,moved:false,g:null};
   addEventListener('pointermove',dMove,{passive:false});addEventListener('pointerup',dUp);addEventListener('pointercancel',dUp)});
@@ -965,12 +1244,15 @@ const fromOf=it=>it.closest('[data-z]').dataset.z;
 function canDrop(d,z){if(!z||!J||J.phase!=='do')return false;const to=z.dataset.z,from=d.it?fromOf(d.it):'spawn';if(from===to)return false;if(d.sp)return to===J.r.spawn;return J.r.accept?J.r.accept(from,to,d.it):true}
 function tapPiece(d){if(d.sp){const z=zByName(J.r.spawn);if(z)addTo(z,mkItem(d.sp.dataset.v));return}const to=J.r.tapTo&&J.r.tapTo(fromOf(d.it),d.it);if(!to)return;if(to==='x'){gone(d.it);return}const z=zByName(to);if(z)moveTo(d.it,z)}
 const zByName=n=>document.querySelector(`#board [data-z="${n}"]`);
-function mkItem(v){const d=document.createElement('div');d.className='it';d.dataset.v=v;d.innerHTML=thing(v);return d}
+function mkItem(v){const d=document.createElement('div');d.className='it';d.dataset.v=v;if(VALS[v])d.dataset.val=VALS[v];d.innerHTML=artFor(v);return d}
 function flip(el,r0){if(still()||!r0||!el.animate)return;const r1=el.getBoundingClientRect();el.animate([{transform:`translate(${r0.left-r1.left}px,${r0.top-r1.top}px)`},{transform:'none'}],{duration:260,easing:'cubic-bezier(.3,1.2,.6,1)'})}
 function moveTo(it,z){const r0=it.getBoundingClientRect();z.querySelector('.zin').appendChild(it);flip(it,r0);changed(z)}
 function addTo(z,it){z.querySelector('.zin').appendChild(it);if(!still()&&it.animate)it.animate([{transform:'scale(.3)',opacity:0},{transform:'none',opacity:1}],{duration:240,easing:'cubic-bezier(.3,1.5,.6,1)'});changed(z)}
 function gone(it){if(!still()&&it.animate){const a=it.animate([{transform:'none',opacity:1},{transform:'translateY(-20px) scale(.5)',opacity:0}],{duration:200});a.onfinish=()=>{it.remove();changed(null)}}else{it.remove();changed(null)}}
-function tapCell(cell){const full=cell.classList.toggle('full');cell.classList.toggle('added',full);cell.innerHTML=full?thing(J.r.v):'';sfx.plop($$('#board .cell.full').length);if(full&&!still()&&cell.animate)cell.animate([{transform:'scale(.6)'},{transform:'none'}],{duration:200});changed(null)}
+function tapCount(tc){J.r.run=(J.r.run||0)+(+tc.dataset.add);tc.classList.add('done');const b=document.createElement('span');b.className='nb';b.textContent=J.r.run;tc.appendChild(b);say(String(J.r.run));sfx.plop(J.r.run/5);if(!still()&&tc.animate)tc.animate([{transform:'scale(1)'},{transform:'scale(1.08)'},{transform:'scale(1)'}],{duration:260});if(J.r.auto&&J.r.auto())phaseDone()}
+function tapCell(cell){if(cell.dataset.col!=null){const col=$$(`#board .cell[data-col="${cell.dataset.col}"]`).sort((a,b)=>+a.dataset.i-+b.dataset.i),c=col.filter(x=>x.classList.contains('full')).length;
+    if(cell.classList.contains('full')){const top=col[c-1];top.classList.remove('full','added');top.innerHTML=''}else{const nx=col[c];if(nx){nx.classList.add('full','added');nx.innerHTML=J.r.fillArt?J.r.fillArt(nx):thing(J.r.v)}}sfx.plop(c);changed(null);return}
+  const full=cell.classList.toggle('full');cell.classList.toggle('added',full);cell.innerHTML=full?(J.r.fillArt?J.r.fillArt(cell):thing(J.r.v)):'';sfx.plop($$('#board .cell.full').length);if(full&&!still()&&cell.animate)cell.animate([{transform:'scale(.6)'},{transform:'none'}],{duration:200});changed(null)}
 function changed(z){if(!J)return;$('#fb').innerHTML='';const r=J.r;
   if(z&&r.countAloud&&z.dataset.z===r.countAloud){const c=cnt(r.countAloud);sfx.plop(c);say(word(c))}else sfx.plop(2);
   if(r.auto&&r.auto())phaseDone()}
@@ -1326,6 +1608,8 @@ document.addEventListener('click',e=>{const p=e.target.closest('[data-pick]');if
     case'stopjobs':b.closest('.modal').remove();if(S){J.busy=false;finish(true)}break;
     case'speak':readOut(b.dataset.for,true);break;
     case'done':doneTap();break;
+    case'clkh':if(J&&J.r.clk&&J.phase==='do'){const c=J.r.clk;c.h=((c.h-1+(+b.dataset.d)+12)%12)+1;$('#clockbox').innerHTML=clockSvg(c.h,c.m);sfx.tap()}break;
+    case'clkm':if(J&&J.r.clk&&J.phase==='do'){const c=J.r.clk,ms=J.r.ms;c.m=ms[(ms.indexOf(c.m)+1)%ms.length];$('#clockbox').innerHTML=clockSvg(c.h,c.m);sfx.tap()}break;
     case'next':nextTap();break;
     case'opengift':openGift(b);break;
     case'said':{const box=b.closest('.sayit');box.innerHTML=`<p>Brilliant talking!</p><button class="btn big" data-act="next">${S&&S.i>=S.n-1?'Finish':'Next'}</button>`;sfx.yes();say('Brilliant talking!');break}
