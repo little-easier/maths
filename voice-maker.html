@@ -138,13 +138,15 @@ function chosen(){const on=new Set([...document.querySelectorAll('#groups input:
 function countChars(){const c=chosen();$('#chars').textContent=`${c.length} clips, about ${c.reduce((a,l)=>a+l.text.length,0).toLocaleString('en-GB')} characters of credit.`}
 
 /* API */
-function friendlyError(e,status,body){
+function detail(body){try{const j=JSON.parse(body);const d=j.detail||j;return typeof d==='string'?d:(d.message||d.status||JSON.stringify(d))}catch(_){return String(body||'').slice(0,200)}}
+function friendlyError(e,status,body){const said=body?` ElevenLabs said: "${detail(body)}"`:'';
+  if(status===402||/payment|paid|subscription|library/i.test(body||''))return'ElevenLabs needs a paid plan for this (the free plan can\'t use Voice Library voices or commercial voices through a key).'+said;
+  if(/quota/i.test(body||''))return'This key has used up its credit limit. Raise the limit on the key in ElevenLabs, or check your monthly credits.'+said;
   if(e&&e.name==='TypeError')return'ElevenLabs didn\'t let this page connect. If this keeps happening, tell Claude: we\'ll use the "long recordings" plan instead.';
-  if(status===401)return'ElevenLabs didn\'t accept that key. Check it was copied fully and has Text to Speech turned on.';
-  if(status===402||/quota|credits/i.test(body||''))return'Your ElevenLabs credits have run out for this month.';
+  if(status===401)return'ElevenLabs didn\'t accept that key. Check it was copied fully and has Text to Speech and Voices turned on.'+said;
   if(status===422)return'ElevenLabs didn\'t like one of the settings. Try the Multilingual v2 model with the default sliders.';
   if(status===404)return'That voice ID wasn\'t found. Pick the voice again from the list.';
-  return`ElevenLabs said no (error ${status||'?'}). ${String(body||'').slice(0,160)}`}
+  return`ElevenLabs said no (error ${status||'?'}).`+said}
 $('#loadVoices').addEventListener('click',async()=>{if(!key())return msg('#keyMsg','Paste your API key first.');msg('#keyMsg','Loading your voices…','ok');
   try{const r=await fetch(API+'/voices',{headers:{'xi-api-key':key()}});const t=await r.text();if(!r.ok)return msg('#keyMsg',friendlyError(null,r.status,t));
     voices=(JSON.parse(t).voices||[]).sort((a,b)=>a.name.localeCompare(b.name));
