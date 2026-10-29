@@ -45,8 +45,10 @@ body.still .cloud,body.still .tw{animation:none}
 #app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column}
 .top{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 12px) max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));min-height:52px}
 .mark{display:flex;flex-direction:column;line-height:1;margin-right:auto}
-.mark small{font-size:12px;font-weight:700;color:var(--glassInk);opacity:.75;letter-spacing:.3px}
-.mark span{font-size:22px;font-weight:800;color:var(--markc);margin-top:2px}
+.mark small{font-size:13px;font-weight:700;color:var(--glassInk);letter-spacing:.3px;margin-bottom:2px}
+.mark span{font-size:24px;font-weight:800;color:var(--markc)}
+a.pill{text-decoration:none}
+#homeBtn:not([hidden]) ~ #appsBtn{display:none}
 .round{width:48px;height:48px;border-radius:24px;border:0;background:var(--glass);color:var(--glassInk);display:flex;align-items:center;justify-content:center;flex:none;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);position:relative}
 .pill{height:48px;border-radius:24px;border:0;background:var(--glass);color:var(--glassInk);display:flex;align-items:center;gap:8px;padding:0 16px 0 12px;font:800 16px var(--font-ui);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .purse{display:flex;align-items:center;gap:6px;height:48px;padding:0 14px 0 8px;border-radius:24px;background:var(--glass);color:var(--glassInk);font:800 18px var(--font-ui);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
@@ -482,7 +484,7 @@ body.still .breathe{animation-duration:12s}
 
 .confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:80}
 @media (max-width:560px),(max-height:740px){.card{padding:14px 12px;gap:12px;border-radius:20px}.prompt p{font-size:21px}.prompt.small p{font-size:19px}.speak{width:46px;height:46px}.speak svg{width:22px;height:22px}.lvl{font-size:11px}.ntile{width:64px}.frame{gap:4px;padding:6px}.yes{font-size:26px}.btn.big{min-height:60px}}
-@media (max-width:560px){.dots i{width:13px;height:13px;border-radius:4px}.dots{gap:4px}.top .dots:not([hidden]) ~ .purse{display:none}.pick{min-width:74px;height:76px;font-size:38px}.arrow{display:none}.btn.big{font-size:24px;padding:10px 32px}.mark span{font-size:19px}.pill span{display:none}.pill{padding:0 12px}}
+@media (max-width:560px){.dots i{width:13px;height:13px;border-radius:4px}.dots{gap:4px}.top .dots:not([hidden]) ~ .purse{display:none}.pick{min-width:74px;height:76px;font-size:38px}.arrow{display:none}.btn.big{font-size:24px;padding:10px 32px}.mark span{font-size:22px}.pill span{display:none}.pill{padding:0 12px}}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
 </style>
 </head>
@@ -505,6 +507,7 @@ body.still .breathe{animation-duration:12s}
     <button class="round" id="worldBtn" data-act="world" aria-label="Change world">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.5"/></svg>
     </button>
+    <a class="pill" id="appsBtn" href="/" aria-label="All Little Easier apps"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg><span>All apps</span></a>
   </header>
   <main id="stage"></main>
 </div>
